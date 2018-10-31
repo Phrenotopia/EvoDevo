@@ -28,12 +28,15 @@ function SetUp() {
     PrepareCanvas('designview');
 
     SetView('mapview');
+    GetMapData();
+    //GetSpeciesData();
+}
 
+function MapDataLoaded() {
+    console.log('map loaded with ' + areas.length + ' areas');
     let cookie = GetCookie('itemlist');
     if (cookie === null || cookie === '') SetItemList('player|Profile');
     else SetItemList(cookie);
-
-    GetMapData();
 }
 
 function GetMapData() {
@@ -41,9 +44,8 @@ function GetMapData() {
     fetch('api/area' + '')
         .then(result => result.json())
         .then(data => {
-            console.log(data);
-
             areas = data;
+            MapDataLoaded();
         })
         .catch(error => console.log(error));
     
@@ -164,7 +166,7 @@ function SetItemList(itemlist) {
     //selectedArea?
     //selected ?????
     //id  ??????????
-    GetListData(id, api);
+    //GetListData(id, api);
 }
 
 function SwitchMenuHighlight(api) {
