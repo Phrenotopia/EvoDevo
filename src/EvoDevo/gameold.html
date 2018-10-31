@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>EvoDevo - Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:400,300,600" type="text/css">
+    <link rel="stylesheet" href="css/normalize.css" type="text/css">
+    <link rel="stylesheet" href="css/skeleton.css" type="text/css">
+    <link rel="stylesheet" href="css/evodevo.css" type="text/css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <script src="js/common/util.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+</head>
+<body onload="UserCheck()">
+    <div class="container">
+        <h1>EvoDevo - Evolution Game</h1>  
+        <div class="row">
+            <div id="Main" class="two-thirds column">
+                <button id="btnmapview" class="button-primary" onclick="ShowViewport('mapview')">Map</button>
+                <button id="btntraitview" class="button-primary" onclick="ShowViewport('traitview')">Traits</button>
+                <button id="btnbuildview" class="button-primary" onclick="ShowViewport('buildview')">Bodyplan</button>
+                <button id="btndesignview" class="button-primary" onclick="ShowViewport('designview')">Design</button>
+                <div id="mapview" class="viewport">
+                    <canvas id="mapviewCanvas" class="viewCanvas"></canvas>
+                </div>
+                <div id="traitview" class="viewport">
+                    <h5>Trait Crafting</h5>
+                    <canvas id="traitviewCanvas" class="viewCanvas"></canvas>
+                </div>
+                <div id="buildview" class="viewport">
+                    <h5>Body Plan</h5>
+                    <canvas id="buildviewCanvas" class="viewCanvas"></canvas>
+                </div>
+                <div id="designview" class="viewport">
+                    <h5>Body design</h5>
+                    <canvas id="designviewCanvas" class="viewCanvas"></canvas>
+                </div>
+                <br />
+                <button id="testCanvas" onclick="TestCanvas()">Test Canvas</button>
+            </div>
+            <div id="Sidebar" class="one-third column">
+                <h5 style="cursor: pointer;" onclick="showSidebarBox('profile')">Profile</h5>
+                <div id="profilebox" class="sidebarbox" style="width:256px;height:100px;outline:solid 1px #ccc;">
+                    <p>Logged on as: <span id="username"></span></p>
+                </div>
+                <h5 style="cursor: pointer;" onclick="showSidebarBox('chat')">Chat</h5>
+                <div id="chatbox" class="sidebarbox" hidden="hidden" style="width:256px;height:400px;outline:solid 1px #ccc;">
+                    <p>
+                        <textarea id="txtChat" class="u-full-width" placeholder="Hi Dave …" id="exampleMessage"></textarea>
+                        <button id="btnChat" type="submit" placeholder="Enter message">Submit</button>
+                    </p>
+                    <ul class="chat">
+                        <li class="">
+                            <span class="chat-img">
+                                <img src="images/favicon.png" alt="User Avatar" class="img-circle" />
+                            </span>
+                            <div class="chat-body">
+                                <div class="header">
+                                    <strong class="primary-font">Username</strong>
+                                    <small class="">timestamp</small>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="">
+                            <span class="chat-img">
+                                <img src="images/favicon.png" alt="User Avatar" class="img-circle" />
+                            </span>
+                            <div class="chat-body">
+                                <div class="header">
+                                    <strong class="primary-font">Username</strong>
+                                    <small class="">timestamp</small>
+                                </div>
+                                <p>
+                                    Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <h5 style="cursor: pointer;" onclick="showSidebarBox('species')">Species</h5>
+                <div id="speciesbox" class="sidebarbox" hidden="hidden" style="width:256px;height:400px;outline:solid 1px #ccc;">
+                    <p>Lorem ipsum</p>
+                </div>
+                <h5 style="cursor: pointer;" onclick="showSidebarBox('swarms')">Swarms</h5>
+                <div id="swarmsbox" class="sidebarbox" hidden="hidden" style="width:256px;height:400px;outline:solid 1px #ccc;">
+                    <ul id="swarmslist"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
