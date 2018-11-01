@@ -143,6 +143,9 @@
     <Content Include="img\Lightness_rotate_36f_cw.gif" />
     <Content Include="img\maptiles\alpha\tile-0.png" />
     <Content Include="img\maptiles\alpha\tile-1.png" />
+    <Content Include="img\maptiles\alpha\tile-2.png" />
+    <Content Include="img\maptiles\alpha\tile-null.png" />
+    <Content Include="img\maptiles\alpha\tilesheet.png" />
     <Content Include="index.html" />
     <Content Include="js\common\util.js" />
     <Content Include="js\game.js" />

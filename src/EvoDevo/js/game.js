@@ -3,12 +3,22 @@ var ctx;
 var username;
 var userid = -1;
 var areas;
+var cols = 4;
+var rows = 3;
+var imgcols = 4;
 var popcount;
 var menulistApis  = ['player', 'chat', 'species', 'swarms', 'areas'];
 var menulistNames = ['Profile', 'Chat', 'Species', 'Swarms', 'Areas'];
 
+var maploaded = false;
+var texture = 'alpha';
+var tilesheet;
+var tileimages;
+var tilecount = 16;
+var tilecounter = 0;
 var currentPlayer;
 var selectedArea;
+
 var mapAreas = new Map();
 
 function CheckUser() {
@@ -22,11 +32,14 @@ function CheckUser() {
 function SetUp() {
     document.getElementById('username').innerHTML = username;
 
+    window.addEventListener('resize', function (e) { context.imageSmoothingEnabled = false; }, false);
+
     PrepareCanvas('mapview');
     PrepareCanvas('traitview');
     PrepareCanvas('buildview');
     PrepareCanvas('designview');
 
+    LoadResources();
     SetView('mapview');
     GetMapData();
     //GetSpeciesData();
@@ -34,18 +47,53 @@ function SetUp() {
 
 function MapDataLoaded() {
     console.log('map loaded with ' + areas.length + ' areas');
+
+    DrawMap();
+
     let cookie = GetCookie('itemlist');
     if (cookie === null || cookie === '') SetItemList('player|Profile');
     else SetItemList(cookie);
 }
 
+function LoadResources() {
+
+    tilesheet = new Image();
+    tilesheet.src = 'img\\maptiles\\' + texture + '\\tilesheet.png';
+
+    tileimages = new Array(tilecount);
+    for (var i = 0; i < tilecount; i++) {
+        let img = new Image();
+        let j = i;
+        img.addEventListener('load', function () { imageFound(j, img); });
+        img.addEventListener('error', function () { imageNotFound(j, img); });
+        img.src = 'img\\maptiles\\' + texture + '\\tile-' + i + '.png';
+    }
+}
+
+function imageFound(i, img) {
+    tileimages[i] = img;
+    console.log('tile image nr ' + i + ' found & loaded: ' + img.src);
+    tilecounter++;
+
+    if (tilecounter >= tilecount && maploaded) {
+        DrawMap();
+    }
+}
+
+function imageNotFound(i, img) {
+    console.log('tile image not found!');
+    img.removeEventListener('error', function () { imageNotFound(i, img, true); });
+    img.src = 'img\\maptiles\\' + texture + '\\tile-null.png';
+    tileimages[i] = img;
+}
+
 function GetMapData() {
-    
+    maploaded = false;
     fetch('api/area' + '')
         .then(result => result.json())
         .then(data => {
             areas = data;
-            MapDataLoaded();
+            maploaded = true;
         })
         .catch(error => console.log(error));
     
@@ -54,6 +102,7 @@ function GetMapData() {
 function PrepareCanvas(name) {
     canvas = document.getElementById(name + 'Canvas');
     ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
 
     ctx.fillStyle = getCanvasThemeColor(name);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -64,12 +113,35 @@ function PrepareCanvas(name) {
         GetListData(-1, 'area');
 }
 
-function DrawMap(areas) {
-    console.log("DrawMap with " + data);
-    console.log("Not yet implemented!");
+function DrawMap() {
+    console.log("DrawMap " + areas);
+    if (areas === undefined) return;
 
-    for (let i = 0; i < areas.length; i++) {
-        console.log(area[i]);
+    var height = canvas.height;
+    var width = canvas.width;
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = "#00568C";
+    ctx.fillRect(0, 0, width, height);
+
+    console.log(width + 'x' + height);
+
+    //var tsize = 128;
+    var size = 128;
+    let i = 0;
+    for (var r = 0; r < rows; r++) {
+        for(var c = 0; c < cols; c++)  {
+            //console.log(c + ',' + r);
+            let tile = areas[i++].tile;
+            let img = tileimages[tile];
+            //console.log(img.src);
+            ctx.drawImage(
+                img,
+                0, 0,
+                img.width, img.height,
+                c * size + 0.5, r * size + 0.5,
+                size, size
+            );
+        }
     }
 }
 
@@ -105,8 +177,10 @@ function toggleMenuClass(source) {
 function CanvasClick(name, evt) {
     var mousePos = getMousePos(canvas, evt);
     console.log('Canvas: ' + name + 'Canvas - click: ' + mousePos.x + ',' + mousePos.y);
-    let r = Math.floor(Math.random()*12) + 1; //TODO tmp
-
+    let r = Math.floor(Math.random() * 12) + 1; //TODO tmp
+    let col = Math.floor(mousePos.x / (4 * 128));
+    let row = Math.floor(mousePos.y / (3 * 128));
+    console.log(col + ',' + row);
     switch (name) {
         case 'mapview':
             GetListData(r, 'area'); 
@@ -209,8 +283,8 @@ function GetListData(id, api) {
             //selectedArea = data; //TODO: generalize 
             if (strid !== "")
                 PopulateList(data);
-            else
-                DrawMap(data);
+            //else
+                //DrawMap(data);
             })
             .catch(error => console.log(error));
 

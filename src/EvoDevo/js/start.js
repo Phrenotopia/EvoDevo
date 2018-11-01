@@ -64,7 +64,7 @@ function LogIn() {
                 console.log('json-stringify-2: ' + JSON.stringify(jsondata));
                 WelcomeUser(jsondata);
             }).catch(error => {
-                console.log(error);
+                console.log(error.message);
                 setTimeout(x => {
                     document.getElementById('status').innerHTML = 'User not found!';
                 }, 1000);
