@@ -205,15 +205,15 @@ function CanvasClick(name, evt) {
     let x = Math.floor(mousePos.x);
     let y = Math.floor(mousePos.y); 
     let col = Math.floor(x/128);
-    let row = Math.floor(y/128);
-    console.log('Tile(' + col + ',' + row + ')=');
-    console.log('x:' + x + ' y:' + y + ' -> ' + x / 128 + '=>' + col + ', ' + y / 128 + '=> ' + row); 
-
+    let row = Math.floor(y / 128);
+    let t = (col + row*4) + 1;
+    console.log('Tile(' + col + ',' + row + ')=' + t);
+    
     let r = Math.floor(Math.random() * 12) + 1; //TODO tmp
 
     switch (name) {
         case 'mapview':
-             GetListData(r, 'area'); 
+             GetListData(t, 'area'); 
             break;
         default:
             //console.log('Click on ' + name + ' not yet implemented!');
