@@ -1,25 +1,27 @@
-﻿var canvas; 
-var ctx;
+﻿//UI
+var canvas, ctx;
+var menulistApis  = ['player', 'chat', 'species', 'swarms', 'areas'];
+var menulistNames = ['Profile', 'Chat', 'Species', 'Swarms', 'Areas'];
+
+//Player
+var currentPlayer;
 var username;
 var userid = -1;
+
+//Map & areas
 var areas;
 var cols = 4;
 var rows = 3;
 var imgcols = 4;
-var popcount;
-var menulistApis  = ['player', 'chat', 'species', 'swarms', 'areas'];
-var menulistNames = ['Profile', 'Chat', 'Species', 'Swarms', 'Areas'];
-
 var maploaded = false;
 var texture = 'alpha';
 var tilesheet;
 var tileimages;
 var tilecount = 16;
 var tilecounter = 0;
-var currentPlayer;
-var selectedArea;
-
+let gridlines = true;
 var mapAreas = new Map();
+var selectedArea;
 
 function CheckUser() {
     username = GetUserName();
@@ -46,7 +48,7 @@ function SetUp() {
 }
 
 function MapDataLoaded() {
-    console.log('map loaded with ' + areas.length + ' areas');
+    //console.log('map loaded with ' + areas.length + ' areas');
 
     DrawMap();
 
@@ -72,7 +74,7 @@ function LoadResources() {
 
 function imageFound(i, img) {
     tileimages[i] = img;
-    console.log('tile image nr ' + i + ' found & loaded: ' + img.src);
+    //console.log('tile image nr ' + i + ' found & loaded: ' + img.src);
     tilecounter++;
 
     if (tilecounter >= tilecount && maploaded) {
@@ -81,7 +83,7 @@ function imageFound(i, img) {
 }
 
 function imageNotFound(i, img) {
-    console.log('tile image not found!');
+    //console.log('tile image not found!');
     img.removeEventListener('error', function () { imageNotFound(i, img, true); });
     img.src = 'img\\maptiles\\' + texture + '\\tile-null.png';
     tileimages[i] = img;
@@ -114,7 +116,7 @@ function PrepareCanvas(name) {
 }
 
 function DrawMap() {
-    console.log("DrawMap " + areas);
+    //console.log("DrawMap " + areas);
     if (areas === undefined) return;
 
     var height = canvas.height;
@@ -130,21 +132,43 @@ function DrawMap() {
     let i = 0;
     for (var r = 0; r < rows; r++) {
         for(var c = 0; c < cols; c++)  {
-            //console.log(c + ',' + r);
+            console.log(c + ',' + r);
             let tile = areas[i++].tile;
             let img = tileimages[tile];
-            //console.log(img.src);
+            ////console.log(img.src);
+            let x = c * size;
+            let y = r * size;
             ctx.drawImage(
                 img,
                 0, 0,
                 img.width, img.height,
-                c * size + 0.5, r * size + 0.5,
+                x, y,
                 size, size
             );
         }
     }
-}
 
+    if (gridlines) {
+        var strokeWidth = 1;
+        var translate = strokeWidth % 2 / 2;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = strokeWidth;
+        ctx.setLineDash([2, 2]);
+        for (var x = 0; x < width; x += size ) {
+            for (var y = 0; y < height; y += size) {
+                ctx.translate(translate, translate);
+                ctx.beginPath();
+                ctx.moveTo(x + size, y);
+                ctx.lineTo(x + size, y + size);
+                ctx.lineTo(x, y + size);
+                ctx.stroke();
+                ctx.translate(-translate, -translate);
+                i++;
+            }
+        }
+    }
+
+}
 
 function getCanvasThemeColor(name) {
     //TODO make a more centrally controlled / css redo of this... 
@@ -176,45 +200,51 @@ function toggleMenuClass(source) {
 
 function CanvasClick(name, evt) {
     var mousePos = getMousePos(canvas, evt);
-    console.log('Canvas: ' + name + 'Canvas - click: ' + mousePos.x + ',' + mousePos.y);
+    //console.log('Canvas: ' + name + 'Canvas - click: ' + mousePos.x + ',' + mousePos.y);
+    
+    let x = Math.floor(mousePos.x);
+    let y = Math.floor(mousePos.y); 
+    let col = Math.floor(x/128);
+    let row = Math.floor(y/128);
+    console.log('Tile(' + col + ',' + row + ')=');
+    console.log('x:' + x + ' y:' + y + ' -> ' + x / 128 + '=>' + col + ', ' + y / 128 + '=> ' + row); 
+
     let r = Math.floor(Math.random() * 12) + 1; //TODO tmp
-    let col = Math.floor(mousePos.x / (4 * 128));
-    let row = Math.floor(mousePos.y / (3 * 128));
-    console.log(col + ',' + row);
+
     switch (name) {
         case 'mapview':
-            GetListData(r, 'area'); 
+             GetListData(r, 'area'); 
             break;
         default:
-            console.log('Click on ' + name + ' not yet implemented!');
+            //console.log('Click on ' + name + ' not yet implemented!');
     }
 }
 
 function ListItemClick(itemid, itemlist) {
-    console.log('Clicked listitem: ' + itemid + ' - in item list: ' + itemlist);
+    ////console.log('Clicked listitem: ' + itemid + ' - in item list: ' + itemlist);
 
     switch (itemlist) {
         case 'xxx':
             GetListData(-1, 'yyy');
             break;
         default:
-            console.log('Click on ' + itemlist + ' not yet implemented!');
+            //console.log('Click on ' + itemlist + ' not yet implemented!');
     }
 
 
 }
 
 function SetView(name) {
-    console.log('selected: ' + name);
+    ////console.log('selected: ' + name);
     canvas = document.getElementById(name + 'Canvas');
     ctx = canvas.getContext('2d');
 
     var views = document.getElementsByClassName("view-port");
     for (let i = 0; i < views.length; i++) {
-        console.log('hiding: ' + views[i].id);
+        ////console.log('hiding: ' + views[i].id);
         views[i].hidden = true;
     }
-    console.log('showing: ' + document.getElementById(name).id);
+    ////console.log('showing: ' + document.getElementById(name).id);
     document.getElementById(name).hidden = false;
 
     canvas.focus();
@@ -228,10 +258,10 @@ function SetItemList(itemlist) {
     //
     var api = itemlist.split('|')[0];
     var name = itemlist.split('|')[1];
-    console.log('selected: ' + itemlist + '-menu-link');
+    ////console.log('selected: ' + itemlist + '-menu-link');
     document.cookie = 'itemlist=' + api;
     document.cookie = 'listname=' + name;
-    console.log('cookies: ' + document.cookie);
+    ////console.log('cookies: ' + document.cookie);
 
     var id = api === 'player' ? userid : -1;
 
@@ -255,7 +285,6 @@ function SwitchMenuHighlight(api) {
     toggleMenuClass('view');
 }
 
-
 function GetListData(id, api) {
     //id - integer
     //api:      'player', 'chat', 'species', 'swarms', 'areas' 
@@ -264,9 +293,9 @@ function GetListData(id, api) {
 
     let itemlist = GetCookie('itemlist');
     let strid; 
-    console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
+    ////console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
     if (id < 0) {
-        console.log('no id specified');
+        ////console.log('no id specified');
         //return;
         strid = "";
     }
@@ -278,7 +307,7 @@ function GetListData(id, api) {
     fetch('api/' + api + strid)
         .then(result => result.json())
         .then(data => {
-            console.log(data);
+            ////console.log(data);
 
             //selectedArea = data; //TODO: generalize 
             if (strid !== "")
@@ -287,7 +316,6 @@ function GetListData(id, api) {
                 //DrawMap(data);
             })
             .catch(error => console.log(error));
-
 }
 
 function PopulateList(data) {
@@ -297,8 +325,8 @@ function PopulateList(data) {
     document.getElementById('chat-form').hidden = 'true';
     document.getElementById('itemlist-title').innerText = listname;// + "  for: " + api + "";
 
-    console.log('Received ' + itemlist + ' - data ');
-    console.log('Function not yet fully implemented!');
+    ////console.log('Received ' + itemlist + ' - data ');
+    //console.log('Function not yet fully implemented!');
 
     switch (itemlist) {
         case 'swarms':
@@ -313,13 +341,13 @@ function PopulateList(data) {
             PopulateProfileList(data);
             break;
         default:
-            console.log('Function not yet implemented for: ' + itemlist);
+            //console.log('Function not yet implemented for: ' + itemlist);
     }
     
 }
 
 function PopulateSwarmlist(swarms) {
-    console.log('Populate Swarms List');
+    //console.log('Populate Swarms List');
     var itemlist = document.getElementById('item-list');
     for (var i = 0; i < swarms.length; i++) {
         let swarm = swarms[i];
@@ -338,7 +366,7 @@ function PopulateSwarmlist(swarms) {
 }
 
 function PopulateSpeciesList(swarms) {
-    console.log('Populate Species List');
+    //console.log('Populate Species List');
     var species;
     for (var i = 0; i < swarms.length; i++) {
         let swarm = swarms[i];
@@ -348,13 +376,13 @@ function PopulateSpeciesList(swarms) {
     }
 
 
-    console.log('Function not implemented!');
+    //console.log('Function not implemented!');
 }
 
 function PopulateProfileList(profile) {
-    console.log('Populate Profile List');
-    console.log('Function not implemented!');
-    console.log(profile);
+    //console.log('Populate Profile List');
+    //console.log('Function not implemented!');
+    //console.log(profile);
     var itemlist = document.getElementById('item-list');
 
     let t = undefined;
@@ -386,113 +414,24 @@ function PopulateProfileList(profile) {
 }
 
 function PopulateChatList() {
-    console.log('Populate Chat List');
-    console.log('Function not implemented!');
+    //console.log('Populate Chat List');
+    //console.log('Function not implemented!');
 
     document.getElementById('chat-form').hidden = 'false';
 }
 
 function PopulateAreaList() {
-    console.log('Populate Area List');
-    console.log('Function not implemented!');
+    //console.log('Populate Area List');
+    //console.log('Function not implemented!');
 }
 
 function PopulateAreaDataList(areaid) {
-    console.log('Getting data for area: ' + areaid);
+    //console.log('Getting data for area: ' + areaid);
 
     fetch('api/area/' + areaid)
         .then((result) => result.json())
         .then((area) => {
-            console.log(area);
+            //console.log(area);
             //
         });
 }
-
-//function GetProfileData(args) {
-//    var id = args[0];
-//    console.log('Getting profile data');
-//    console.log('Function not implemented!');
-//}
-
-//function GetChatMessages(args) {
-//    var id = args[0];
-//    console.log('Getting chat messages');
-//    console.log('Function not implemented!');
-
-//    var forwhat = args[0]; // 'areas', 'player', ... 
-
-//    switch (forwhat) {
-//        case 'areas':
-//            console.log('Getting species for area: ' + id);
-
-//            break;
-
-//        case 'player':
-//            console.log('Function: *for player* not implemented!');
-//            break;
-
-//        default:
-//            console.log('Function: *' + forwhat + '* not implemented!');
-//    }
-//}
-
-//function GetSwarms(args) {
-//    var id = args[0];
-
-//    if (id < 0) return;
-
-//    console.log('Getting swarms for area: ' + id);
-
-//    fetch('api/area/' + id)
-//        .then((result) => result.json())
-//        .then((area) => {
-//            console.log(area);
-//            selectedArea = area;
-//            PopulateSwarmlist(area.swarms);
-//        });
-//}
-
-//function GetAreaData(args) {
-//    var id = args[0];
-//    console.log('Getting area data for: ' + id);
-//    console.log('Function not implemented!');
-//}
-
-//function GetAreas(args) {
-//    var id = args[0];
-//    console.log('Getting map areas');
-//    console.log('Function not implemented!');
-//}
-
-
-
-//function UpdateItemList(args) {
-//    //args: [id, view:name , ...] 
-//    let itemlist = GetCookie('itemlist');
-//    document.getElementById('item-list').innerHTML = "";
-//    document.getElementById('chat-form').hidden = 'true';
-
-//    switch (itemlist) {
-//        case 'profile':
-//            GetProfileData(args);
-//            break;
-//        case 'chat':
-//            GetChatMessages(args);
-//            break;
-//        case 'swarms':
-//            GetSwarms(args);
-//            break;
-//        case 'species':
-//            GetSpecies(args);
-//            break;
-//        case 'areas':
-//            GetAreaData(args);
-//            break;
-//        case 'areas':
-//            GetAreas(args);
-//            break;
-//        default:
-//            //GetAreas(args);
-//            break;
-//    }
-//}

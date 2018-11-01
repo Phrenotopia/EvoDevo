@@ -203,8 +203,8 @@ a {
 
     .view-canvas {
         border: Solid 1px Black;
-        width: 95%;
-        height: 95%;
+        /*width: 95%;
+        height: 95%;*/
         margin: 1%;
     }
 

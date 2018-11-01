@@ -1,15 +1,15 @@
 ﻿
 function GetUserName() {
-    console.log('check user cookie');
+    //console.log('check user cookie');
     username = GetCookie('username');
-    console.log('username cookie: ' + username);
+    //console.log('username cookie: ' + username);
     
     return username;
 }
 
 function GetCookie(cname)
 {
-    console.log('getting cookie:' + cname);
+    //console.log('getting cookie:' + cname);
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
@@ -25,11 +25,11 @@ function GetCookie(cname)
         if (c.indexOf(name) === 0)
         {
             let cookie = c.substring(name.length, c.length);
-            console.log('cookie acquired: ' + cookie);
+            //console.log('cookie acquired: ' + cookie);
             return cookie;
         }
     }
-    console.log('cookie not found');
+    //console.log('cookie not found');
     return null;
 }
 
