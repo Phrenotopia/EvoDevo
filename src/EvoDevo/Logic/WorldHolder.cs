@@ -1,8 +1,6 @@
 ﻿using EvoDevo.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace EvoDevo.Logic
 {
@@ -19,7 +17,7 @@ namespace EvoDevo.Logic
 
         internal static List<Map> GetMaps()
         {
-            throw new NotImplementedException();
+            return MapHolder.Maps;
         }
 
         public static Map GetMap()

@@ -144,6 +144,7 @@
     <Content Include="img\maptiles\alpha\tile-0.png" />
     <Content Include="img\maptiles\alpha\tile-1.png" />
     <Content Include="img\maptiles\alpha\tile-2.png" />
+    <Content Include="img\maptiles\alpha\tile-3.png" />
     <Content Include="img\maptiles\alpha\tile-null.png" />
     <Content Include="img\maptiles\alpha\tilesheet.png" />
     <Content Include="index.html" />
@@ -172,6 +173,7 @@
     <Compile Include="Logic\Factory\WorldFactory.cs" />
     <Compile Include="Logic\WorldHolder.cs" />
     <Compile Include="Models\Area.cs" />
+    <Compile Include="Models\Biotope.cs" />
     <Compile Include="Models\ChatMessage.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Player.cs" />

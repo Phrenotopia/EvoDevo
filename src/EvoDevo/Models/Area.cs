@@ -5,10 +5,16 @@ namespace EvoDevo.Models
     public class Area
     {
         public long Id { get; set; }
+
         public string Name { get; set; }
+
         public int Tile { get; set; }
+
         public int PrimaryProduction { get; set; }
+
         public List<Swarm> Swarms { get; set; }
+
+        public List<Biotope> Biotopes { get; set; }
 
         public Area()
         {

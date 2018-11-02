@@ -9,6 +9,7 @@ var username;
 var userid = -1;
 
 //Map & areas
+var map;
 var areas;
 var cols = 4;
 var rows = 4;
@@ -48,7 +49,7 @@ function SetUp() {
 }
 
 function MapDataLoaded() {
-    console.log('map "' + map.name + '" loaded with ' + areas.length + ' areas in ' + cols + 'X' + rows + 'grid');
+    console.log({ map });
 
     DrawMap();
 
@@ -91,9 +92,10 @@ function imageNotFound(i, img) {
 
 function GetMapData() {
     maploaded = false;
-    fetch('api/area' + '')
+    fetch('api/map/-1')
         .then(result => result.json())
-        .then(map => {
+        .then(data => {
+            map = data;
             areas = map.areas;
             cols = map.columns;
             rows = map.rows;
@@ -127,17 +129,12 @@ function DrawMap() {
     ctx.fillStyle = "#00568C";
     ctx.fillRect(0, 0, width, height);
 
-    console.log(width + 'x' + height);
-
-    //var tsize = 128;
     var size = 128;
     let i = 0;
     for (var r = 0; r < rows; r++) {
         for(var c = 0; c < cols; c++)  {
-            console.log(c + ',' + r);
             let tile = areas[i++].tile;
             let img = tileimages[tile];
-            ////console.log(img.src);
             let x = c * size;
             let y = r * size;
             ctx.drawImage(
@@ -209,7 +206,6 @@ function CanvasClick(name, evt) {
     let col = Math.floor(x/128);
     let row = Math.floor(y / 128);
     let t = col+row*4+1;
-    console.log('Tile(' + col + ',' + row + ')=' + t);
     
     let r = Math.floor(Math.random() * 12) + 1; //TODO tmp
 

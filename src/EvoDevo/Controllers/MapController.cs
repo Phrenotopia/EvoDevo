@@ -16,7 +16,7 @@ namespace EvoDevo.Controllers
         public MapController()
         {
             map = WorldHolder.GetMap();
-            maps = MapHolder.GetMaps();
+            maps = MapHolder.Maps;
         }
         
         // GET: api/Map
@@ -28,7 +28,10 @@ namespace EvoDevo.Controllers
         // GET: api/Map/5
         public IHttpActionResult Get(int id)
         {
-            var map = maps.FirstOrDefault((s) => s.Id == id);
+            if(id > 0)
+            {
+                var map = maps.FirstOrDefault((s) => s.Id == id);
+            }
             if (map == null)
             {
                 return NotFound();

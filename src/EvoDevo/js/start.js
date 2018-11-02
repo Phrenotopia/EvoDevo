@@ -15,7 +15,7 @@ function CheckUser() {
                 return response.json();
             })
             .then(jsondata => {
-                console.log('json-stringify-1: ' + JSON.stringify(jsondata));
+                console.log({ jsondata });
                 setTimeout(userdata => {
                     WelcomeUser(userdata);
                 }, 1000);
@@ -61,7 +61,7 @@ function LogIn() {
                 return response.json();
             })
             .then(jsondata => {
-                console.log('json-stringify-2: ' + JSON.stringify(jsondata));
+                console.log({ jsondata });
                 WelcomeUser(jsondata);
             }).catch(error => {
                 console.log(error.message);
@@ -77,10 +77,8 @@ function LogIn() {
 }
 
 function WelcomeUser(userdata) {
-    console.log('welcome-user: ' + userdata);
+    console.log('welcome-user: ' + { userdata });
     if (userdata !== undefined) {
-        console.log('welcome-user-in: ' + userdata);
-
         if (username !== "" && username !== undefined) {
             console.log("welcoming user: " + username);
             userid = userdata.id;

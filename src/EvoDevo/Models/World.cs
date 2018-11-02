@@ -17,7 +17,7 @@ namespace EvoDevo.Models
 
         internal Map GetMap()
         {
-            throw new NotImplementedException();
+            return Map;
         }
 
         //public static AreaHolder AreaHolder;
