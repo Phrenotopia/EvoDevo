@@ -145,6 +145,7 @@
     <Content Include="img\maptiles\alpha\tile-1.png" />
     <Content Include="img\maptiles\alpha\tile-2.png" />
     <Content Include="img\maptiles\alpha\tile-3.png" />
+    <Content Include="img\maptiles\alpha\tile-4.png" />
     <Content Include="img\maptiles\alpha\tile-null.png" />
     <Content Include="img\maptiles\alpha\tilesheet.png" />
     <Content Include="index.html" />
