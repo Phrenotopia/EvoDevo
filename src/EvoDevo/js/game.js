@@ -11,7 +11,7 @@ var userid = -1;
 //Map & areas
 var areas;
 var cols = 4;
-var rows = 3;
+var rows = 4;
 var imgcols = 4;
 var maploaded = false;
 var texture = 'alpha';
@@ -34,7 +34,7 @@ function CheckUser() {
 function SetUp() {
     document.getElementById('username').innerHTML = username;
 
-    window.addEventListener('resize', function (e) { context.imageSmoothingEnabled = false; }, false);
+    window.addEventListener('resize', function (e) { ctx.imageSmoothingEnabled = false; }, false);
 
     PrepareCanvas('mapview');
     PrepareCanvas('traitview');
@@ -48,7 +48,7 @@ function SetUp() {
 }
 
 function MapDataLoaded() {
-    //console.log('map loaded with ' + areas.length + ' areas');
+    console.log('map "' + map.name + '" loaded with ' + areas.length + ' areas in ' + cols + 'X' + rows + 'grid');
 
     DrawMap();
 
@@ -78,7 +78,7 @@ function imageFound(i, img) {
     tilecounter++;
 
     if (tilecounter >= tilecount && maploaded) {
-        DrawMap();
+        MapDataLoaded();
     }
 }
 
@@ -93,8 +93,10 @@ function GetMapData() {
     maploaded = false;
     fetch('api/area' + '')
         .then(result => result.json())
-        .then(data => {
-            areas = data;
+        .then(map => {
+            areas = map.areas;
+            cols = map.columns;
+            rows = map.rows;
             maploaded = true;
         })
         .catch(error => console.log(error));
@@ -206,7 +208,7 @@ function CanvasClick(name, evt) {
     let y = Math.floor(mousePos.y); 
     let col = Math.floor(x/128);
     let row = Math.floor(y / 128);
-    let t = (col + row*4) + 1;
+    let t = col+row*4+1;
     console.log('Tile(' + col + ',' + row + ')=' + t);
     
     let r = Math.floor(Math.random() * 12) + 1; //TODO tmp

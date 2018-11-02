@@ -25,7 +25,7 @@ namespace EvoDevo.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\evodevo")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string path {
             get {
                 return ((string)(this["path"]));

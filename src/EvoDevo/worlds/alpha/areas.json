@@ -2,7 +2,7 @@
   {
     "Id": 1,
     "Name": "Ursoup",
-    "Tile":  1,
+    "Tile": 1,
     "PrimaryProduction": 32,
     "Swarms": []
   },
@@ -80,6 +80,34 @@
     "Id": 12,
     "Name": "Yksikaksi",
     "Tile": 2,
+    "PrimaryProduction": 8,
+    "Swarms": []
+  },
+  {
+    "Id": 13,
+    "Name": "Badlands",
+    "Tile": 1,
+    "PrimaryProduction": 18,
+    "Swarms": []
+  },
+  {
+    "Id": 14,
+    "Name": "New shores",
+    "Tile": 0,
+    "PrimaryProduction": 64,
+    "Swarms": []
+  },
+  {
+    "Id": 15,
+    "Name": "Promised land",
+    "Tile": 3,
+    "PrimaryProduction": 24,
+    "Swarms": []
+  },
+  {
+    "Id": 16,
+    "Name": "Fedoria",
+    "Tile": 4,
     "PrimaryProduction": 8,
     "Swarms": []
   }

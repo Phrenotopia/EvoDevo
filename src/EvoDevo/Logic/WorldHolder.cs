@@ -17,9 +17,19 @@ namespace EvoDevo.Logic
             return world;
         }
 
+        internal static List<Map> GetMaps()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Map GetMap()
+        {
+            return GetCurrentWorld().GetMap();
+        }
+
         public static List<Area> GetAreas()
         {
-            return GetCurrentWorld().Areas;
+            return GetCurrentWorld().GetAreas();
         }
 
         public static List<Species> GetSpecies()

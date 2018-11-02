@@ -3,6 +3,7 @@ using EvoDevo.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -24,15 +25,40 @@ namespace EvoDevo.Logic.Factory
             var path = HttpContext.Current.Server.MapPath(@"~\worlds\alpha\areas.json");
             var json = File.ReadAllText(path);
             var areas = JsonConvert.DeserializeObject<List<Area>>(json);
+            //var map = JsonConvert.DeserializeObject<Map>(json);
+
+            Map map = new Map() { Id = 1, Name = "Alpha", Areas = areas, Columns = 4, Rows = 4 };
 
             World world = new World();
-            world.Areas = areas;
+            world.Map = map;
             world.Species = CreateSpecies();
             world.Swarms = CreateSwarms(world);
             PopulateWorld(world);
             WorldHolder.Worlds.Add(world);
 
             return world;
+        }
+
+        private static bool SaveMap(Map map)
+        {
+            var envpath = Settings.Default.path;
+            var path = HttpContext.Current.Server.MapPath(@envpath + @"\worlds\alpha\map.json");
+
+            try
+            {
+                using (StreamWriter file = File.CreateText(@path))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(file, map);
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+
+            return true;
         }
 
         private static List<Species> CreateSpecies()
@@ -73,7 +99,7 @@ namespace EvoDevo.Logic.Factory
 
         private static void PopulateWorld(World world)
         {
-            var areas = world.Areas;
+            var areas = world.GetAreas();
             var swarms = world.Swarms.ToArray();
 
             int i = 1;
@@ -93,8 +119,5 @@ namespace EvoDevo.Logic.Factory
                 }
             }
         }
-
-
-
     }
 }

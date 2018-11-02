@@ -6,11 +6,19 @@ namespace EvoDevo.Models
 {
     public class World
     {
-        public List<Area> Areas { get; set; }
+        public Map Map { get; set; }
         public List<Swarm> Swarms { get; set; }
         public List<Species> Species { get; set; }
+        
+        public List<Area> GetAreas()
+        {
+            return Map.Areas;
+        }
 
-
+        internal Map GetMap()
+        {
+            throw new NotImplementedException();
+        }
 
         //public static AreaHolder AreaHolder;
         //public static SpeciesHolder SpeciesHolder;
