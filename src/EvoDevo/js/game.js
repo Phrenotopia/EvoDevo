@@ -128,6 +128,8 @@ function DrawMap() {
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = "#00568C";
     ctx.fillRect(0, 0, width, height);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
 
     var size = 128;
     let i = 0;
@@ -147,6 +149,7 @@ function DrawMap() {
         }
     }
 
+    ctx.save();
     if (gridlines) {
         var strokeWidth = 1;
         var translate = strokeWidth % 2 / 2;
@@ -166,7 +169,7 @@ function DrawMap() {
             }
         }
     }
-
+    ctx.restore();
 }
 
 function getCanvasThemeColor(name) {
@@ -205,17 +208,32 @@ function CanvasClick(name, evt) {
     let y = Math.floor(mousePos.y); 
     let col = Math.floor(x/128);
     let row = Math.floor(y / 128);
-    let t = col+row*4+1;
-    
-    let r = Math.floor(Math.random() * 12) + 1; //TODO tmp
+    let t = col + row * 4 + 1;
+    selectedArea = areas[t];
 
     switch (name) {
         case 'mapview':
-             GetListData(t, 'area'); 
+            GetListData(t, 'area'); 
+            SelectArea(t, col, row);
             break;
         default:
             //console.log('Click on ' + name + ' not yet implemented!');
     }
+}
+
+function SelectArea(t, col, row) {
+    DrawMap();
+    var size = 128;
+    ctx.save();
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 2;
+    var x = col * size + 2;
+    var y = row * size + 2;
+    ctx.rect(x, y, size-4, size-4);
+    ctx.globalAlpha = 0.5;
+    ctx.stroke();
+    ctx.restore();
+
 }
 
 function ListItemClick(itemid, itemlist) {

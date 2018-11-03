@@ -7,7 +7,7 @@
     {
       "Id": 1,
       "Name": "Ursoup",
-      "Tile": 1,
+      "Tile": 0,
       "PrimaryProduction": 32,
       "Swarms": []
     },
