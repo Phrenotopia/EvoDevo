@@ -20,9 +20,17 @@ var tilesheet;
 var tileimages;
 var tilecount = 16;
 var tilecounter = 0;
-let gridlines = true;
 var mapAreas = new Map();
 var selectedArea;
+
+//Map rendering
+let gridlines = true;
+var height = 512;
+var width = 512;
+var size = 128;
+
+window.addEventListener('resize', ResizeView, false);
+window.addEventListener('orientationchange', ResizeView, false);
 
 function CheckUser() {
     username = GetUserName();
@@ -35,8 +43,6 @@ function CheckUser() {
 function SetUp() {
     document.getElementById('username').innerHTML = username;
 
-    window.addEventListener('resize', function (e) { ctx.imageSmoothingEnabled = false; }, false);
-
     PrepareCanvas('mapview');
     PrepareCanvas('traitview');
     PrepareCanvas('buildview');
@@ -46,6 +52,31 @@ function SetUp() {
     SetView('mapview');
     GetMapData();
     //GetSpeciesData();
+}
+
+function ResizeView() {
+    var gameArea = document.getElementById('game-area');
+    var widthToHeight = 4 / 3;
+    var newWidth = window.innerWidth;
+    var newHeight = window.innerHeight;
+    var newWidthToHeight = newWidth / newHeight;
+
+    if (newWidthToHeight > widthToHeight) {
+        newWidth = newHeight * widthToHeight;
+        gameArea.style.height = newHeight + 'px';
+        gameArea.style.width = newWidth + 'px';
+    }
+    else {
+        newHeight = newWidth / widthToHeight;
+        gameArea.style.width = newWidth + 'px';
+        gameArea.style.height = newHeight + 'px';
+    }
+
+    gameArea.style.marginTop = (-newHeight / 2) + 'px';
+    gameArea.style.marginLeft = (-newWidth / 2) + 'px';
+
+    canvas.width = newWidth;
+    canvas.height = newHeight;
 }
 
 function MapDataLoaded() {
@@ -134,7 +165,7 @@ function DrawMap() {
     var size = 128;
     let i = 0;
     for (var r = 0; r < rows; r++) {
-        for(var c = 0; c < cols; c++)  {
+        for (var c = 0; c < cols; c++) {
             let tile = areas[i++].tile;
             let img = tileimages[tile];
             let x = c * size;
@@ -149,24 +180,32 @@ function DrawMap() {
         }
     }
 
+    if (gridlines)
+        DrawGridLines();
+}
+
+function DrawGridLines() {
+    var height = canvas.height;
+    var width = canvas.width;
+    var size = 128;
+    let i = 0;
+
     ctx.save();
-    if (gridlines) {
-        var strokeWidth = 1;
-        var translate = strokeWidth % 2 / 2;
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = strokeWidth;
-        ctx.setLineDash([2, 2]);
-        for (var x = 0; x < width; x += size ) {
-            for (var y = 0; y < height; y += size) {
-                ctx.translate(translate, translate);
-                ctx.beginPath();
-                ctx.moveTo(x + size, y);
-                ctx.lineTo(x + size, y + size);
-                ctx.lineTo(x, y + size);
-                ctx.stroke();
-                ctx.translate(-translate, -translate);
-                i++;
-            }
+    var strokeWidth = 1;
+    var translate = strokeWidth % 2 / 2;
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = strokeWidth;
+    ctx.setLineDash([2, 2]);
+    for (var x = 0; x < width; x += size ) {
+        for (var y = 0; y < height; y += size) {
+            ctx.translate(translate, translate);
+            ctx.beginPath();
+            ctx.moveTo(x + size, y);
+            ctx.lineTo(x + size, y + size);
+            ctx.lineTo(x, y + size);
+            ctx.stroke();
+            ctx.translate(-translate, -translate);
+            i++;
         }
     }
     ctx.restore();
@@ -229,7 +268,7 @@ function SelectArea(t, col, row) {
     ctx.lineWidth = 2;
     var x = col * size + 2;
     var y = row * size + 2;
-    ctx.rect(x, y, size-4, size-4);
+    ctx.rect(x, y, size-3, size-3);
     ctx.globalAlpha = 0.5;
     ctx.stroke();
     ctx.restore();
