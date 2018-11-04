@@ -27,10 +27,14 @@ var selectedArea;
 let gridlines = true;
 var height = 512;
 var width = 512;
-var size = 128;
+var tilesize = 128;
 
-window.addEventListener('resize', ResizeView, false);
-window.addEventListener('orientationchange', ResizeView, false);
+window.addEventListener('resize', AdaptViewSize, false);
+window.addEventListener('resize', DrawMap, false);
+window.addEventListener('orientationchange', AdaptViewSize, false);
+window.addEventListener('orientationchange', DrawMap, false);
+document.addEventListener('DOMContentLoaded', AdaptViewSize, false);
+document.addEventListener('DOMContentLoaded', DrawMap, false); 
 
 function CheckUser() {
     username = GetUserName();
@@ -47,20 +51,35 @@ function SetUp() {
     PrepareCanvas('traitview');
     PrepareCanvas('buildview');
     PrepareCanvas('designview');
+    SetView('mapview');
 
     LoadResources();
-    SetView('mapview');
     GetMapData();
     //GetSpeciesData();
+
 }
 
-function ResizeView() {
-    var gameArea = document.getElementById('game-area');
-    var widthToHeight = 4 / 3;
-    var newWidth = window.innerWidth;
-    var newHeight = window.innerHeight;
-    var newWidthToHeight = newWidth / newHeight;
+function AdaptViewSize() {
+    console.log('AdaptViewSize');
+    if (canvas === undefined) SetView('mapview');
 
+    var gameArea = document.getElementById('game-area');
+    var nav = document.getElementById('nav');
+    var list = document.getElementById('list');
+    var header = document.getElementById('main-header');
+
+    var hoffset = nav.offsetWidth + list.offsetWidth;
+    var voffset = header.offsetHeight;
+
+    var widthToHeight = cols / rows;
+    var newWidth = window.innerWidth - hoffset;
+    var newHeight = window.innerHeight - voffset;
+
+    if (newWidth < 0) newWidth = list.offsetWidth;
+    // || newHeight < 0) {
+
+    var newWidthToHeight = newWidth / newHeight;
+     
     if (newWidthToHeight > widthToHeight) {
         newWidth = newHeight * widthToHeight;
         gameArea.style.height = newHeight + 'px';
@@ -72,14 +91,17 @@ function ResizeView() {
         gameArea.style.height = newHeight + 'px';
     }
 
-    gameArea.style.marginTop = (-newHeight / 2) + 'px';
-    gameArea.style.marginLeft = (-newWidth / 2) + 'px';
-
     canvas.width = newWidth;
     canvas.height = newHeight;
+
+    tilesize = newWidth / cols;
+    var x = { tilesize: tilesize, newWidth: newWidth, newHeight: newHeight, hoffset: hoffset, voffset: voffset };
+    console.log( x );
 }
 
 function MapDataLoaded() {
+    console.log('MapDataLoaded');
+
     console.log({ map });
 
     DrawMap();
@@ -90,6 +112,7 @@ function MapDataLoaded() {
 }
 
 function LoadResources() {
+    console.log('LoadResources');
 
     tilesheet = new Image();
     tilesheet.src = 'img\\maptiles\\' + texture + '\\tilesheet.png';
@@ -122,6 +145,7 @@ function imageNotFound(i, img) {
 }
 
 function GetMapData() {
+    console.log('GetMapData');
     maploaded = false;
     fetch('api/map/-1')
         .then(result => result.json())
@@ -151,7 +175,7 @@ function PrepareCanvas(name) {
 }
 
 function DrawMap() {
-    //console.log("DrawMap " + areas);
+    console.log("DrawMap");
     if (areas === undefined) return;
 
     var height = canvas.height;
@@ -162,20 +186,19 @@ function DrawMap() {
     ctx.strokeStyle = "black";
     ctx.lineWidth = 1;
 
-    var size = 128;
     let i = 0;
     for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
             let tile = areas[i++].tile;
             let img = tileimages[tile];
-            let x = c * size;
-            let y = r * size;
+            let x = c * tilesize;
+            let y = r * tilesize;
             ctx.drawImage(
                 img,
                 0, 0,
                 img.width, img.height,
                 x, y,
-                size, size
+                tilesize, tilesize
             );
         }
     }
@@ -185,9 +208,9 @@ function DrawMap() {
 }
 
 function DrawGridLines() {
+    console.log('DrawGridLines');
     var height = canvas.height;
     var width = canvas.width;
-    var size = 128;
     let i = 0;
 
     ctx.save();
@@ -196,13 +219,13 @@ function DrawGridLines() {
     ctx.strokeStyle = "black";
     ctx.lineWidth = strokeWidth;
     ctx.setLineDash([2, 2]);
-    for (var x = 0; x < width; x += size ) {
-        for (var y = 0; y < height; y += size) {
+    for (var x = 0; x < width; x += tilesize ) {
+        for (var y = 0; y < height; y += tilesize) {
             ctx.translate(translate, translate);
             ctx.beginPath();
-            ctx.moveTo(x + size, y);
-            ctx.lineTo(x + size, y + size);
-            ctx.lineTo(x, y + size);
+            ctx.moveTo(x + tilesize, y);
+            ctx.lineTo(x + tilesize, y + tilesize);
+            ctx.lineTo(x, y + tilesize);
             ctx.stroke();
             ctx.translate(-translate, -translate);
             i++;
@@ -245,8 +268,8 @@ function CanvasClick(name, evt) {
     
     let x = Math.floor(mousePos.x);
     let y = Math.floor(mousePos.y); 
-    let col = Math.floor(x/128);
-    let row = Math.floor(y / 128);
+    let col = Math.floor(x/tilesize);
+    let row = Math.floor(y/tilesize);
     let t = col + row * 4 + 1;
     selectedArea = areas[t];
 
@@ -261,14 +284,16 @@ function CanvasClick(name, evt) {
 }
 
 function SelectArea(t, col, row) {
+    console.log('SelectArea: ' + t);
+
     DrawMap();
-    var size = 128;
+
     ctx.save();
     ctx.strokeStyle = "white";
     ctx.lineWidth = 2;
-    var x = col * size + 2;
-    var y = row * size + 2;
-    ctx.rect(x, y, size-3, size-3);
+    var x = col * tilesize + 2;
+    var y = row * tilesize + 2;
+    ctx.rect(x, y, tilesize-3, tilesize-3);
     ctx.globalAlpha = 0.5;
     ctx.stroke();
     ctx.restore();
@@ -276,7 +301,7 @@ function SelectArea(t, col, row) {
 }
 
 function ListItemClick(itemid, itemlist) {
-    ////console.log('Clicked listitem: ' + itemid + ' - in item list: ' + itemlist);
+    console.log('Clicked listitem: ' + itemid + ' - in item list: ' + itemlist);
 
     switch (itemlist) {
         case 'xxx':
