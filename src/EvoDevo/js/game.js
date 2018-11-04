@@ -66,14 +66,14 @@ function AdaptViewSize() {
     var gameArea = document.getElementById('game-area');
     var nav = document.getElementById('nav');
     var list = document.getElementById('list');
-    var header = document.getElementById('main-header');
+    //var header = document.getElementById('main-header');
 
     var hoffset = nav.offsetWidth + list.offsetWidth;
-    var voffset = header.offsetHeight;
+    //var voffset = header.offsetHeight;
 
     var widthToHeight = cols / rows;
     var newWidth = window.innerWidth - hoffset;
-    var newHeight = window.innerHeight - voffset;
+    var newHeight = window.innerHeight;// - voffset;
 
     if (newWidth < 0) newWidth = list.offsetWidth;
     // || newHeight < 0) {
@@ -330,8 +330,7 @@ function SetView(name) {
     canvas.focus();
     toggleMenuClass('view');
 
-    document.getElementById('main-title').innerText =
-        document.getElementById(name + '-menu-item').innerText; 
+    //document.getElementById('main-title').innerText = document.getElementById(name + '-menu-item').innerText; 
 }
 
 function SetItemList(itemlist) {
