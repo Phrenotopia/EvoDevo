@@ -22,6 +22,7 @@ var tilecount = 16;
 var tilecounter = 0;
 var mapAreas = new Map();
 var selectedArea;
+var selectedAreaId;
 
 //Map rendering
 let gridlines = true;
@@ -56,6 +57,17 @@ function SetUp() {
     LoadResources();
     GetMapData();
     //GetSpeciesData();
+}
+
+function GetUserState() {
+
+    //Selected Area
+    selectedAreaId = GetCookie('selectedAreaId');
+    selectedArea = areas.find(x => x.id.toString() === selectedAreaId); //
+    console.log(selectedArea);
+    GetListData(selectedAreaId, 'area');
+
+
 
 }
 
@@ -94,8 +106,6 @@ function AdaptViewSize() {
     canvas.width = newWidth;
     canvas.height = newHeight;
     tilesize = Math.floor(newWidth / cols);
-    var x = { tilesize: tilesize, newWidth: newWidth, newHeight: newHeight, hoffset: hoffset, voffset: voffset };
-    console.log( x );
 }
 
 function MapDataLoaded() {
@@ -103,6 +113,8 @@ function MapDataLoaded() {
 
     console.log({ map });
 
+
+    GetUserState();
     DrawMap();
 
     let cookie = GetCookie('itemlist');
@@ -150,7 +162,7 @@ function GetMapData() {
         .then(result => result.json())
         .then(data => {
             map = data;
-            areas = map.areas;
+            areas = Array.from(map.areas);
             cols = map.columns;
             rows = map.rows;
             maploaded = true;
@@ -188,10 +200,12 @@ function DrawMap() {
     let i = 0;
     for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
-            let tile = areas[i++].tile;
+            let area = areas[i++];
+            let tile = area.tile;
             let img = tileimages[tile];
             let x = c * tilesize;
             let y = r * tilesize;
+            console.log(area.id);
             ctx.drawImage(
                 img,
                 0, 0,
@@ -204,6 +218,21 @@ function DrawMap() {
 
     if (gridlines)
         DrawGridLines();
+
+    if (selectedArea !== undefined) {
+        let a = areas.indexOf(selectedArea);
+        let col = Math.floor(a%cols); 
+        let row = Math.floor(a/cols); 
+        ctx.save();
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        var x = col * tilesize + 2;
+        var y = row * tilesize + 2;
+        ctx.rect(x, y, tilesize - 3, tilesize - 3);
+        ctx.globalAlpha = 0.5;
+        ctx.stroke();
+        ctx.restore();
+    }
 }
 
 function DrawGridLines() {
@@ -263,40 +292,29 @@ function toggleMenuClass(source) {
 
 function CanvasClick(name, evt) {
     var mousePos = getMousePos(canvas, evt);
-    //console.log('Canvas: ' + name + 'Canvas - click: ' + mousePos.x + ',' + mousePos.y);
-    
     let x = Math.floor(mousePos.x);
-    let y = Math.floor(mousePos.y); 
-    let col = Math.floor(x/tilesize);
-    let row = Math.floor(y/tilesize);
-    let t = col + row * 4 + 1;
-    selectedArea = areas[t];
-
+    let y = Math.floor(mousePos.y);
+    console.log('Canvas: ' + name + 'Canvas - click: ' + x + ',' + y);
+    
     switch (name) {
-        case 'mapview':
-            GetListData(t, 'area'); 
-            SelectArea(t, col, row);
+        case 'mapview': 
+            GetListData(SelectArea(x, y), 'area');
+            DrawMap();
             break;
         default:
-            //console.log('Click on ' + name + ' not yet implemented!');
+            console.log('Click on ' + name + ' not yet implemented!');
     }
 }
 
-function SelectArea(t, col, row) {
-    console.log('SelectArea: ' + t);
-
-    DrawMap();
-
-    ctx.save();
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = 2;
-    var x = col * tilesize + 2;
-    var y = row * tilesize + 2;
-    ctx.rect(x, y, tilesize-3, tilesize-3);
-    ctx.globalAlpha = 0.5;
-    ctx.stroke();
-    ctx.restore();
-
+function SelectArea(x, y) {
+    let col = Math.floor(x / tilesize);
+    let row = Math.floor(y / tilesize);
+    let a = col + row * 4;
+    selectedAreaIndex = a;
+    selectedArea = areas[a];
+    let said = selectedArea.id;
+    SetCookie('selectedAreaId', said);
+    return said;
 }
 
 function ListItemClick(itemid, itemlist) {
@@ -335,9 +353,8 @@ function SetItemList(itemlist) {
     var api = itemlist.split('|')[0];
     var name = itemlist.split('|')[1];
     ////console.log('selected: ' + itemlist + '-menu-link');
-    document.cookie = 'itemlist=' + api;
-    document.cookie = 'listname=' + name;
-    ////console.log('cookies: ' + document.cookie);
+    SetCookie('itemlist',api);
+    SetCookie('listname',name);
 
     var id = api === 'player' ? userid : -1;
 
@@ -370,7 +387,7 @@ function GetListData(id, api) {
     let itemlist = GetCookie('itemlist');
     let strid; 
     ////console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
-    if (id < 0) {
+    if (id < 0 || id === undefined) {
         ////console.log('no id specified');
         //return;
         strid = "";

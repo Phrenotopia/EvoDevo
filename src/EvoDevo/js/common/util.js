@@ -33,6 +33,10 @@ function GetCookie(cname)
     return null;
 }
 
+function SetCookie(name, value) {
+    document.cookie = name  + '=' + value;
+}
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
