@@ -1,7 +1,7 @@
 ﻿//UI
 var canvas, ctx;
 var menulistApis  = ['player', 'chat', 'species', 'swarms', 'areas'];
-var menulistNames = ['Profile', 'Chat', 'Species', 'Swarms', 'Areas'];
+var menulistNames = ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas'];
 
 //Player
 var currentPlayer;
@@ -93,8 +93,7 @@ function AdaptViewSize() {
 
     canvas.width = newWidth;
     canvas.height = newHeight;
-
-    tilesize = newWidth / cols;
+    tilesize = Math.floor(newWidth / cols);
     var x = { tilesize: tilesize, newWidth: newWidth, newHeight: newHeight, hoffset: hoffset, voffset: voffset };
     console.log( x );
 }
@@ -310,8 +309,6 @@ function ListItemClick(itemid, itemlist) {
         default:
             //console.log('Click on ' + itemlist + ' not yet implemented!');
     }
-
-
 }
 
 function SetView(name) {
