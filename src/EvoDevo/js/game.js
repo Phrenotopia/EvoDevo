@@ -113,13 +113,12 @@ function MapDataLoaded() {
 
     console.log({ map });
 
-
-    GetUserState();
-    DrawMap();
-
     let cookie = GetCookie('itemlist');
     if (cookie === null || cookie === '') SetItemList('player|Profile');
     else SetItemList(cookie);
+
+    GetUserState();
+    DrawMap();
 }
 
 function LoadResources() {
@@ -205,7 +204,6 @@ function DrawMap() {
             let img = tileimages[tile];
             let x = c * tilesize;
             let y = r * tilesize;
-            console.log(area.id);
             ctx.drawImage(
                 img,
                 0, 0,
@@ -387,7 +385,7 @@ function GetListData(id, api) {
     let itemlist = GetCookie('itemlist');
     let strid; 
     ////console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
-    if (id < 0 || id === undefined) {
+    if (id < 0 || id === null || id === undefined) {
         ////console.log('no id specified');
         //return;
         strid = "";
