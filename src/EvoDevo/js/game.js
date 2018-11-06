@@ -347,10 +347,10 @@ function SetView(name) {
 }
 
 function SetItemList(itemlist) {
+    console.log('selected: ' + itemlist + '-menu-link');
     //
     var api = itemlist.split('|')[0];
     var name = itemlist.split('|')[1];
-    ////console.log('selected: ' + itemlist + '-menu-link');
     SetCookie('itemlist',api);
     SetCookie('listname',name);
 
@@ -362,6 +362,9 @@ function SetItemList(itemlist) {
     //selected ?????
     //id  ??????????
     //GetListData(id, api);
+
+    //TODO DisplayData 
+     
 }
 
 function SwitchMenuHighlight(api) {
@@ -384,7 +387,7 @@ function GetListData(id, api) {
 
     let itemlist = GetCookie('itemlist');
     let strid; 
-    ////console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
+    console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
     if (id < 0 || id === null || id === undefined) {
         ////console.log('no id specified');
         //return;
