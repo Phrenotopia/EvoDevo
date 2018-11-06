@@ -7,114 +7,226 @@
     {
       "Id": 1,
       "Name": "Ursoup",
-      "Tile": 1 ,
-      "PrimaryProduction": 32,
-      "Swarms": []
+      "Tile": 1,
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 2,
       "Name": "Muddy Waters",
       "Tile": 0,
-      "PrimaryProduction": 48,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 3,
       "Name": "Gidebo",
       "Tile": 0,
-      "PrimaryProduction": 48,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 4,
       "Name": "Higatl",
       "Tile": 0,
-      "PrimaryProduction": 16,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 5,
       "Name": "Capvax",
       "Tile": 1,
-      "PrimaryProduction": 20,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 6,
       "Name": "Idoibu",
       "Tile": 0,
-      "PrimaryProduction": 24,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 7,
       "Name": "Pnoonoo",
       "Tile": 2,
-      "PrimaryProduction": 36,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 8,
       "Name": "Ocho",
       "Tile": 0,
-      "PrimaryProduction": 12,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 9,
       "Name": "Sembilan",
       "Tile": 1,
-      "PrimaryProduction": 18,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 10,
       "Name": "Sepulu",
       "Tile": 0,
-      "PrimaryProduction": 64,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 11,
       "Name": "Mornak",
       "Tile": 0,
-      "PrimaryProduction": 24,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 12,
       "Name": "Yksikaksi",
-      "Tile": 2,
-      "PrimaryProduction": 8,
-      "Swarms": []
+      "Tile": 14,
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 13,
       "Name": "Badlands",
       "Tile": 1,
-      "PrimaryProduction": 18,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 14,
       "Name": "New shores",
       "Tile": 0,
-      "PrimaryProduction": 64,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 15,
       "Name": "Promised land",
-      "Tile": 14,
-      "PrimaryProduction": 24,
-      "Swarms": []
+      "Tile": 3,
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     },
     {
       "Id": 16,
-      "Name": "Fedoria",
+      "Name": "Abyss",
       "Tile": 4,
-      "PrimaryProduction": 8,
-      "Swarms": []
+      "Region": 0,
+      "Habitats": [
+        {
+          "Id": 1,
+          "Biotope": 1,
+          "PrimaryProduction": 32,
+          "Swarms": []
+        }
+      ]
     }
   ]
 }

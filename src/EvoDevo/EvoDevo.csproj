@@ -162,6 +162,7 @@
     <Content Include="index.html" />
     <Content Include="js\common\util.js" />
     <Content Include="js\game.js" />
+    <Content Include="js\models\player.js" />
     <Content Include="js\start.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -185,7 +186,7 @@
     <Compile Include="Logic\Factory\WorldFactory.cs" />
     <Compile Include="Logic\WorldHolder.cs" />
     <Compile Include="Models\Area.cs" />
-    <Compile Include="Models\Biotope.cs" />
+    <Compile Include="Models\Habitat.cs" />
     <Compile Include="Models\ChatMessage.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Player.cs" />

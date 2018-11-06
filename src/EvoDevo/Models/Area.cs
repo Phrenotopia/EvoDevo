@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EvoDevo.Models
 {
@@ -10,15 +12,19 @@ namespace EvoDevo.Models
 
         public int Tile { get; set; }
 
-        public int PrimaryProduction { get; set; }
+        public int Region { get; set; }
 
-        public List<Swarm> Swarms { get; set; }
-
-        public List<Biotope> Biotopes { get; set; }
+        public List<Habitat> Habitats { get; set; }
 
         public Area()
         {
-            Swarms = new List<Swarm>();
+            Habitats = new List<Habitat>();
+        }
+
+        public void AddSwarm(Swarm swarm)
+        {
+            if (Habitats.Count == 0) Habitats.Add(new Habitat());
+            Habitats.FirstOrDefault().Swarms.Add(swarm);
         }
     }
 }

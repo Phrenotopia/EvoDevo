@@ -63,7 +63,6 @@ namespace EvoDevo.Logic.Factory
         {
             var species = new List<Species>();
             species.Add(new Species { Id = 1, Name = "Megasloth", BodySize = 24 });
-
             species.Add(new Species { Id = 2, Name = "Vagriantis", BodySize = 8 });
             species.Add(new Species { Id = 3, Name = "Slatherus", BodySize = 4 });
             species.Add(new Species { Id = 4, Name = "Oocunia", BodySize = 3 });
@@ -92,7 +91,7 @@ namespace EvoDevo.Logic.Factory
                 Console.WriteLine("New swarm: " + swarm.ToString());
                 swarms[i] = swarm;
             }
-            return swarms.ToList<Swarm>();
+            return swarms.ToList();
         }
 
         private static void PopulateWorld(World world)
@@ -112,7 +111,7 @@ namespace EvoDevo.Logic.Factory
                     {
                         var swarm = swarms[i];
                         swarm.AreaId = area.Id;
-                        area.Swarms.Add(swarm);
+                        area.AddSwarm(swarm);
                     }
                 }
             }

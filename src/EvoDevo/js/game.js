@@ -54,9 +54,16 @@ function SetUp() {
     PrepareCanvas('designview');
     SetView('mapview');
 
-    LoadResources();
+    LoadResources(); 
     GetMapData();
     //GetSpeciesData();
+
+    GetPlayer();
+}
+
+function GetPlayer() {
+    currentPlayer = new Player(userid);
+    currentPlayer.loadData();
 }
 
 function GetUserState() {
@@ -65,7 +72,7 @@ function GetUserState() {
     selectedAreaId = GetCookie('selectedAreaId');
     selectedArea = areas.find(x => x.id.toString() === selectedAreaId); //
     console.log(selectedArea);
-    GetListData(selectedAreaId, 'area');
+    GetData(selectedAreaId, 'area');
 
 
 
@@ -181,7 +188,7 @@ function PrepareCanvas(name) {
     canvas.addEventListener('click', function (evt) { CanvasClick(name, evt); }, false);
 
     if(name === 'mapview')
-        GetListData(-1, 'area');
+        GetData(-1, 'area');
 }
 
 function DrawMap() {
@@ -296,7 +303,7 @@ function CanvasClick(name, evt) {
     
     switch (name) {
         case 'mapview': 
-            GetListData(SelectArea(x, y), 'area');
+            GetData(SelectArea(x, y), 'area');
             DrawMap();
             break;
         default:
@@ -320,21 +327,21 @@ function ListItemClick(itemid, itemlist) {
 
     switch (itemlist) {
         case 'xxx':
-            GetListData(-1, 'yyy');
+            GetData(-1, 'yyy');
             break;
         default:
-            //console.log('Click on ' + itemlist + ' not yet implemented!');
+            console.log('Click on ' + itemlist + ' not yet implemented!');
     }
 }
 
 function SetView(name) {
-    ////console.log('selected: ' + name);
+    console.log('selected view: ' + name);
     canvas = document.getElementById(name + 'Canvas');
     ctx = canvas.getContext('2d');
 
     var views = document.getElementsByClassName("view-port");
     for (let i = 0; i < views.length; i++) {
-        ////console.log('hiding: ' + views[i].id);
+        //console.log('hiding: ' + views[i].id);
         views[i].hidden = true;
     }
     ////console.log('showing: ' + document.getElementById(name).id);
@@ -347,7 +354,7 @@ function SetView(name) {
 }
 
 function SetItemList(itemlist) {
-    console.log('selected: ' + itemlist + '-menu-link');
+    console.log('selected item list: ' + itemlist + '-menu-link');
     //
     var api = itemlist.split('|')[0];
     var name = itemlist.split('|')[1];
@@ -357,13 +364,15 @@ function SetItemList(itemlist) {
     var id = api === 'player' ? userid : -1;
 
     SwitchMenuHighlight(api);
-    
-    //selectedArea?
-    //selected ?????
-    //id  ??????????
-    //GetListData(id, api);
-
+     
     //TODO DisplayData 
+    switch (api) {
+        case 'player':
+            PopulateList(currentPlayer);
+            break;
+        default:
+            console.log('Function not yet fully implemented!');
+    }
      
 }
 
@@ -379,7 +388,7 @@ function SwitchMenuHighlight(api) {
     toggleMenuClass('view');
 }
 
-function GetListData(id, api) {
+function GetData(id, api) {
     //id - integer
     //api:      'player', 'chat', 'species', 'swarms', 'areas' 
     //itemlist: 'player', 'chat', 'species', 'swarms', 'areas' 
@@ -389,7 +398,7 @@ function GetListData(id, api) {
     let strid; 
     console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
     if (id < 0 || id === null || id === undefined) {
-        ////console.log('no id specified');
+        //console.log('no id specified');
         //return;
         strid = "";
     }
@@ -401,7 +410,7 @@ function GetListData(id, api) {
     fetch('api/' + api + strid)
         .then(result => result.json())
         .then(data => {
-            ////console.log(data);
+            //console.log(data);
 
             //selectedArea = data; //TODO: generalize 
             if (strid !== "")
@@ -413,21 +422,23 @@ function GetListData(id, api) {
 }
 
 function PopulateList(data) {
+    console.log('PopulateList');
+    console.log('Function not yet fully implemented!');
+
     let itemlist = GetCookie('itemlist');
     let listname = GetCookie('listname');
     document.getElementById('item-list').innerHTML = "";
     document.getElementById('chat-form').hidden = 'true';
     document.getElementById('itemlist-title').innerText = listname;// + "  for: " + api + "";
-
-    ////console.log('Received ' + itemlist + ' - data ');
-    //console.log('Function not yet fully implemented!');
+        
+    console.log('Received ' + itemlist + ' - data ');
 
     switch (itemlist) {
         case 'swarms':
-            PopulateSwarmlist(data.swarms);//TODO if area, but what if species? 
+            PopulateSwarmlist(data.habitats[0].swarms);//TODO if area, but what if species? 
             break;
         case 'species':
-            PopulateSpeciesList(data.swarms);
+            PopulateSpeciesList(data.habitats[0].swarms);
             break;
         //    case 'areas':
         //        break;
@@ -435,13 +446,13 @@ function PopulateList(data) {
             PopulateProfileList(data);
             break;
         default:
-            //console.log('Function not yet implemented for: ' + itemlist);
+            console.log('Function not yet implemented for: ' + itemlist);
     }
     
 }
 
 function PopulateSwarmlist(swarms) {
-    //console.log('Populate Swarms List');
+    console.log('Populate Swarms List');
     var itemlist = document.getElementById('item-list');
     for (var i = 0; i < swarms.length; i++) {
         let swarm = swarms[i];
@@ -460,7 +471,7 @@ function PopulateSwarmlist(swarms) {
 }
 
 function PopulateSpeciesList(swarms) {
-    //console.log('Populate Species List');
+    console.log('Populate Species List');
     var species;
     for (var i = 0; i < swarms.length; i++) {
         let swarm = swarms[i];
@@ -470,12 +481,12 @@ function PopulateSpeciesList(swarms) {
     }
 
 
-    //console.log('Function not implemented!');
+    console.log('Function not implemented!');
 }
 
 function PopulateProfileList(profile) {
-    //console.log('Populate Profile List');
-    //console.log('Function not implemented!');
+    console.log('Populate Profile List');
+    console.log('Function not completely implemented!');
     //console.log(profile);
     var itemlist = document.getElementById('item-list');
 
@@ -508,19 +519,19 @@ function PopulateProfileList(profile) {
 }
 
 function PopulateChatList() {
-    //console.log('Populate Chat List');
-    //console.log('Function not implemented!');
+    console.log('Populate Chat List');
+    console.log('Function not implemented!');
 
     document.getElementById('chat-form').hidden = 'false';
 }
 
 function PopulateAreaList() {
-    //console.log('Populate Area List');
-    //console.log('Function not implemented!');
+    console.log('Populate Area List');
+    console.log('Function not implemented!');
 }
 
 function PopulateAreaDataList(areaid) {
-    //console.log('Getting data for area: ' + areaid);
+    console.log('Getting data for area: ' + areaid);
 
     fetch('api/area/' + areaid)
         .then((result) => result.json())
@@ -528,4 +539,29 @@ function PopulateAreaDataList(areaid) {
             //console.log(area);
             //
         });
+}
+
+
+class Player {
+
+    constructor(id) {
+        this.id = id;
+    }
+
+    loadData() {
+        if (this.id !== null) {
+            console.log('!?');
+            fetch('api/player/' + this.id)
+                .then(result => result.json())
+                .then(user => {
+                    console.log('!?' + this.id);
+                    this.id = user.id;
+                    this.username = user.userName;
+                    this.fullname = user.fullName;
+                    this.lastSeenDateTime = user.lastSeenDateTime;
+                    
+                })
+                .catch(error => console.log(error));
+        }
+    }
 }
