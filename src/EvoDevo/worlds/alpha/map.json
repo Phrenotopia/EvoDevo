@@ -7,7 +7,7 @@
     {
       "Id": 1,
       "Name": "Ursoup",
-      "Tile": 0,
+      "Tile": 1,
       "PrimaryProduction": 32,
       "Swarms": []
     },
@@ -105,7 +105,7 @@
     {
       "Id": 15,
       "Name": "Promised land",
-      "Tile": 3,
+      "Tile": 14,
       "PrimaryProduction": 24,
       "Swarms": []
     },

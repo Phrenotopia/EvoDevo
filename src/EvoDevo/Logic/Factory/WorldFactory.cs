@@ -21,13 +21,12 @@ namespace EvoDevo.Logic.Factory
 
         private static World CreateWorld() //Map map)
         {
-            var path = HttpContext.Current.Server.MapPath(@"~\worlds\alpha\areas.json");
+            var path = HttpContext.Current.Server.MapPath(@"~\worlds\alpha\map.json");
             var json = File.ReadAllText(path);
-            var areas = JsonConvert.DeserializeObject<List<Area>>(json);
-            //var map = JsonConvert.DeserializeObject<Map>(json);
-
-            Map map = new Map() { Id = 1, Name = "Alpha", Areas = areas, Columns = 4, Rows = 4 };
-
+            //var areas = JsonConvert.DeserializeObject<List<Area>>(json);
+            //Map map = new Map() { Id = 1, Name = "Alpha", Areas = areas, Columns = 4, Rows = 4 };
+            var map = JsonConvert.DeserializeObject<Map>(json);
+                        
             World world = new World();
             world.Map = map;
             world.Species = CreateSpecies();
