@@ -1,14 +1,12 @@
 ﻿//import Player from './models/player';
 
-//UI
+//UI - Game Controls -> Class (TODO)
 var canvas, ctx;
 var menulistApis  = ['player', 'chat', 'species', 'swarms', 'areas'];
 var menulistNames = ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas'];
 
 //Player
 var currentPlayer;
-var username;
-var userid = -1;
 
 //Map & areas
 var map;
@@ -37,7 +35,6 @@ var tilesize = 128;
 //Swarms
 var selectedSwarms;
 
-
 window.addEventListener('resize', AdaptViewSize, false);
 window.addEventListener('resize', DrawMap, false);
 window.addEventListener('orientationchange', AdaptViewSize, false);
@@ -46,15 +43,16 @@ document.addEventListener('DOMContentLoaded', AdaptViewSize, false);
 document.addEventListener('DOMContentLoaded', DrawMap, false); 
 
 function CheckUser() {
-    username = GetUserName();
-    userid = GetCookie('userid');
-    if (username === "")
+    currentPlayer = new Player(parseInt(GetCookie('userid')));
+    //username = GetUserName();
+    //userid = GetCookie('userid');
+    if (currentPlayer === "" || currentPlayer === null || currentPlayer === undefined)
         window.location.replace("index.html?status=nouser");
     SetUp();
 }
 
 function SetUp() {
-    document.getElementById('username').innerHTML = username;
+    document.getElementById('username').innerHTML = currentPlayer.userName;
 
     currentMap = new AreaMap(1);
 
@@ -68,20 +66,14 @@ function SetUp() {
     GetMapData();
     //GetSpeciesData();
     
-    currentPlayer = new Player(userid);
-
 }
 
 function GetUserState() {
-
     //Selected Area
     selectedAreaId = GetCookie('selectedAreaId');
     selectedArea = areas.find(x => x.id.toString() === selectedAreaId); //
     console.log(selectedArea);
     GetData(selectedAreaId, 'area');
-
-
-
 }
 
 function AdaptViewSize() {
@@ -369,7 +361,7 @@ function SetItemList(itemlist) {
     SetCookie('itemlist',api);
     SetCookie('listname',name);
 
-    var id = api === 'player' ? userid : -1;
+    var id = api === 'player' ? currentPlayer.id : -1;
 
     SwitchMenuHighlight(api);
      
@@ -579,6 +571,14 @@ class Player {
         this.species = user.species; 
     }
 
+    SetSelectedArea(id, area) {
+        this.selectedArea = new Area(id, area);
+        //if(area === undefined && id !== null)
+        //selectedAreaId = GetCookie('selectedAreaId');
+        //selectedArea = areas.find(x => x.id.toString() === selectedAreaId); 
+        //GetData(selectedAreaId, 'area');
+    }
+
     loadData() {
         if (this.id !== null) {
             fetch('api/player/' + this.id)
@@ -593,6 +593,7 @@ class Player {
     
     saveData() {
         //TODO
+        this.lastSeenDateTime = Date.now();
         //if (this.id !== null) {
         //    fetch('api/player/' + this.id)
         //        .then(result => result.json())
@@ -605,6 +606,7 @@ class Player {
     }
 }
 
+//RegionMap? WorldMap? 
 class AreaMap {
 
     constructor(id, region, data) {
