@@ -10,9 +10,9 @@ namespace EvoDevo.Controllers
     {
         Player[] allplayers = new Player[]
         {
-            new Player { Id = 1, FullName = "Fedor Steeman", UserName = "Fedor" },
-            new Player { Id = 2, FullName = "Liam Steeman", UserName = "Cave" },
-            new Player { Id = 2, FullName = "Mette Steeman", UserName = "Mette" }
+            new Player { Id = 1, FullName = "Fedor Steeman", UserName = "Fedor", LastSeen = DateTime.Now.AddDays(-1).AddHours(-1), Species= new List<Species>(), Swarms = new List<Swarm>() },
+            new Player { Id = 2, FullName = "Liam Steeman", UserName = "Cave", LastSeen = DateTime.Now.AddDays(-7).AddHours(-6), Species= new List<Species>(), Swarms = new List<Swarm>()  },
+            new Player { Id = 2, FullName = "Mette Steeman", UserName = "Mette", LastSeen = DateTime.Now.AddDays(-30).AddHours(-28), Species= new List<Species>(), Swarms = new List<Swarm>()  }
         };
 
         // GET: api/Player

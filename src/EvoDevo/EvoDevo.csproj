@@ -171,28 +171,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\MapController.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
-    <Compile Include="Controllers\AreaController.cs" />
-    <Compile Include="Controllers\ChatMessageController.cs" />
-    <Compile Include="Controllers\PlayerController.cs" />
-    <Compile Include="Controllers\SwarmController.cs" />
-    <Compile Include="Controllers\SpeciesController.cs" />
+    <Compile Include="Server\Controllers\BagType.cs" />
+    <Compile Include="Server\Controllers\MapController.cs" />
+    <Compile Include="Server\Controllers\DefaultController.cs" />
+    <Compile Include="Server\Controllers\AreaController.cs" />
+    <Compile Include="Server\Controllers\ChatMessageController.cs" />
+    <Compile Include="Server\Controllers\PlayerController.cs" />
+    <Compile Include="Server\Controllers\SwarmController.cs" />
+    <Compile Include="Server\Controllers\SpeciesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Logic\MapHolder.cs" />
-    <Compile Include="Logic\Factory\MapFactory.cs" />
-    <Compile Include="Logic\Factory\WorldFactory.cs" />
-    <Compile Include="Logic\WorldHolder.cs" />
-    <Compile Include="Models\Area.cs" />
-    <Compile Include="Models\Habitat.cs" />
-    <Compile Include="Models\ChatMessage.cs" />
-    <Compile Include="Models\Map.cs" />
-    <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\Swarm.cs" />
-    <Compile Include="Models\Species.cs" />
-    <Compile Include="Models\World.cs" />
+    <Compile Include="Server\Logic\MapHolder.cs" />
+    <Compile Include="Server\Logic\Factory\MapFactory.cs" />
+    <Compile Include="Server\Logic\Factory\WorldFactory.cs" />
+    <Compile Include="Server\Logic\WorldHolder.cs" />
+    <Compile Include="Server\Models\Area.cs" />
+    <Compile Include="Server\Models\Habitat.cs" />
+    <Compile Include="Server\Models\ChatMessage.cs" />
+    <Compile Include="Server\Models\Map.cs" />
+    <Compile Include="Server\Models\Player.cs" />
+    <Compile Include="Server\Models\Swarm.cs" />
+    <Compile Include="Server\Models\Species.cs" />
+    <Compile Include="Server\Models\World.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -219,7 +220,7 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <Content Include="worlds\alpha\map.json" />
+    <Content Include="Server\worlds\alpha\map.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

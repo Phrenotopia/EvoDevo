@@ -1,18 +1,26 @@
-﻿//class Player {
+﻿
+export default class Player {
 
-//    constructor(id) {
-//        this.id = id;
-//    }
+    constructor(id) {
+        this.id = id;
+    }
 
-//    loadData() {
-//        if (this.id !== null) {
-//            fetch('api/player/' + id)
-//                .then(result => result.json())
-//                .then(user => {
-//                    this.id = user.id;
-//                    this.name = user.name;
-//                })
-//                .catch(error => console.log(error));
-//        }
-//    }
-//}
+    loadData() {
+        if (this.id !== null) {
+            console.log('!?');
+            fetch('api/player/' + this.id)
+                .then(result => result.json())
+                .then(user => {
+                    console.log('initialized player: ' + this.id);
+                    this.id = user.id;
+                    this.username = user.userName;
+                    this.fullname = user.fullName;
+                    this.lastSeenDateTime = user.lastSeenDateTime;
+
+                    this.swarms = user.swarms;
+                    this.species = user.species;
+                })
+                .catch(error => console.log(error));
+        }
+    }
+}

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web;
 using EvoDevo.Logic;
+using EvoDevo.Server.Controllers;
 
 namespace EvoDevo.Controllers
 {
@@ -37,6 +38,14 @@ namespace EvoDevo.Controllers
                 return NotFound();
             }
             return Ok(map);
+        }
+
+        // GetByBagApi
+        //GET: api/Map/bag/'region'/0
+        public IHttpActionResult GetByBagApi(String bagtype, long bagid)
+        {
+
+            throw new NotImplementedException();
         }
 
         // POST: api/Map

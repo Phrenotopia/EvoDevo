@@ -1,4 +1,6 @@
-﻿//UI
+﻿//import Player from './models/player';
+
+//UI
 var canvas, ctx;
 var menulistApis  = ['player', 'chat', 'species', 'swarms', 'areas'];
 var menulistNames = ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas'];
@@ -10,6 +12,7 @@ var userid = -1;
 
 //Map & areas
 var map;
+var region;
 var areas;
 var cols = 4;
 var rows = 4;
@@ -20,7 +23,7 @@ var tilesheet;
 var tileimages;
 var tilecount = 16;
 var tilecounter = 0;
-var mapAreas = new Map();
+var mapAreas;
 var selectedArea;
 var selectedAreaId;
 
@@ -29,6 +32,10 @@ let gridlines = true;
 var height = 512;
 var width = 512;
 var tilesize = 128;
+
+//Swarms
+var selectedSwarms;
+
 
 window.addEventListener('resize', AdaptViewSize, false);
 window.addEventListener('resize', DrawMap, false);
@@ -121,7 +128,7 @@ function MapDataLoaded() {
     console.log({ map });
 
     let cookie = GetCookie('itemlist');
-    if (cookie === null || cookie === '') SetItemList('player|Profile');
+    if (cookie === null || cookie === '') SetItemList('player|My Stuff');
     else SetItemList(cookie);
 
     GetUserState();
@@ -367,6 +374,12 @@ function SetItemList(itemlist) {
      
     //TODO DisplayData 
     switch (api) {
+        case 'swarms':
+            if (selectedArea !== undefined)
+                PopulateList(selectedArea.habitats[0].swarms);
+            else
+                console.log('!?');
+            break;
         case 'player':
             PopulateList(currentPlayer);
             break;
@@ -430,12 +443,15 @@ function PopulateList(data) {
     document.getElementById('item-list').innerHTML = "";
     document.getElementById('chat-form').hidden = 'true';
     document.getElementById('itemlist-title').innerText = listname;// + "  for: " + api + "";
-        
+    
     console.log('Received ' + itemlist + ' - data ');
 
     switch (itemlist) {
         case 'swarms':
-            PopulateSwarmlist(data.habitats[0].swarms);//TODO if area, but what if species? 
+            if (data !== undefined)
+                PopulateSwarmlist(data);//TODO if area, but what if species? 
+            else
+                console.log('no data');
             break;
         case 'species':
             PopulateSpeciesList(data.habitats[0].swarms);
@@ -447,8 +463,7 @@ function PopulateList(data) {
             break;
         default:
             console.log('Function not yet implemented for: ' + itemlist);
-    }
-    
+    }    
 }
 
 function PopulateSwarmlist(swarms) {
@@ -493,12 +508,12 @@ function PopulateProfileList(profile) {
     let t = undefined;
     t = document.getElementById('list-item-template').content.cloneNode(true);
     t.querySelector('.list-item-name').innerText = 'Full name';
-    t.querySelector('.list-item-info').innerText = profile.fullName;
+    t.querySelector('.list-item-info').innerText = profile.fullname;
     itemlist.appendChild(t);
 
     t = document.getElementById('list-item-template').content.cloneNode(true);
     t.querySelector('.list-item-name').innerText = 'Username';
-    t.querySelector('.list-item-info').innerText = profile.userName;
+    t.querySelector('.list-item-info').innerText = profile.username;
     itemlist.appendChild(t);
 
     t = document.getElementById('list-item-template').content.cloneNode(true);
@@ -542,6 +557,10 @@ function PopulateAreaDataList(areaid) {
 }
 
 
+
+
+////////////////////////////////////////////////////
+
 class Player {
 
     constructor(id) {
@@ -550,18 +569,51 @@ class Player {
 
     loadData() {
         if (this.id !== null) {
-            console.log('!?');
             fetch('api/player/' + this.id)
                 .then(result => result.json())
                 .then(user => {
-                    console.log('!?' + this.id);
+                    console.log('initialized player: ' + this.id);
                     this.id = user.id;
                     this.username = user.userName;
                     this.fullname = user.fullName;
                     this.lastSeenDateTime = user.lastSeenDateTime;
-                    
+
+                    this.swarms = user.swarms;
+                    this.species = user.species;
+                })
+                .catch(error => console.log(error));
+        }
+    }
+    
+    saveData() {
+        //TODO
+        if (this.id !== null) {
+            fetch('api/player/' + this.id)
+                .then(result => result.json())
+                .then(user => {
+                    console.log('saving player: ' + this.id);
+                    //this.id = user.id;
+                    //this.username = user.userName;
+                    //this.fullname = user.fullName;
+                    //this.lastSeenDateTime = user.lastSeenDateTime;
+
+                    //this.swarms = user.swarms;
+                    //this.species = user.species;
+                    console.log('Function not yet implemented!');
                 })
                 .catch(error => console.log(error));
         }
     }
 }
+
+
+////////////////////////
+
+class AreaMap {
+
+    constructor(mapdata) {
+         
+    }
+
+}
+
