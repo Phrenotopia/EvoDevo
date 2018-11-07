@@ -44,7 +44,15 @@ namespace EvoDevo.Controllers
         //GET: api/Map/bag/'region'/0
         public IHttpActionResult GetByBagApi(String bagtype, long bagid)
         {
-
+            //if (bagid >= 0)
+            //{
+            //    var map = maps.FirstOrDefault((s) => s.Areas.Region.Id == bagid);
+            //}
+            //if (map == null)
+            //{
+            //    return NotFound();
+            //}
+            //return Ok(map);
             throw new NotImplementedException();
         }
 

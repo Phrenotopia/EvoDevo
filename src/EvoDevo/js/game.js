@@ -12,6 +12,7 @@ var userid = -1;
 
 //Map & areas
 var map;
+var currentMap;
 var region;
 var areas;
 var cols = 4;
@@ -55,6 +56,8 @@ function CheckUser() {
 function SetUp() {
     document.getElementById('username').innerHTML = username;
 
+    currentMap = new AreaMap(1);
+
     PrepareCanvas('mapview');
     PrepareCanvas('traitview');
     PrepareCanvas('buildview');
@@ -64,13 +67,9 @@ function SetUp() {
     LoadResources(); 
     GetMapData();
     //GetSpeciesData();
-
-    GetPlayer();
-}
-
-function GetPlayer() {
+    
     currentPlayer = new Player(userid);
-    currentPlayer.loadData();
+
 }
 
 function GetUserState() {
@@ -169,6 +168,8 @@ function imageNotFound(i, img) {
 }
 
 function GetMapData() {
+
+
     console.log('GetMapData');
     maploaded = false;
     fetch('api/map/-1')
@@ -558,13 +559,24 @@ function PopulateAreaDataList(areaid) {
 
 
 
-
-////////////////////////////////////////////////////
-
 class Player {
 
-    constructor(id) {
+    constructor(id, data) {
         this.id = id;
+        if (data !== undefined && data !== null)
+            this.initialize(data);
+        else
+            this.loadData();
+    }
+
+    initialize(user) {
+        this.id = user.id;
+        this.username = user.userName;
+        this.fullname = user.fullName;
+        this.lastSeenDateTime = user.lastSeenDateTime;
+        //collections
+        this.swarms = user.swarms;
+        this.species = user.species; 
     }
 
     loadData() {
@@ -573,13 +585,7 @@ class Player {
                 .then(result => result.json())
                 .then(user => {
                     console.log('initialized player: ' + this.id);
-                    this.id = user.id;
-                    this.username = user.userName;
-                    this.fullname = user.fullName;
-                    this.lastSeenDateTime = user.lastSeenDateTime;
-
-                    this.swarms = user.swarms;
-                    this.species = user.species;
+                    initialize(user);
                 })
                 .catch(error => console.log(error));
         }
@@ -587,33 +593,44 @@ class Player {
     
     saveData() {
         //TODO
-        if (this.id !== null) {
-            fetch('api/player/' + this.id)
-                .then(result => result.json())
-                .then(user => {
+        //if (this.id !== null) {
+        //    fetch('api/player/' + this.id)
+        //        .then(result => result.json())
+        //        .then(user => {
                     console.log('saving player: ' + this.id);
-                    //this.id = user.id;
-                    //this.username = user.userName;
-                    //this.fullname = user.fullName;
-                    //this.lastSeenDateTime = user.lastSeenDateTime;
-
-                    //this.swarms = user.swarms;
-                    //this.species = user.species;
                     console.log('Function not yet implemented!');
-                })
-                .catch(error => console.log(error));
-        }
+        //        })
+        //        .catch(error => console.log(error));
+        //}
     }
 }
 
-
-////////////////////////
-
 class AreaMap {
 
-    constructor(mapdata) {
-         
+    constructor(id, region, data) {
+        this.id = id;
+        this.region = region;
+        if (data !== undefined && data !== null)
+            this.initialize(data);
+        else
+            this.loadData();
     }
 
+    initialize(map) {
+        this.id = map.id;
+        this.areas = map.areas;
+        this.columns = map.columns;
+        this.rows = map.rows;
+        this.name = map.name;
+    }
+
+    loadData() {
+        if (this.id !== null) {
+            fetch('api/map/' + this.id)
+                .then(result => result.json())
+                .then(mapdata => this.initialize(mapdata))
+                .catch(error => console.log(error));
+        }
+    }
 }
 
