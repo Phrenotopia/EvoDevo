@@ -127,7 +127,9 @@
     <Content Include="css\skeleton.css" />
     <Content Include="favicon.ico" />
     <Content Include="gameold.html" />
+    <Content Include="js\models\areamap.js" />
     <Content Include="js\models\game.js" />
+    <Content Include="js\models\view.js" />
     <Content Include="play.html" />
     <Content Include="Global.asax" />
     <Content Include="img\creatures\Haradix-icon.png" />
