@@ -127,7 +127,8 @@
     <Content Include="css\skeleton.css" />
     <Content Include="favicon.ico" />
     <Content Include="gameold.html" />
-    <Content Include="game.html" />
+    <Content Include="js\models\game.js" />
+    <Content Include="play.html" />
     <Content Include="Global.asax" />
     <Content Include="img\creatures\Haradix-icon.png" />
     <Content Include="img\creatures\kawaichi-icon.png" />
@@ -161,7 +162,7 @@
     <Content Include="img\maptiles\alpha\tilesheet.png" />
     <Content Include="index.html" />
     <Content Include="js\common\util.js" />
-    <Content Include="js\game.js" />
+    <Content Include="js\play.js" />
     <Content Include="js\models\player.js" />
     <Content Include="js\start.js" />
     <Content Include="Web.config">

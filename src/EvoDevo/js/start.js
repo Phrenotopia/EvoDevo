@@ -6,8 +6,8 @@ CheckUser();
 
 function CheckUser() {
     console.log('calling method CheckUser()');
-    username = GetCookie('username');
-    userid = GetCookie('userid'); //TODO: login token / shared secret 
+    username = Util.getCookie('username');
+    userid = Util.getCookie('userid'); //TODO: login token / shared secret 
     if (userid !== null) {
         console.log('api/player/' + userid);
         fetch('api/player/' + userid)
@@ -130,7 +130,7 @@ function ClearUser() {
 
 function EnterGame() {
     console.log('calling method EnterGame()');
-    usercookie = GetUserName();
+    usercookie = Util.GetUserName();
     if (usercookie !== '') {
         console.log('user checks out: ' + usercookie);
         console.log('will be redirecting...');
@@ -144,5 +144,5 @@ function EnterGame() {
 function Redirect() {
     console.log('calling method Redirect()');
     console.log('redirect');
-    window.location.href = "game.html";
+    window.location.href = "play.html";
 }
