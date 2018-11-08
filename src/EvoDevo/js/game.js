@@ -1,9 +1,10 @@
 ﻿//import Player from './models/player';
 
 //UI - Game Controls -> Class (TODO)
+var game;
 var canvas, ctx;
-var menulistApis  = ['player', 'chat', 'species', 'swarms', 'areas'];
-var menulistNames = ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas'];
+var menulistApis;
+var menulistNames;
 
 //Player
 var currentPlayer;
@@ -42,40 +43,120 @@ window.addEventListener('orientationchange', DrawMap, false);
 document.addEventListener('DOMContentLoaded', AdaptViewSize, false);
 document.addEventListener('DOMContentLoaded', DrawMap, false); 
 
-function CheckUser() {
-    currentPlayer = new Player(parseInt(GetCookie('userid')));
-    //username = GetUserName();
-    //userid = GetCookie('userid');
-    if (currentPlayer === "" || currentPlayer === null || currentPlayer === undefined)
+function Setup() {
+    currentPlayer = new Player(parseInt(GetCookie('userid'))); 
+    if (currentPlayer === null || currentPlayer === undefined)
         window.location.replace("index.html?status=nouser");
-    SetUp();
-}
-
-function SetUp() {
     document.getElementById('username').innerHTML = currentPlayer.userName;
 
     currentMap = new AreaMap(1);
 
+    //----GAME OBJECT-------
+    game = new Game();
+
+    //Map
+    //Player
+
+    //CONTROLS
+    //Apis       = ['player', 'chat', 'species', 'swarms', 'areas'];
+    menulistApis = ['player', 'chat', 'species', 'swarms', 'areas'];
+    menulistNames = ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas'];
+
+    //VIEWS
+    //Views = ['mapview', 'traitview', 'buildview', 'designview'];
     PrepareCanvas('mapview');
     PrepareCanvas('traitview');
     PrepareCanvas('buildview');
     PrepareCanvas('designview');
-    SetView('mapview');
+    SetView('mapview'); // = Default
 
+    //RESOURCES
     LoadResources(); 
-    GetMapData();
-    //GetSpeciesData();
-    
+
+    //PLAYER
+    //userstate
+    // - Selected Area (+Region)    
+    //------------------------
+
+
 }
 
+//To Game Class
 function GetUserState() {
+
     //Selected Area
     selectedAreaId = GetCookie('selectedAreaId');
-    selectedArea = areas.find(x => x.id.toString() === selectedAreaId); //
-    console.log(selectedArea);
-    GetData(selectedAreaId, 'area');
+    areadata = areas.find(x => x.id.toString() === selectedAreaId);
+    selectedArea = new Area(parseInt(selectedAreaId), areadata);
+
 }
 
+//To Game Class
+function MapDataLoaded() {
+    console.log('MapDataLoaded');
+
+    console.log({ map });
+
+    let cookie = GetCookie('itemlist');
+    if (cookie === null || cookie === '') SetItemList('player|My Stuff');
+    else SetItemList(cookie);
+
+    GetUserState();
+    DrawMap();
+}
+
+//To Game Class
+function LoadResources() {
+    console.log('LoadResources');
+
+    tilesheet = new Image();
+    tilesheet.src = 'img\\maptiles\\' + texture + '\\tilesheet.png';
+
+    tileimages = new Array(tilecount);
+    for (var i = 0; i < tilecount; i++) {
+        let img = new Image();
+        let j = i;
+        img.addEventListener('load', function () { imageFound(j, img); });
+        img.addEventListener('error', function () { imageNotFound(j, img); });
+        img.src = 'img\\maptiles\\' + texture + '\\tile-' + i + '.png';
+    }
+}
+
+//To Game Class
+function imageFound(i, img) {
+    tileimages[i] = img;
+    //console.log('tile image nr ' + i + ' found & loaded: ' + img.src);
+    tilecounter++;
+
+    if (tilecounter >= tilecount && maploaded) {
+        MapDataLoaded();
+    }
+}
+
+//To Game Class
+function imageNotFound(i, img) {
+    //console.log('tile image not found!');
+    img.removeEventListener('error', function () { imageNotFound(i, img, true); });
+    img.src = 'img\\maptiles\\' + texture + '\\tile-null.png';
+    tileimages[i] = img;
+}
+
+//To View Class
+function PrepareCanvas(name) {
+    canvas = document.getElementById(name + 'Canvas');
+    ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+
+    ctx.fillStyle = getCanvasThemeColor(name);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    canvas.addEventListener('click', function (evt) { CanvasClick(name, evt); }, false);
+
+    //if(name === 'mapview')
+    //    GetData(-1, 'area');
+}
+
+//To View Class
 function AdaptViewSize() {
     console.log('AdaptViewSize');
     if (canvas === undefined) SetView('mapview');
@@ -113,84 +194,37 @@ function AdaptViewSize() {
     tilesize = Math.floor(newWidth / cols);
 }
 
-function MapDataLoaded() {
-    console.log('MapDataLoaded');
-
-    console.log({ map });
-
-    let cookie = GetCookie('itemlist');
-    if (cookie === null || cookie === '') SetItemList('player|My Stuff');
-    else SetItemList(cookie);
-
-    GetUserState();
-    DrawMap();
-}
-
-function LoadResources() {
-    console.log('LoadResources');
-
-    tilesheet = new Image();
-    tilesheet.src = 'img\\maptiles\\' + texture + '\\tilesheet.png';
-
-    tileimages = new Array(tilecount);
-    for (var i = 0; i < tilecount; i++) {
-        let img = new Image();
-        let j = i;
-        img.addEventListener('load', function () { imageFound(j, img); });
-        img.addEventListener('error', function () { imageNotFound(j, img); });
-        img.src = 'img\\maptiles\\' + texture + '\\tile-' + i + '.png';
+//To Game<-View Class
+function getCanvasThemeColor(name) {
+    //TODO make a more centrally controlled / css redo of this... 
+    switch (name) {
+        case 'mapview':
+            return '#40c365';
+        case 'traitview':
+            return '#41ccb4';
+        case 'buildview':
+            return '#9543ff';
+        case 'designview':
+            return '#ffc94c';
+        default:
+            return '#ccc';
     }
 }
 
-function imageFound(i, img) {
-    tileimages[i] = img;
-    //console.log('tile image nr ' + i + ' found & loaded: ' + img.src);
-    tilecounter++;
+//To Game Class
+function toggleMenuClass(source) {
+    // Setting the active class name expands the menu vertically on small screens.
+    let nav = document.getElementById('nav');
 
-    if (tilecounter >= tilecount && maploaded) {
-        MapDataLoaded();
+    if (nav.className === 'pure-u active') {
+        nav.className = 'pure-u';
+    }
+    else {
+        if (source === 'menu-button') nav.className = 'pure-u active';
     }
 }
 
-function imageNotFound(i, img) {
-    //console.log('tile image not found!');
-    img.removeEventListener('error', function () { imageNotFound(i, img, true); });
-    img.src = 'img\\maptiles\\' + texture + '\\tile-null.png';
-    tileimages[i] = img;
-}
-
-function GetMapData() {
-
-
-    console.log('GetMapData');
-    maploaded = false;
-    fetch('api/map/-1')
-        .then(result => result.json())
-        .then(data => {
-            map = data;
-            areas = Array.from(map.areas);
-            cols = map.columns;
-            rows = map.rows;
-            maploaded = true;
-        })
-        .catch(error => console.log(error));
-    
-}
-
-function PrepareCanvas(name) {
-    canvas = document.getElementById(name + 'Canvas');
-    ctx = canvas.getContext('2d');
-    ctx.imageSmoothingEnabled = false;
-
-    ctx.fillStyle = getCanvasThemeColor(name);
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    canvas.addEventListener('click', function (evt) { CanvasClick(name, evt); }, false);
-
-    if(name === 'mapview')
-        GetData(-1, 'area');
-}
-
+//To AreaMap Class
 function DrawMap() {
     console.log("DrawMap");
     if (areas === undefined) return;
@@ -240,6 +274,7 @@ function DrawMap() {
     }
 }
 
+//To AreaMap Class
 function DrawGridLines() {
     console.log('DrawGridLines');
     var height = canvas.height;
@@ -267,34 +302,7 @@ function DrawGridLines() {
     ctx.restore();
 }
 
-function getCanvasThemeColor(name) {
-    //TODO make a more centrally controlled / css redo of this... 
-    switch (name) {
-        case 'mapview':
-            return '#40c365';
-        case 'traitview':
-            return '#41ccb4';
-        case 'buildview':
-            return '#9543ff';
-        case 'designview':
-            return '#ffc94c';
-        default:
-            return '#ccc';
-    }
-}
-
-function toggleMenuClass(source) {
-    // Setting the active class name expands the menu vertically on small screens.
-    let nav = document.getElementById('nav');
-
-    if (nav.className === 'pure-u active') {
-        nav.className = 'pure-u';
-    }
-    else {
-        if (source === 'menu-button') nav.className = 'pure-u active';
-    }
-}
-
+//To Game->View Class
 function CanvasClick(name, evt) {
     var mousePos = getMousePos(canvas, evt);
     let x = Math.floor(mousePos.x);
@@ -303,7 +311,7 @@ function CanvasClick(name, evt) {
     
     switch (name) {
         case 'mapview': 
-            GetData(SelectArea(x, y), 'area');
+            SelectArea(x, y);
             DrawMap();
             break;
         default:
@@ -311,48 +319,36 @@ function CanvasClick(name, evt) {
     }
 }
 
+//To AreaMap Class
 function SelectArea(x, y) {
     let col = Math.floor(x / tilesize);
     let row = Math.floor(y / tilesize);
     let a = col + row * 4;
     selectedAreaIndex = a;
-    selectedArea = areas[a];
-    let said = selectedArea.id;
+    let area = areas[a];
+    let said = area.id;
+    selectedArea = new Area(said, area);
     SetCookie('selectedAreaId', said);
+
+    //TODO populate list: Swarms? Species? Area data? 
+
     return said;
 }
 
+//To Game Class
 function ListItemClick(itemid, itemlist) {
     console.log('Clicked listitem: ' + itemid + ' - in item list: ' + itemlist);
 
     switch (itemlist) {
         case 'xxx':
-            GetData(-1, 'yyy');
+            console.log('Not yet implemented!');
             break;
         default:
             console.log('Click on ' + itemlist + ' not yet implemented!');
     }
 }
 
-function SetView(name) {
-    console.log('selected view: ' + name);
-    canvas = document.getElementById(name + 'Canvas');
-    ctx = canvas.getContext('2d');
-
-    var views = document.getElementsByClassName("view-port");
-    for (let i = 0; i < views.length; i++) {
-        //console.log('hiding: ' + views[i].id);
-        views[i].hidden = true;
-    }
-    ////console.log('showing: ' + document.getElementById(name).id);
-    document.getElementById(name).hidden = false;
-
-    canvas.focus();
-    toggleMenuClass('view');
-
-    //document.getElementById('main-title').innerText = document.getElementById(name + '-menu-item').innerText; 
-}
-
+//To Game Class
 function SetItemList(itemlist) {
     console.log('selected item list: ' + itemlist + '-menu-link');
     //
@@ -382,6 +378,7 @@ function SetItemList(itemlist) {
      
 }
 
+//To Game Class
 function SwitchMenuHighlight(api) {
 
     for (let i = 0; i < menulistApis.length; i++) {
@@ -394,40 +391,28 @@ function SwitchMenuHighlight(api) {
     toggleMenuClass('view');
 }
 
-function GetData(id, api) {
-    //id - integer
-    //api:      'player', 'chat', 'species', 'swarms', 'areas' 
-    //itemlist: 'player', 'chat', 'species', 'swarms', 'areas' 
-    //TODO sort out the above conflation... 
+//To Game->View Class
+function SetView(name) {
+    console.log('selected view: ' + name);
+    canvas = document.getElementById(name + 'Canvas');
+    ctx = canvas.getContext('2d');
 
-    let itemlist = GetCookie('itemlist');
-    let strid; 
-    console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
-    if (id < 0 || id === null || id === undefined) {
-        //console.log('no id specified');
-        //return;
-        strid = "";
+    var views = document.getElementsByClassName("view-port");
+    for (let i = 0; i < views.length; i++) {
+        //console.log('hiding: ' + views[i].id);
+        views[i].hidden = true;
     }
-    else strid = "/" + id; 
+    ////console.log('showing: ' + document.getElementById(name).id);
+    document.getElementById(name).hidden = false;
 
-    //TODO First check if data is not already available (id AND iteration nr?)
-    //if so: PopulateList(data);
+    canvas.focus();
+    toggleMenuClass('view');
 
-    fetch('api/' + api + strid)
-        .then(result => result.json())
-        .then(data => {
-            //console.log(data);
-
-            //selectedArea = data; //TODO: generalize 
-            if (strid !== "")
-                PopulateList(data);
-            //else
-                //DrawMap(data);
-            })
-            .catch(error => console.log(error));
+    //document.getElementById('main-title').innerText = document.getElementById(name + '-menu-item').innerText; 
 }
 
-function PopulateList(data) {
+//To Game (List?) Class
+function PopulateList(data) { 
     console.log('PopulateList');
     console.log('Function not yet fully implemented!');
 
@@ -459,6 +444,7 @@ function PopulateList(data) {
     }    
 }
 
+//To Game (List?) Class
 function PopulateSwarmlist(swarms) {
     console.log('Populate Swarms List');
     var itemlist = document.getElementById('item-list');
@@ -478,6 +464,7 @@ function PopulateSwarmlist(swarms) {
     document.getElementById('list-throbber').hidden = true;
 }
 
+//To Game (List?) Class
 function PopulateSpeciesList(swarms) {
     console.log('Populate Species List');
     var species;
@@ -492,6 +479,7 @@ function PopulateSpeciesList(swarms) {
     console.log('Function not implemented!');
 }
 
+//To Game (List?) Class
 function PopulateProfileList(profile) {
     console.log('Populate Profile List');
     console.log('Function not completely implemented!');
@@ -526,6 +514,7 @@ function PopulateProfileList(profile) {
 
 }
 
+//To Game (List?) Class
 function PopulateChatList() {
     console.log('Populate Chat List');
     console.log('Function not implemented!');
@@ -533,11 +522,13 @@ function PopulateChatList() {
     document.getElementById('chat-form').hidden = 'false';
 }
 
+//To Game (List?) Class
 function PopulateAreaList() {
     console.log('Populate Area List');
     console.log('Function not implemented!');
 }
 
+//To Game (List?) Class
 function PopulateAreaDataList(areaid) {
     console.log('Getting data for area: ' + areaid);
 
@@ -549,16 +540,66 @@ function PopulateAreaDataList(areaid) {
         });
 }
 
+////////////////////////////////////////
+////     CLASS DEFINITIONS     ////////
+////////////////////////////////////////
 
+class Game {
+    constructor() {
+        ////CONTROLS
+        ////Apis       = ['player', 'chat', 'species', 'swarms', 'areas'];
+        //menulistApis = ['player', 'chat', 'species', 'swarms', 'areas'];
+        //menulistNames = ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas'];
+
+        ////VIEWS
+        ////Views = ['mapview', 'traitview', 'buildview', 'designview'];
+        //PrepareCanvas('mapview');
+        //PrepareCanvas('traitview');
+        //PrepareCanvas('buildview');
+        //PrepareCanvas('designview');
+        //SetView('mapview'); // = Default
+
+        ////resources
+        //LoadResources(); 
+
+        ////world - data
+        ////InstantiateWorld();
+        ////GetRegions();
+        //GetMapData();
+        ////GetSpeciesData();
+        ////GetSwarmsData();
+        ////------------------------
+
+        ////PLAYER
+        ////userstate
+        //// - Selected Area (+Region)
+        ////Data
+
+
+    }
+}
+
+class View {
+    constructor() {
+        this.canvas = undefined;
+
+    }
+}
 
 class Player {
 
     constructor(id, data) {
-        this.id = id;
-        if (data !== undefined && data !== null)
-            this.initialize(data);
-        else
-            this.loadData();
+        try {
+            this.id = id;
+            if (data !== undefined && data !== null)
+                this.initialize(data);
+            else
+                this.loadData();
+        }
+        catch(err) {
+            console.log(err.message);
+            return null;
+        }
     }
 
     initialize(user) {
@@ -634,5 +675,170 @@ class AreaMap {
                 .catch(error => console.log(error));
         }
     }
+
+    //TODO Set Selected Area 
+
+    drawMap(canvas) {
+        console.log("drawMap");
+        if (this.areas === undefined) return;
+
+        var height = canvas.height;
+        var width = canvas.width;
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "#00568C";
+        ctx.fillRect(0, 0, width, height);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 1;
+
+        let i = 0;
+        for (var r = 0; r < rows; r++) {
+            for (var c = 0; c < cols; c++) {
+                let area = areas[i++];
+                let tile = area.tile;
+                let img = tileimages[tile];
+                let x = c * tilesize;
+                let y = r * tilesize;
+                ctx.drawImage(
+                    img,
+                    0, 0,
+                    img.width, img.height,
+                    x, y,
+                    tilesize, tilesize
+                );
+            }
+        }
+
+        if (gridlines)
+            this.drawGridLines(canvas);
+
+        if (selectedArea !== undefined)
+            this.drawAreaSelection(ctx);
+    }
+
+    drawAreaSelection(ctx) {
+        let a = areas.indexOf(selectedArea);
+        let col = Math.floor(a % cols);
+        let row = Math.floor(a / cols);
+        ctx.save();
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        var x = col * tilesize + 2;
+        var y = row * tilesize + 2;
+        ctx.rect(x, y, tilesize - 3, tilesize - 3);
+        ctx.globalAlpha = 0.5;
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    drawGridLines(canvas) {
+        console.log('DrawGridLines');
+        var height = canvas.height;
+        var width = canvas.width;
+        var ctx = canvas.getContext('2d');
+
+        ctx.save();
+        var strokeWidth = 1;
+        var translate = strokeWidth % 2 / 2;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = strokeWidth;
+        ctx.setLineDash([2, 2]);
+        for (var x = 0; x < width; x += tilesize) {
+            for (var y = 0; y < height; y += tilesize) {
+                ctx.translate(translate, translate);
+                ctx.beginPath();
+                ctx.moveTo(x + tilesize, y);
+                ctx.lineTo(x + tilesize, y + tilesize);
+                ctx.lineTo(x, y + tilesize);
+                ctx.stroke();
+                ctx.translate(-translate, -translate);
+                i++;
+            }
+        }
+        ctx.restore();
+    }
 }
 
+class Area {
+
+    constructor(id, data) {
+        this.id = id;
+        if (data !== undefined && data !== null)
+            this.initialize(data);
+        else
+            this.loadData();
+    }
+
+    initialize(area) {
+        this.id = area.id;
+        this.name = area.name;
+        this.tile = area.tile;
+        this.region = area.region;
+        this.habitats = area.habitats;
+    }
+
+    loadData() {
+        if (this.id !== null) {
+            fetch('api/area/' + this.id)
+                .then(result => result.json())
+                .then(areadata => this.initialize(areadata))
+                .catch(error => console.log(error));
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//RECYCLING BIN
+
+
+
+//function GetData(id, api) {
+//    //id - integer
+//    //api:      'player', 'chat', 'species', 'swarms', 'areas' 
+//    //itemlist: 'player', 'chat', 'species', 'swarms', 'areas' 
+//    //TODO sort out the above conflation... 
+
+//    let itemlist = GetCookie('itemlist');
+//    let strid;
+//    console.log('Getting data at "/api/' + api + '" for: ' + itemlist + '[' + id + '];');
+//    if (id < 0 || id === null || id === undefined) {
+//        //console.log('no id specified');
+//        //return;
+//        strid = "";
+//    }
+//    else strid = "/" + id;
+
+//    //TODO First check if data is not already available (id AND iteration nr?)
+//    //if so: PopulateList(data);
+
+//    fetch('api/' + api + strid)
+//        .then(result => result.json())
+//        .then(data => {
+//            //console.log(data);
+
+//            //selectedArea = data; //TODO: generalize 
+//            if (strid !== "")
+//                PopulateList(data);
+//            //else
+//            //DrawMap(data);
+//        })
+//        .catch(error => console.log(error));
+//}
