@@ -1,6 +1,13 @@
 ﻿// models/player.js
 //export default
 class Player {
+    id;
+    username;
+    fullname;
+    lastSeenDateTime;
+    swarms;
+    species;
+    loaded;
 
     constructor(id, data) {
         try {
@@ -24,6 +31,7 @@ class Player {
         //collections
         this.swarms = user.swarms;
         this.species = user.species;
+        this.loaded = true;
     }
 
     SetSelectedArea(id, area) {
@@ -47,7 +55,7 @@ class Player {
     }
 
     saveData() {
-        TODO
+        //TODO
         this.lastSeenDateTime = Date.now();
         if (this.id !== null) {
             fetch('api/player/' + this.id)

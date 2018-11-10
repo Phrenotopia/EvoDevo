@@ -87,7 +87,7 @@ function WelcomeUser(userdata) {
             document.getElementById('login').hidden = true;
             document.cookie = "username=" + username;
             document.cookie = "userid=" + userid;
-            document.cookie = "authtoken=" + GenerateRandomToken();
+            document.cookie = "authtoken=" + Util.generateRandomToken();
             document.getElementById('loggedin').hidden = false;
             document.getElementById('spanUsername').innerText = username;
             document.getElementById('status').innerHTML = '';
@@ -130,7 +130,7 @@ function ClearUser() {
 
 function EnterGame() {
     console.log('calling method EnterGame()');
-    usercookie = Util.GetUserName();
+    usercookie = Util.getUserName();
     if (usercookie !== '') {
         console.log('user checks out: ' + usercookie);
         console.log('will be redirecting...');

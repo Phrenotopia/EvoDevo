@@ -127,8 +127,10 @@
     <Content Include="css\skeleton.css" />
     <Content Include="favicon.ico" />
     <Content Include="gameold.html" />
+    <Content Include="js\common\recycling.js" />
     <Content Include="js\models\areamap.js" />
     <Content Include="js\models\game.js" />
+    <Content Include="js\models\itemlist.js" />
     <Content Include="js\models\view.js" />
     <Content Include="play.html" />
     <Content Include="Global.asax" />
@@ -167,6 +169,7 @@
     <Content Include="js\play.js" />
     <Content Include="js\models\player.js" />
     <Content Include="js\start.js" />
+    <Content Include="lobby.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
