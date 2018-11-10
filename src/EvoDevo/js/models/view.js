@@ -10,6 +10,7 @@ class GameView {
         this.name = "default";
         this.canvas = canvas;
         this.themeColor = '#ccc';
+        this.loaded = false;
 
         this.prepareCanvas();
     }
@@ -77,11 +78,11 @@ class MapView extends GameView {
 
     currentMap;
     selectedArea;
+    selectedAreaId;
     texture = 'alpha';
     tileimages;
     tilecount = 16;
     tilecounter = 0;
-    selectedAreaId;
     gridlines = true;
     height = 512;
     width = 512;
@@ -97,7 +98,7 @@ class MapView extends GameView {
         this.currentMap = map;
         this.selectedArea = undefined;
         this.selectedAreaId = undefined;
-        this.loaded = false;
+        //this.loaded = false;
         this.texture = 'alpha';
         this.tilecount = this.currentMap.tilecount;
         this.tileimages = new Array(this.tilecount);
@@ -160,8 +161,8 @@ class MapView extends GameView {
         console.log('MapView.drawAreaSelection()');
         let ctx = this.canvas.getContext('2d');
         let a = this.currentMap.areas.indexOf(this.selectedArea);
-        let col = Math.floor(a % this.columns);
-        let row = Math.floor(a / this.columns);
+        let col = Math.floor(a % this.currentMap.columns);
+        let row = Math.floor(a / this.currentMap.columns);
         ctx.save();
         ctx.strokeStyle = "white";
         ctx.lineWidth = 2;
@@ -186,7 +187,6 @@ class MapView extends GameView {
         ctx.lineWidth = strokeWidth;
         ctx.setLineDash([2, 2]);
 
-        let i = 0;
         for (let x = 0; x < width; x += this.tilesize) {
             for (let y = 0; y < height; y += this.tilesize) {
                 ctx.translate(translate, translate);
@@ -196,7 +196,6 @@ class MapView extends GameView {
                 ctx.lineTo(x, y + this.tilesize);
                 ctx.stroke();
                 ctx.translate(-translate, -translate);
-                i++;
             }
         }
         ctx.restore();
@@ -208,6 +207,8 @@ class MapView extends GameView {
         if (this.selectedAreaId !== null) {
             this.areadata = this.currentMap.areas.find(x => x.id.toString() === this.selectedAreaId);
             this.selectedArea = new Area(parseInt(this.selectedAreaId), this.areadata);
+            this.drawMap();
+            //this.currentMap.selectedAreaIndex = ?;
         }
     }
     
@@ -222,7 +223,8 @@ class MapView extends GameView {
         let col = Math.floor(x / this.tilesize);
         let row = Math.floor(y / this.tilesize);
         this.selectedArea = this.currentMap.selectArea(col, row);
-        Util.setCookie('selectedAreaId', this.selectedAreaId);
+        this.selectedAreaId = this.selectedArea.id;
+        Util.setCookie('selectedAreaId', this.selectedArea.id);
     }
 
     setSelectedArea(index) {
@@ -261,7 +263,7 @@ class MapView extends GameView {
         //tilesheet = new Image();
         //tilesheet.src = 'img\\maptiles\\' + texture + '\\tilesheet.png';
 
-        this.loaded = false;
+        super.loaded = false;
         this.tileimages = new Array(this.tilecount);
         for (let i = 0; i < this.tilecount; i++) {
             let img = new Image();
@@ -296,7 +298,7 @@ class MapView extends GameView {
 
     mapDataLoaded() {
         console.log('MapView.mapDataLoaded');
-        this.loaded = true;
+        super.loaded = true;
         this.update();
     }
 

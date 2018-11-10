@@ -12,6 +12,7 @@ class Game {
     itemlists;
 
     constructor(player, map) { //, region, world)
+        console.log('Game.constructor()');
         this.currentPlayer = player;
         this.currentMap = map;
 
@@ -109,25 +110,28 @@ class Game {
         this.docChatform.hidden = 'true';
         this.docListTitle.innerText = listname; 
         
-        currentView.populateList(data);
+        this.currentView.populateList(data);
 
         this.docThrobber.hidden = true;
     }
 
     adaptView() {
-        console.log('Game.adaptView');
-        let container = document.getElementById('game-area');
-        let nav = document.getElementById('nav');
-        let list = document.getElementById('list');
-        //let header = document.getElementById('main-header');
+        //if (this.currentView.loaded === true) {
+            console.log('Game.adaptView');
+            let container = document.getElementById('game-area');
+            let nav = document.getElementById('nav');
+            let list = document.getElementById('list');
+            //let header = document.getElementById('main-header');
 
-        let hoffset = nav.offsetWidth + list.offsetWidth;
-        let voffset = 0; // header.offsetHeight;
+            let hoffset = nav.offsetWidth + list.offsetWidth;
+            let voffset = 0; // header.offsetHeight;
 
-        let newWidth = window.innerWidth - hoffset;
-        let newHeight = window.innerHeight - voffset;
-        if (newWidth < 0) newWidth = list.offsetWidth; // || newHeight < 0) {
+            let newWidth = window.innerWidth - hoffset;
+            let newHeight = window.innerHeight - voffset;
+            if (newWidth < 0) newWidth = list.offsetWidth; // || newHeight < 0) {
 
-        this.currentView.adaptViewSize(container, newWidth, newHeight);
+        //TODO: this points to something else!?
+            this.currentView.adaptViewSize(container, newWidth, newHeight); 
+        //}
     }
 }
