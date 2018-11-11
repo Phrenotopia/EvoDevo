@@ -11,6 +11,7 @@ class AreaMap {
     loaded;
 
     constructor(id, region, data) {
+        console.log('AreaMap.constructor');
         this.id = id;
         this.region = region;
         if (data !== undefined && data !== null)
@@ -20,6 +21,7 @@ class AreaMap {
     }
 
     initialize(map) {
+        console.log('AreaMap.initialize');
         this.id = map.id;
         this.areas = map.areas;
         this.columns = map.columns;
@@ -30,6 +32,7 @@ class AreaMap {
     }
 
     loadData() {
+        console.log('AreaMap.loadData');
         if (this.id !== null) {
             fetch('api/map/' + this.id)
                 .then(result => result.json())
@@ -39,6 +42,7 @@ class AreaMap {
     }
 
     selectArea(col, row) {
+        console.log('AreaMap.selectArea');
         let a = col + row * this.columns;
         this.selectedAreaIndex = a;
         return this.areas[a];

@@ -42,6 +42,7 @@ class Game {
     }
 
     toggleMenuClass(source) {
+        console.log('Game.toggleMenuClass(' + source + ')');
         // Setting the active class name expands the menu vertically on small screens.
         let nav = document.getElementById('nav');
 

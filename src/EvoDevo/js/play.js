@@ -48,6 +48,12 @@ function AdaptView() {
 }
 
 function CanvasClick(evt) {
-    console.log('Play.CanvasClick(evt)');
+    console.log('Play.CanvasClick(' + evt + ')');
     game.currentView.canvasClick(evt);
+}
+
+function toggleMenuClass(source) {
+    console.log('Play.toggleMenuClass('+ source +')');
+    if (game !== undefined)
+        game.toggleMenuClass(source);
 }
