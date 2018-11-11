@@ -1,15 +1,20 @@
 ﻿//itemlist.js
 class ItemList {
 
+    //docListTemplate;
     //docItemList;
     //data;
 
     constructor(data) {
-        this.docItemList = document.getElementById('item-list');
+        console.log('ItemList.constructor()');
+        //this.data = data;
+        //this.docItemList = document.getElementById('item-list');
+        //this.docListTemplate = document.getElementById('list-item-template');
         //this.populateList(data);
     }
 
     populateList(data) {
+        console.log('ItemList.populateList()');
         this.data = data;
 
     }
@@ -27,14 +32,18 @@ class SwarmsList extends ItemList {
 
     constructor(data) {
         super(data);
+        this.swarms = data;
+        this.docItemList = document.getElementById('item-list');
+        this.docListTemplate = document.getElementById('list-item-template');
     }
 
     populateList(data) {
+        console.log('SwarmsList.populateList()');
         this.swarms = data;
 
         for (let i = 0; i < this.swarms.length; i++) {
             let swarm = this.swarms[i];
-            let t = this.docListTemplate.content.cloneNode(true);
+            let t = super.docListTemplate.content.cloneNode(true);
 
             t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
             t.querySelector('.list-item-name').innerText = swarm.species.name;
@@ -44,7 +53,7 @@ class SwarmsList extends ItemList {
             t.querySelector('.list-item').id = 'swarm-' + swarm.id;
             t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(swarm.id, 'test'));
 
-            super.docItemList.appendChild(t);
+            this.docItemList.appendChild(t);
         }
     }
 
@@ -60,10 +69,12 @@ class SpeciesList extends ItemList {
     //species;
 
     constructor(data) {
+        console.log('SpeciesList.constructor()');
         super(data);
     }
 
     populateList(data) {
+        console.log('SpeciesList.populateList()');
         this.species = data;
         console.log('Not yet implemented!');
     }
@@ -74,42 +85,46 @@ class ProfileList extends ItemList {
     //profile;
 
     constructor(data) {
+        console.log('ProfileList.constructor()');
         super(data);
-    }
-
-    populateList(data) {
         this.profile = data;
-        let t = this.docListTemplate.content.cloneNode(true);
-
-        t.querySelector('.list-item-name').innerText = 'Full name';
-        t.querySelector('.list-item-info').innerText = this.profile.fullname;
-        itemlist.appendChild(t);
-
-        t = document.getElementById('list-item-template').content.cloneNode(true);
-        t.querySelector('.list-item-name').innerText = 'Username';
-        t.querySelector('.list-item-info').innerText = this.profile.username;
-        itemlist.appendChild(t);
-
-        t = document.getElementById('list-item-template').content.cloneNode(true);
-        t.querySelector('.list-item-name').innerText = 'Last seen';
-        t.querySelector('.list-item-info').innerText = this.profile.lastSeenDateTime;
-
-        super.docItemList.appendChild(t);
-    }
-
-}
-
-class ChatList extends ItemList {
-
-    //chatmessages;
-
-    constructor() {
-        super();
+        this.docItemList = document.getElementById('item-list');
         this.docListTemplate = document.getElementById('list-item-template');
     }
 
     populateList(data) {
-        this.chatmessages = data;
+        console.log('ProfileList.populateList()');
+        if (data !== undefined)
+            this.profile = data;
+        let t = this.docListTemplate.content.cloneNode(true);
+
+        t.querySelector('.list-item-name').innerText = 'Full name';
+        t.querySelector('.list-item-info').innerText = this.profile.fullname;
+        this.docItemList.appendChild(t);
+
+        t = document.getElementById('list-item-template').content.cloneNode(true);
+        t.querySelector('.list-item-name').innerText = 'Username';
+        t.querySelector('.list-item-info').innerText = this.profile.username;
+        this.docItemList.appendChild(t);
+
+        t = document.getElementById('list-item-template').content.cloneNode(true);
+        t.querySelector('.list-item-name').innerText = 'Last seen';
+        t.querySelector('.list-item-info').innerText = this.profile.lastSeenDateTime;
+        this.docItemList.appendChild(t);
+    }
+
+}
+
+class AreaList extends ItemList {
+
+    //areas;
+
+    constructor(data) {
+        super(data);
+    }
+
+    populateList(data) {
+        this.areas = data;
         console.log('Not yet implemented!');
     }
 
@@ -130,16 +145,17 @@ class AreaDataList extends ItemList {
 
 }
 
-class AreaList extends ItemList {
+class ChatList extends ItemList {
 
-    //areas;
+    //chatmessages;
 
     constructor() {
         super();
+
     }
 
     populateList(data) {
-        this.areas = data;
+        this.chatmessages = data;
         console.log('Not yet implemented!');
     }
 

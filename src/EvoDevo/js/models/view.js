@@ -5,20 +5,16 @@ class GameView {
     //canvas;
     //themeColor;
     //loaded = false;
-    //eventCallbacks;
+    //parent;
 
-    constructor(canvas, data, callbacks) {
+    constructor(canvas, parent, data) {
         this.name = "default";
         this.canvas = canvas;
         this.themeColor = '#ccc';
         this.loaded = false;
-        this.eventCallbacks = new Map();
+        this.parent = parent; 
 
         this.prepareCanvas();
-    }
-
-    addEventCallback(name, func) {
-        this.eventCallbacks.set(name, func);
     }
 
     prepareCanvas() {
@@ -93,12 +89,14 @@ class MapView extends GameView {
     //width;
     //tilesize;
 
-    constructor(canvas, data, callbacks) {
+    constructor(canvas, parent, data) {
         console.log('MapView.constructor');
 
-        super(canvas);
+        super(canvas, parent, data);
         super.themeColor = '#40c365';
         super.name = "mapview";
+
+        this.parent = parent; 
 
         this.currentMap = data;
         this.selectedArea = undefined;
@@ -222,9 +220,7 @@ class MapView extends GameView {
         let area = this.selectArea(x, y);
         this.update();
 
-        let callback = this.eventCallbacks.get('areaselect');
-        if (callback !== undefined)
-            callback.call(area);
+        this.parent.selectMapArea(area);
     }
 
     selectArea(x, y) {

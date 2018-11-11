@@ -16,31 +16,41 @@ class Game {
         this.currentPlayer = player;
         this.currentMap = map;
 
-        //// CONTROLS ////
-        //menu:  ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas']
-        //views: ['Map', 'Traits', 'Bodyplan', 'Design']
-
-        //// VIEWS //// 
-        this.views = new Map();
-        this.views.set('mapview', new MapView(document.getElementById('mapviewCanvas'), this.currentMap));
-        this.views.get('mapview').addEventCallback('areaselect', function (area) { this.viewClick(area); }.bind(this) );
-        this.views.set('traitview', new TraitView(document.getElementById('traitviewCanvas')));
-        this.views.set('buildview', new BuildView(document.getElementById('buildviewCanvas')));
-        this.views.set('designview', new DesignView(document.getElementById('designviewCanvas')));
-        this.setView('mapview');
-        //TODO: Add view click event handlers 
-
-        //// ITEM LISTS ////
-        this.itemlists = new Array();
-        this.itemlists.push(new ProfileList(this.currentPlayer));
-        this.itemlists.push(new AreaList(this.currentMap.areas));
-        //TODO: Instantiate all remaining initial item lists
-        
         //// HTML ELEMENT REFS ////
         this.docItemlist = document.getElementById('item-list');
         this.docChatform = document.getElementById('chat-form');
         this.docListTitle = document.getElementById('itemlist-title');
         this.docThrobber = document.getElementById('list-throbber');
+
+        try {
+
+
+            //// CONTROLS ////
+            //menu:  ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas']
+            //views: ['Map', 'Traits', 'Bodyplan', 'Design']
+
+            //// VIEWS //// 
+            this.views = new Map();
+            this.views.set('mapview', new MapView(document.getElementById('mapviewCanvas'), this, this.currentMap));
+            this.views.set('traitview', new TraitView(document.getElementById('traitviewCanvas'), this));
+            this.views.set('buildview', new BuildView(document.getElementById('buildviewCanvas'), this));
+            this.views.set('designview', new DesignView(document.getElementById('designviewCanvas'), this));
+            this.setView('mapview');
+            //TODO: Add view click event handlers 
+
+            //// ITEM LISTS ////
+            this.itemlists = new Map();
+            this.itemlists.set('player-profile', new ProfileList(this.currentPlayer));
+            this.itemlists.set('area-swarms', new SwarmsList());
+            this.itemlists.set('map-areas', new AreaList(this.currentMap.areas));
+            //TODO: Instantiate all remaining initial item lists
+
+            this.currentItemList = this.itemlists.get('player-profile');
+            this.populateList(player);
+        }
+        catch (ex) {
+            console.log(ex); 
+        }
     }
 
     toggleMenuClass(source) {
@@ -109,9 +119,9 @@ class Game {
         console.log('Game.populateList(' + data + ')');
         this.docItemlist.innerHTML = "";
         this.docChatform.hidden = 'true';
-        this.docListTitle.innerText = listname; 
+        //this.docListTitle.innerText = this.listname; 
         
-        this.currentView.populateList(data);
+        this.currentItemList.populateList(data);
 
         this.docThrobber.hidden = true;
     }
@@ -136,8 +146,10 @@ class Game {
         //}
     }
 
-    viewClick(a) {
-        console.log('Game.viewClick(' + a + ')');
-        //TODO: Populate list
+    selectMapArea(area) {
+        console.log('Game.viewClick(' + area + ')');
+        //TODO> Select: areas? swarms? species?
+        this.currentItemList = this.itemlists.get('area-swarms');
+        this.populateList(area);
     }
 }
