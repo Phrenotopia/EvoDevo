@@ -1,18 +1,24 @@
 ﻿
 class GameView {
 
-    name;
-    canvas;
-    themeColor;
-    loaded = false;
+    //name;
+    //canvas;
+    //themeColor;
+    //loaded = false;
+    //eventCallbacks;
 
-    constructor(canvas) {
+    constructor(canvas, data, callbacks) {
         this.name = "default";
         this.canvas = canvas;
         this.themeColor = '#ccc';
         this.loaded = false;
+        this.eventCallbacks = new Map();
 
         this.prepareCanvas();
+    }
+
+    addEventCallback(name, func) {
+        this.eventCallbacks.set(name, func);
     }
 
     prepareCanvas() {
@@ -56,7 +62,6 @@ class GameView {
 
     mouseClick(x, y) {
         console.log('GameView.mouseClick(' + x + ',' + y + ')');
-        this.update();
     }
 
     show() {
@@ -76,26 +81,26 @@ class GameView {
 
 class MapView extends GameView {
 
-    currentMap;
-    selectedArea;
-    selectedAreaId;
-    texture = 'alpha';
-    tileimages;
-    tilecount = 16;
-    tilecounter = 0;
-    gridlines = true;
-    height = 512;
-    width = 512;
-    tilesize = 128;
+    //currentMap;
+    //selectedArea;
+    //selectedAreaId;
+    //texture;
+    //tileimages;
+    //tilecount;
+    //tilecounter;
+    //gridlines;
+    //height;
+    //width;
+    //tilesize;
 
-    constructor(canvas, map) {
+    constructor(canvas, data, callbacks) {
         console.log('MapView.constructor');
 
         super(canvas);
         super.themeColor = '#40c365';
         super.name = "mapview";
 
-        this.currentMap = map;
+        this.currentMap = data;
         this.selectedArea = undefined;
         this.selectedAreaId = undefined;
         //this.loaded = false;
@@ -214,8 +219,12 @@ class MapView extends GameView {
     
     mouseClick(x, y) {
         console.log('MapView.mouseClick(' + x + ',' + y + ')');
-        this.selectArea(x, y);
+        let area = this.selectArea(x, y);
         this.update();
+
+        let callback = this.eventCallbacks.get('areaselect');
+        if (callback !== undefined)
+            callback.call(area);
     }
 
     selectArea(x, y) {
@@ -225,6 +234,7 @@ class MapView extends GameView {
         this.selectedArea = this.currentMap.selectArea(col, row);
         this.selectedAreaId = this.selectedArea.id;
         Util.setCookie('selectedAreaId', this.selectedArea.id);
+        return this.selectedArea;
     }
 
     setSelectedArea(index) {
@@ -306,7 +316,7 @@ class MapView extends GameView {
 
 class TraitView extends GameView {
 
-    constructor(canvas) {
+    constructor(canvas, data, callbacks) {
         console.log('TraitView.constructor');
 
         super(canvas);
@@ -317,7 +327,7 @@ class TraitView extends GameView {
 
 class BuildView extends GameView {
 
-    constructor(canvas) {
+    constructor(canvas, data, callbacks) {
         console.log('TraitView.constructor');
 
         super(canvas);
@@ -329,7 +339,7 @@ class BuildView extends GameView {
 
 class DesignView extends GameView {
 
-    constructor(canvas) {
+    constructor(canvas, data, callbacks) {
         console.log('TraitView.constructor');
 
         super(canvas);

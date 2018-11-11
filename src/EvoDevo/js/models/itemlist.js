@@ -1,8 +1,8 @@
 ﻿//itemlist.js
 class ItemList {
 
-    docItemList;
-    data;
+    //docItemList;
+    //data;
 
     constructor(data) {
         this.docItemList = document.getElementById('item-list');
@@ -23,7 +23,7 @@ class ItemList {
 
 class SwarmsList extends ItemList {
 
-    swarms;
+    //swarms;
 
     constructor(data) {
         super(data);
@@ -57,7 +57,7 @@ class SwarmsList extends ItemList {
 
 class SpeciesList extends ItemList {
 
-    species;
+    //species;
 
     constructor(data) {
         super(data);
@@ -71,7 +71,7 @@ class SpeciesList extends ItemList {
 
 class ProfileList extends ItemList {
 
-    profile;
+    //profile;
 
     constructor(data) {
         super(data);
@@ -101,7 +101,7 @@ class ProfileList extends ItemList {
 
 class ChatList extends ItemList {
 
-    chatmessages;
+    //chatmessages;
 
     constructor() {
         super();
@@ -117,7 +117,7 @@ class ChatList extends ItemList {
 
 class AreaDataList extends ItemList {
 
-    areadata;
+    //areadata;
 
     constructor() {
         super();
@@ -132,7 +132,7 @@ class AreaDataList extends ItemList {
 
 class AreaList extends ItemList {
 
-    areas;
+    //areas;
 
     constructor() {
         super();

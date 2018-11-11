@@ -1,14 +1,14 @@
 ﻿//RegionMap? WorldMap? 
 class AreaMap {
 
-    id;
-    region;
-    areas;
-    columns;
-    rows;
-    tilecount;
-    name;
-    loaded;
+    //id;
+    //region;
+    //areas;
+    //columns;
+    //rows;
+    //tilecount;
+    //name;
+    //loaded;
 
     constructor(id, region, data) {
         console.log('AreaMap.constructor');

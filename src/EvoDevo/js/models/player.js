@@ -1,13 +1,13 @@
 ﻿// models/player.js
 //export default
 class Player {
-    id;
-    username;
-    fullname;
-    lastSeenDateTime;
-    swarms;
-    species;
-    loaded;
+    //id;
+    //username;
+    //fullname;
+    //lastSeenDateTime;
+    //swarms;
+    //species;
+    //loaded;
 
     constructor(id, data) {
         try {

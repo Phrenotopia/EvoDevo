@@ -1,15 +1,15 @@
 ﻿
 class Game {
 
-    //STATE
-    currentPlayer;
-    currentMap;
-    currentView;
-    currentItemList;
+    ////STATE
+    //currentPlayer;
+    //currentMap;
+    //currentView;
+    //currentItemList;
 
-    //COLLECTIONS
-    views;
-    itemlists;
+    ////COLLECTIONS
+    //views;
+    //itemlists;
 
     constructor(player, map) { //, region, world)
         console.log('Game.constructor()');
@@ -20,13 +20,15 @@ class Game {
         //menu:  ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas']
         //views: ['Map', 'Traits', 'Bodyplan', 'Design']
 
-        //// VIEWS ////
-        this.views = new Array();
-        this.views.push(new MapView(document.getElementById('mapviewCanvas'), this.currentMap));
-        this.views.push(new TraitView(document.getElementById('traitviewCanvas')));
-        this.views.push(new BuildView(document.getElementById('buildviewCanvas')));
-        this.views.push(new DesignView(document.getElementById('designviewCanvas')));
+        //// VIEWS //// 
+        this.views = new Map();
+        this.views.set('mapview', new MapView(document.getElementById('mapviewCanvas'), this.currentMap));
+        this.views.get('mapview').addEventCallback('areaselect', function (area) { this.viewClick(area); }.bind(this) );
+        this.views.set('traitview', new TraitView(document.getElementById('traitviewCanvas')));
+        this.views.set('buildview', new BuildView(document.getElementById('buildviewCanvas')));
+        this.views.set('designview', new DesignView(document.getElementById('designviewCanvas')));
         this.setView('mapview');
+        //TODO: Add view click event handlers 
 
         //// ITEM LISTS ////
         this.itemlists = new Array();
@@ -93,15 +95,13 @@ class Game {
     setView(name) {
         console.log('Game.setView(' + name + ')');
 
-        for (let i = 0; i < this.views.length; i++) {
-            let view = this.views[i];
-            if (view.name !== name)
-                view.canvas.hidden = true;
-            else {
-                view.show();
-                this.currentView = view;
-            }
-        }
+        for (let view of this.views) 
+            view.hidden = true;
+
+        let view = this.views.get(name);
+        view.show();
+        this.currentView = view;
+
         this.toggleMenuClass('view');
     }
 
@@ -134,5 +134,10 @@ class Game {
         //TODO: this points to something else!?
             this.currentView.adaptViewSize(container, newWidth, newHeight); 
         //}
+    }
+
+    viewClick(a) {
+        console.log('Game.viewClick(' + a + ')');
+        //TODO: Populate list
     }
 }
