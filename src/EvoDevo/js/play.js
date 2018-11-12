@@ -47,10 +47,10 @@ function AdaptView() {
             }
 }
 
-function CanvasClick(evt) {
-    console.log('Play.CanvasClick(' + evt + ')');
-    game.currentView.canvasClick(evt);
-}
+//function CanvasClick(evt) {
+//    console.log('Play.CanvasClick(' + evt + ')');
+//    game.currentView.canvasClick(evt);
+//}
 
 function toggleMenuClass(source) {
     console.log('Play.toggleMenuClass('+ source +')');
@@ -60,7 +60,22 @@ function toggleMenuClass(source) {
 
 function SetItemList(name) {
     console.log('Play.SetItemList(' + name + ')');
-    console.log('Not implemented!');
     if (game !== undefined)
         game.setItemList(name);
+}
+
+function GetSwarms(owner, id) {
+    console.log('Play.GetSwarms(' + owner + ',' + id + ')');
+    if(game !== undefined){
+        game.setItemList('swarms');
+        //area, player, ...  -> get data
+    }
+}
+
+function GetSpecies(owner, id) {
+    console.log('Play.GetSpecies(' + owner + ',' + id + ')');
+    if (game !== undefined) {
+        game.setItemList('species');
+        //area, player, ... -> get data
+    }
 }

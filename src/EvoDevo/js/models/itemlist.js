@@ -4,6 +4,7 @@ class ItemList {
     //docListTemplate;
     //docItemList;
     //data;
+    //id;
 
     constructor(data) {
         console.log('ItemList.constructor()');
@@ -24,6 +25,12 @@ class ItemList {
         console.log('Not yet implemented!');
 
     }
+
+    getData(game) {
+        console.log('ItemList.getData()');
+
+        return undefined;
+    }
 }
 
 class SwarmsList extends ItemList {
@@ -39,7 +46,7 @@ class SwarmsList extends ItemList {
 
     populateList(data) {
         console.log('SwarmsList.populateList()');
-        this.swarms = data;
+        this.swarms = data.habitats[0].swarms;
 
         for (let i = 0; i < this.swarms.length; i++) {
             let swarm = this.swarms[i];
@@ -61,6 +68,16 @@ class SwarmsList extends ItemList {
         console.log('SwarmsList.listItemClick(' + itemid + ',' + itemlist + ')');
         console.log('Not yet implemented!');
 
+    }
+
+    getData(game) {
+        console.log('SwarmsList.getData()');
+        if (super.data !== undefined) return super.data;
+
+        if (game.currentPlayer.selectedArea !== undefined)
+            return game.currentPlayer.selectedArea;
+
+        return undefined;
     }
 }
 
@@ -111,6 +128,24 @@ class ProfileList extends ItemList {
         t.querySelector('.list-item-name').innerText = 'Last seen';
         t.querySelector('.list-item-info').innerText = this.profile.lastSeenDateTime;
         this.docItemList.appendChild(t);
+
+        this.docItemList.appendChild(document.createElement('br'));
+
+        t = document.createElement('p');
+        t.innerText = 'My swarms';
+        t.setAttribute('style', 'display:block;margin:auto;width:50%');
+        t.setAttribute('class', 'pure-button pure-button-active');
+        t.setAttribute('onclick', 'GetSwarms(\'player\',' + this.profile.id + ')');
+        this.docItemList.appendChild(t);
+
+        this.docItemList.appendChild(document.createElement('br'));
+
+        t = document.createElement('p');
+        t.innerText = 'My species';
+        t.setAttribute('style', 'display:block;margin:auto;width:50%');
+        t.setAttribute('class', 'pure-button pure-button-active');
+        t.setAttribute('onclick', 'GetSpecies(\'player\',' + this.profile.id + ')');
+        this.docItemList.appendChild(t);
     }
 
 }
@@ -134,8 +169,8 @@ class AreaDataList extends ItemList {
 
     //areadata;
 
-    constructor() {
-        super();
+    constructor(data) {
+        super(data);
     }
 
     populateList(data) {
@@ -149,8 +184,8 @@ class ChatList extends ItemList {
 
     //chatmessages;
 
-    constructor() {
-        super();
+    constructor(data) {
+        super(data);
 
     }
 

@@ -40,12 +40,13 @@ class Game {
 
             //// ITEM LISTS ////
             this.itemlists = new Map();
-            this.itemlists.set('player-profile', new ProfileList(this.currentPlayer));
-            this.itemlists.set('area-swarms', new SwarmsList());
-            this.itemlists.set('map-areas', new AreaList(this.currentMap.areas));
-            //TODO: Instantiate all remaining initial item lists
+            this.itemlists.set('player', new ProfileList(this.currentPlayer));
+            this.itemlists.set('swarms', new SwarmsList());
+            this.itemlists.set('areas', new AreaList(this.currentMap.areas)); 
+            this.itemlists.set('species', new SpeciesList());
+            this.itemlists.set('chat', new ChatList());
 
-            this.currentItemList = this.itemlists.get('player-profile');
+            this.currentItemList = this.itemlists.get('player');
             this.populateList(player);
         }
         catch (ex) {
@@ -64,45 +65,8 @@ class Game {
         else {
             if (source === 'menu-button') nav.className = 'pure-u active';
         }
-    }
+    }   
     
-    setItemList(itemlist) {
-        console.log('selected item list: ' + itemlist + '-menu-link');
-
-        Util.setCookie('itemlist', itemlist);
-        
-        this.switchMenuHighlight(itemlist);
-        ////TODO DisplayData
-        this.populateList();
-
-        //switch (api) {
-        //    case 'swarms':
-        //        if (selectedArea !== undefined)
-        //            PopulateList(selectedArea.habitats[0].swarms);
-        //        else
-        //            console.log('!?');
-        //        break;
-        //    case 'player':
-        //        PopulateList(currentPlayer);
-        //        break;
-        //    default:
-        //        console.log('Function not yet fully implemented!');
-        //}
-
-    }
-
-    switchMenuHighlight(itemlist) {
-        console.log('Game.switchMenuHighlight(' + itemlist + ')');
-        for (let i = 0; i < this.itemlists.length; i++) {
-            let tmp = itemlists[i] + '-menu-link';
-            let link = document.getElementById(tmp);
-            link.classList.remove('pure-menu-active');
-        }
-        let tmp = document.getElementById(itemlist + '-menu-link');
-        tmp.classList.add('pure-menu-active');
-        toggleMenuClass('view');
-    }
-
     setView(name) {
         console.log('Game.setView(' + name + ')');
 
@@ -115,14 +79,41 @@ class Game {
                 view.canvas.hidden = true;
         }
 
-        this.toggleMenuClass('view');
+        this.toggleMenuClass('game');
     }
 
     selectMapArea(area) {
         console.log('Game.viewClick(' + area + ')');
         //TODO> Select: areas? swarms? species?
-        this.currentItemList = this.itemlists.get('area-swarms');
+        this.setItemList('swarms');
         this.populateList(area);
+    } 
+    
+    setItemList(itemlist) {
+        console.log('selected item list: ' + itemlist + '-menu-link');
+
+        Util.setCookie('itemlist', itemlist);
+
+        this.currentItemList = this.itemlists.get(itemlist);
+
+        this.switchMenuHighlight(itemlist);
+
+        ////TODO data ? 
+        this.populateList();
+    }
+
+    switchMenuHighlight(itemlist) {
+        console.log('Game.switchMenuHighlight(' + itemlist + ')');
+
+        for (let [key, menulink] of this.itemlists) {
+            let e = document.getElementById(key + '-menu-link');
+            if (e !== undefined)
+                e.classList.remove('pure-menu-active');
+        }
+        
+        document.getElementById(itemlist + '-menu-link').classList.add('pure-menu-active');
+
+        this.toggleMenuClass('game');
     }
 
     populateList(data) {
@@ -130,12 +121,12 @@ class Game {
         this.docItemlist.innerHTML = "";
         this.docChatform.hidden = 'true';
         //this.docListTitle.innerText = this.listname; 
-        if (data === undefined) 
-            data = this.currentItemList.data;
+        if (data === undefined)
+            data = this.currentItemList.data;//.getData(this);//
         
         if (data !== undefined) {
             //switch(listtype) case "area-swarms": 
-            this.currentItemList.populateList(data.habitats[0].swarms);
+             this.currentItemList.populateList(data);
         }
 
         this.docThrobber.hidden = true;
@@ -155,8 +146,7 @@ class Game {
             let newWidth = window.innerWidth - hoffset;
             let newHeight = window.innerHeight - voffset;
             if (newWidth < 0) newWidth = list.offsetWidth; // || newHeight < 0) {
-
-        //TODO: this points to something else!?
+                
             this.currentView.adaptViewSize(container, newWidth, newHeight); 
         //}
     }

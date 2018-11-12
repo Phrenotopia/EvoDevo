@@ -34,12 +34,12 @@ class Player {
         this.loaded = true;
     }
 
-    SetSelectedArea(id, area) {
+    setSelectedArea(id, area) {
         this.selectedArea = new Area(id, area);
         if(area === undefined && id !== null)
-        selectedAreaId = Util.getCookie('selectedAreaId');
-        selectedArea = areas.find(x => x.id.toString() === selectedAreaId); 
-        GetData(selectedAreaId, 'area');
+        this.selectedAreaId = Util.getCookie('selectedAreaId');
+        this.selectedArea = this.areas.find(x => x.id.toString() === this.selectedAreaId); 
+        GetData(this.selectedAreaId, 'area');
     }
 
     loadData() {
