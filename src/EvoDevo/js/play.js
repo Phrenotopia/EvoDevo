@@ -57,3 +57,10 @@ function toggleMenuClass(source) {
     if (game !== undefined)
         game.toggleMenuClass(source);
 }
+
+function SetItemList(name) {
+    console.log('Play.SetItemList(' + name + ')');
+    console.log('Not implemented!');
+    if (game !== undefined)
+        game.setItemList(name);
+}

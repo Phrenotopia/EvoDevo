@@ -72,21 +72,22 @@ class Game {
         Util.setCookie('itemlist', itemlist);
         
         this.switchMenuHighlight(itemlist);
+        ////TODO DisplayData
+        this.populateList();
 
-        //TODO DisplayData
-        switch (api) {
-            case 'swarms':
-                if (selectedArea !== undefined)
-                    PopulateList(selectedArea.habitats[0].swarms);
-                else
-                    console.log('!?');
-                break;
-            case 'player':
-                PopulateList(currentPlayer);
-                break;
-            default:
-                console.log('Function not yet fully implemented!');
-        }
+        //switch (api) {
+        //    case 'swarms':
+        //        if (selectedArea !== undefined)
+        //            PopulateList(selectedArea.habitats[0].swarms);
+        //        else
+        //            console.log('!?');
+        //        break;
+        //    case 'player':
+        //        PopulateList(currentPlayer);
+        //        break;
+        //    default:
+        //        console.log('Function not yet fully implemented!');
+        //}
 
     }
 
@@ -105,14 +106,23 @@ class Game {
     setView(name) {
         console.log('Game.setView(' + name + ')');
 
-        for (let view of this.views) 
-            view.hidden = true;
-
         let view = this.views.get(name);
-        view.show();
+        view.canvas.hidden = false;        
         this.currentView = view;
 
+        for (let [key, view] of this.views) {
+            if(key !== name)
+                view.canvas.hidden = true;
+        }
+
         this.toggleMenuClass('view');
+    }
+
+    selectMapArea(area) {
+        console.log('Game.viewClick(' + area + ')');
+        //TODO> Select: areas? swarms? species?
+        this.currentItemList = this.itemlists.get('area-swarms');
+        this.populateList(area);
     }
 
     populateList(data) {
@@ -120,8 +130,13 @@ class Game {
         this.docItemlist.innerHTML = "";
         this.docChatform.hidden = 'true';
         //this.docListTitle.innerText = this.listname; 
+        if (data === undefined) 
+            data = this.currentItemList.data;
         
-        this.currentItemList.populateList(data);
+        if (data !== undefined) {
+            //switch(listtype) case "area-swarms": 
+            this.currentItemList.populateList(data.habitats[0].swarms);
+        }
 
         this.docThrobber.hidden = true;
     }
@@ -146,10 +161,4 @@ class Game {
         //}
     }
 
-    selectMapArea(area) {
-        console.log('Game.viewClick(' + area + ')');
-        //TODO> Select: areas? swarms? species?
-        this.currentItemList = this.itemlists.get('area-swarms');
-        this.populateList(area);
-    }
 }

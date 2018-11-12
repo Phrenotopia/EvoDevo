@@ -7,7 +7,7 @@ class ItemList {
 
     constructor(data) {
         console.log('ItemList.constructor()');
-        //this.data = data;
+        this.data = data;
         //this.docItemList = document.getElementById('item-list');
         //this.docListTemplate = document.getElementById('list-item-template');
         //this.populateList(data);
@@ -43,7 +43,7 @@ class SwarmsList extends ItemList {
 
         for (let i = 0; i < this.swarms.length; i++) {
             let swarm = this.swarms[i];
-            let t = super.docListTemplate.content.cloneNode(true);
+            let t = this.docListTemplate.content.cloneNode(true);
 
             t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
             t.querySelector('.list-item-name').innerText = swarm.species.name;
