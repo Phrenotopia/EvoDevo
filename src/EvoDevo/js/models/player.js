@@ -34,14 +34,6 @@ class Player {
         this.loaded = true;
     }
 
-    setSelectedArea(id, area) {
-        this.selectedArea = new Area(id, area);
-        if(area === undefined && id !== null)
-        this.selectedAreaId = Util.getCookie('selectedAreaId');
-        this.selectedArea = this.areas.find(x => x.id.toString() === this.selectedAreaId); 
-        GetData(this.selectedAreaId, 'area');
-    }
-
     loadData() {
         if (this.id !== null) {
             fetch('api/player/' + this.id)

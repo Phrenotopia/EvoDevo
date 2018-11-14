@@ -3,12 +3,15 @@ class ItemList {
 
     //docListTemplate;
     //docItemList;
+    //itemlist
+    //parent;
     //data;
-    //id;
 
-    constructor(data) {
+    constructor(itemlist, parent, data) {
         console.log('ItemList.constructor()');
+        this.parent = parent;
         this.data = data;
+        this.itemlist = itemlist;
         //this.docItemList = document.getElementById('item-list');
         //this.docListTemplate = document.getElementById('list-item-template');
         //this.populateList(data);
@@ -26,7 +29,7 @@ class ItemList {
 
     }
 
-    getData(game) {
+    getData() {
         console.log('ItemList.getData()');
 
         return undefined;
@@ -37,47 +40,67 @@ class SwarmsList extends ItemList {
 
     //swarms;
 
-    constructor(data) {
-        super(data);
+    constructor(itemlist, parent, data) {
+        super(itemlist, parent, data);
         this.swarms = data;
+
         this.docItemList = document.getElementById('item-list');
         this.docListTemplate = document.getElementById('list-item-template');
+        
     }
 
     populateList(data) {
         console.log('SwarmsList.populateList()');
-        this.swarms = data.habitats[0].swarms;
 
-        for (let i = 0; i < this.swarms.length; i++) {
-            let swarm = this.swarms[i];
-            let t = this.docListTemplate.content.cloneNode(true);
+        //TODO ask view wat area is selected? 
+        //TODO: context => player's swarms or area swarms or species swarms? (switch/case)
+        //case 'area-swarms'
 
-            t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
-            t.querySelector('.list-item-name').innerText = swarm.species.name;
-            t.querySelector('.list-item-info').innerText = 'size: ' + swarm.size;
-            t.querySelector('.list-item-description').innerText = 'Description';
 
-            t.querySelector('.list-item').id = 'swarm-' + swarm.id;
-            t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(swarm.id, 'test'));
+        if (data !== undefined) {
+            this.swarms = data.habitats[0].swarms;
 
-            this.docItemList.appendChild(t);
+            for (let i = 0; i < this.swarms.length; i++) {
+                let swarm = this.swarms[i];
+                let t = this.docListTemplate.content.cloneNode(true);
+
+                t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
+                t.querySelector('.list-item-name').innerText = swarm.species.name;
+                t.querySelector('.list-item-info').innerText = 'size: ' + swarm.size;
+                t.querySelector('.list-item-description').innerText = 'Description';
+
+                t.querySelector('.list-item').id = 'swarm-' + swarm.id;
+                t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(swarm.id, 'test'));
+
+                this.docItemList.appendChild(t);
+            }
         }
     }
+
+    //getData() {
+    //    console.log('SwarmsList.getData()');
+    //    let area;
+    //    if (this.parent.currentPlayer.selectedArea === undefined) {
+    //        area = this.parent.selectMapArea();
+    //    }
+    //    return area;
+    //    //}
+    //    //    this.data = this.parent.currentPlayer.selectedArea;
+    //    //    this.swarms = this.habitats[0].getSwarms();
+
+    //    //    return data;
+    //    //}
+    //    //{
+    //    //    return this.parent.currentPlayer.selectedArea.swarms;
+    //    //    //return this.parent.currentMap.getSwarms();
+    //    //}
+    //    //return undefined;
+    //}
 
     listItemClick(itemid, itemlist) {
         console.log('SwarmsList.listItemClick(' + itemid + ',' + itemlist + ')');
         console.log('Not yet implemented!');
 
-    }
-
-    getData(game) {
-        console.log('SwarmsList.getData()');
-        if (super.data !== undefined) return super.data;
-
-        if (game.currentPlayer.selectedArea !== undefined)
-            return game.currentPlayer.selectedArea;
-
-        return undefined;
     }
 }
 
@@ -85,9 +108,9 @@ class SpeciesList extends ItemList {
 
     //species;
 
-    constructor(data) {
+    constructor(itemlist, parent, data) {
         console.log('SpeciesList.constructor()');
-        super(data);
+        super(itemlist, parent, data);
     }
 
     populateList(data) {
@@ -101,9 +124,9 @@ class ProfileList extends ItemList {
 
     //profile;
 
-    constructor(data) {
+    constructor(itemlist, parent, data) {
         console.log('ProfileList.constructor()');
-        super(data);
+        super(itemlist, parent, data );
         this.profile = data;
         this.docItemList = document.getElementById('item-list');
         this.docListTemplate = document.getElementById('list-item-template');
@@ -154,8 +177,8 @@ class AreaList extends ItemList {
 
     //areas;
 
-    constructor(data) {
-        super(data);
+    constructor(itemlist, parent, data) {
+        super(itemlist, parent, data);
     }
 
     populateList(data) {
@@ -169,8 +192,8 @@ class AreaDataList extends ItemList {
 
     //areadata;
 
-    constructor(data) {
-        super(data);
+    constructor(itemlist, parent, data) {
+        super(itemlist, parent, data);
     }
 
     populateList(data) {
@@ -184,8 +207,8 @@ class ChatList extends ItemList {
 
     //chatmessages;
 
-    constructor(data) {
-        super(data);
+    constructor(itemlist, parent, data) {
+        super(itemlist, parent, data);
 
     }
 

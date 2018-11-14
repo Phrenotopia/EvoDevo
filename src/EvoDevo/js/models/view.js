@@ -12,7 +12,12 @@ class GameView {
         this.canvas = canvas;
         this.themeColor = '#ccc';
         this.loaded = false;
-        this.parent = parent; 
+        this.parent = parent;
+
+        //resources
+        this.imgcount = 1;//?
+        this.images = new Array(this.imgcount);
+        this.imgcounter = 0;
 
         this.prepareCanvas();
     }
@@ -45,15 +50,46 @@ class GameView {
 
     canvasClick(evt) {
         console.log('GameView.canvasClick');
-        let mousePos = Util.getMousePos(this.canvas, evt);
-        let x = Math.floor(mousePos.x);
-        let y = Math.floor(mousePos.y);
-        this.mouseClick(x, y); 
+
     }
 
     adaptViewSize(container, newWidth, newHeight) {
         console.log('GameView.adaptViewSize(' + container + ',' + newWidth + ',' + newHeight + ')');
 
+    }
+
+    loadResources() {
+        console.log('GameView.loadResources');
+
+    }
+
+    imageFound(i, img) {
+        console.log('GameView.imageFound()');
+
+        //this.images[i] = img;
+        //console.log('image nr ' + i + ' found & loaded: ' + img.src);
+        //this.tilecounter++;
+
+        //if (this.imgcounter >= this.imgcount) {
+        //    this.dataLoaded();
+        //}
+    }
+
+    imageNotFound(i, img) {
+        console.log('GameView.imageNotFound');
+        console.log('image not found!');
+
+        //let fnImageNotFound = function () { this.imageNotFound(i, img); };
+        //img.removeEventListener('error', fnImageNotFound); //function () { this.imageNotFound(i, img); }
+
+        //img.src = 'img\\xxxxxx\\' + this.yyyyy + '\\zzzzz-null.png';
+        //this.images[i] = img;
+    }
+
+    dataLoaded() {
+        console.log('GameView.dataLoaded');
+        this.loaded = true;
+        this.update();
     }
 
     mouseClick(x, y) {
@@ -70,6 +106,11 @@ class GameView {
     hide() {
         console.log('GameView.hide()');
         this.canvas.hidden = true;
+    }
+
+    getUserState() {
+        console.log('Game View.getUserState');
+
     }
 }
 
@@ -93,14 +134,13 @@ class MapView extends GameView {
         console.log('MapView.constructor');
 
         super(canvas, parent, data);
-        super.themeColor = '#40c365';
-        super.name = "mapview";
+        this.themeColor = '#40c365';
+        this.name = "mapview";
 
         this.parent = parent; 
 
         this.currentMap = data;
         this.selectedArea = undefined;
-        this.selectedAreaId = undefined;
         //this.loaded = false;
         this.texture = 'alpha';
         this.tilecount = this.currentMap.tilecount;
@@ -113,11 +153,6 @@ class MapView extends GameView {
 
         this.loadResources();
         this.getUserState();
-    }
-
-    update() {
-        console.log('MapView.update');
-        this.drawMap();
     }
 
     drawMap() {
@@ -203,26 +238,7 @@ class MapView extends GameView {
         }
         ctx.restore();
     }
-
-    getUserState() {
-        console.log('MapView.getUserState');
-        this.selectedAreaId = Util.getCookie('selectedAreaId');
-        if (this.selectedAreaId !== null) {
-            this.areadata = this.currentMap.areas.find(x => x.id.toString() === this.selectedAreaId);
-            this.selectedArea = new Area(parseInt(this.selectedAreaId), this.areadata);
-            this.drawMap();
-            //this.currentMap.selectedAreaIndex = ?;
-        }
-    }
-    
-    mouseClick(x, y) {
-        console.log('MapView.mouseClick(' + x + ',' + y + ')');
-        let area = this.selectArea(x, y);
-        this.update();
-
-        this.parent.selectMapArea(area);
-    }
-
+        
     selectArea(x, y) {
         console.log('MapView.selectArea');
         let col = Math.floor(x / this.tilesize);
@@ -233,13 +249,62 @@ class MapView extends GameView {
         return this.selectedArea;
     }
 
-    setSelectedArea(index) {
-        console.log('MapView.setSelectedArea(' + index + ')');
-        this.selectedArea = this.currentMap.areas[index]; //this.currentMap.areas[index];
+    selectMapArea(area) {
+        console.log('MapView.selectMapArea(' + area + ')');
+
+        if (area === undefined || area === null) {
+            area = this.currentMap.areas[0];
+            this.currentView.setSelectedArea(area.id);
+        }
+
+        this.parent.setItemList('swarms');
+
+        return area;
+    } 
+    
+    //////////////// OVERRIDES ////////////////
+    
+    //override
+    update() {
+        console.log('MapView.update');
+        this.drawMap();
     }
 
+    //override
+    canvasClick(evt) {
+        console.log('MapView.canvasClick');
+        let mousePos = Util.getMousePos(this.canvas, evt);
+        let x = Math.floor(mousePos.x);
+        let y = Math.floor(mousePos.y);
+        this.mouseClick(x, y);
+    }
+
+    //override
+    getUserState() {
+        console.log('MapView.getUserState');
+
+        this.selectedAreaId = Util.getCookie('selectedAreaId');
+        if (this.selectedAreaId !== null) {
+            this.selectedArea = this.currentMap.areas.find(x => x.id.toString() === this.selectedAreaId);
+        }
+        else {
+            this.selectedArea = this.currentMap.areas[0];
+        }
+        return this.selectedArea;
+    }
+
+    //override
+    mouseClick(x, y) {
+        console.log('MapView.mouseClick(' + x + ',' + y + ')');
+        let area = this.selectArea(x, y);
+        this.update();
+
+        this.selectMapArea(area);
+    }
+
+    //override
     adaptViewSize(container, newWidth, newHeight) {
-        console.log('MapView.adaptViewSize(' + container + ','  + newWidth + ',' + newHeight + ')');
+        console.log('MapView.adaptViewSize(' + container + ',' + newWidth + ',' + newHeight + ')');
 
         let cols = this.currentMap.columns;
         let rows = this.currentMap.rows;
@@ -263,13 +328,14 @@ class MapView extends GameView {
         this.tilesize = Math.floor(newWidth / cols);
     }
 
+    //override
     loadResources() {
         console.log('MapView.loadResources');
 
         //tilesheet = new Image();
         //tilesheet.src = 'img\\maptiles\\' + texture + '\\tilesheet.png';
 
-        super.loaded = false;
+        this.loaded = false;
         this.tileimages = new Array(this.tilecount);
         for (let i = 0; i < this.tilecount; i++) {
             let img = new Image();
@@ -282,16 +348,18 @@ class MapView extends GameView {
         }
     }
 
+    //override
     imageFound(i, img) {
         this.tileimages[i] = img;
         console.log('tile image nr ' + i + ' found & loaded: ' + img.src);
         this.tilecounter++;
 
         if (this.tilecounter >= this.tilecount) {
-            this.mapDataLoaded();
+            this.dataLoaded();
         }
     }
 
+    //override
     imageNotFound(i, img) {
         console.log('tile image not found!');
 
@@ -302,12 +370,12 @@ class MapView extends GameView {
         this.tileimages[i] = img;
     }
 
-    mapDataLoaded() {
-        console.log('MapView.mapDataLoaded');
-        super.loaded = true;
+    //override
+    dataLoaded() {
+        console.log('MapView.dataLoaded');
+        this.loaded = true;
         this.update();
     }
-
 }
 
 class TraitView extends GameView {
@@ -316,8 +384,8 @@ class TraitView extends GameView {
         console.log('TraitView.constructor');
 
         super(canvas);
-        super.themeColor = '#41ccb4';
-        super.name = "traitview";
+        this.themeColor = '#41ccb4';
+        this.name = "traitview";
     }
 }
 
@@ -327,8 +395,8 @@ class BuildView extends GameView {
         console.log('TraitView.constructor');
 
         super(canvas);
-        super.themeColor = '#9543ff';
-        super.name = "buildview";
+        this.themeColor = '#9543ff';
+        this.name = "buildview";
     }
 
 }
@@ -339,8 +407,8 @@ class DesignView extends GameView {
         console.log('TraitView.constructor');
 
         super(canvas);
-        super.themeColor = '#ffc94c';
-        super.name = "designview";
+        this.themeColor = '#ffc94c';
+        this.name = "designview";
     }
 
 }

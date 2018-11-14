@@ -3,7 +3,6 @@ class Game {
 
     ////STATE
     //currentPlayer;
-    //currentMap;
     //currentView;
     //currentItemList;
 
@@ -14,7 +13,6 @@ class Game {
     constructor(player, map) { //, region, world)
         console.log('Game.constructor()');
         this.currentPlayer = player;
-        this.currentMap = map;
 
         //// HTML ELEMENT REFS ////
         this.docItemlist = document.getElementById('item-list');
@@ -23,28 +21,22 @@ class Game {
         this.docThrobber = document.getElementById('list-throbber');
 
         try {
-
-
-            //// CONTROLS ////
-            //menu:  ['My Stuff', 'Chat', 'Species', 'Swarms', 'Areas']
-            //views: ['Map', 'Traits', 'Bodyplan', 'Design']
-
             //// VIEWS //// 
             this.views = new Map();
-            this.views.set('mapview', new MapView(document.getElementById('mapviewCanvas'), this, this.currentMap));
+            this.views.set('mapview', new MapView(document.getElementById('mapviewCanvas'), this, map));
             this.views.set('traitview', new TraitView(document.getElementById('traitviewCanvas'), this));
             this.views.set('buildview', new BuildView(document.getElementById('buildviewCanvas'), this));
             this.views.set('designview', new DesignView(document.getElementById('designviewCanvas'), this));
             this.setView('mapview');
-            //TODO: Add view click event handlers 
+            //TODO: Alternative - Iterate HTML page elements collected on class name? ('view-port')
 
             //// ITEM LISTS ////
             this.itemlists = new Map();
-            this.itemlists.set('player', new ProfileList(this.currentPlayer));
-            this.itemlists.set('swarms', new SwarmsList());
-            this.itemlists.set('areas', new AreaList(this.currentMap.areas)); 
-            this.itemlists.set('species', new SpeciesList());
-            this.itemlists.set('chat', new ChatList());
+            this.itemlists.set('player', new ProfileList(document.getElementById('item-list'), this, this.currentPlayer));
+            this.itemlists.set('swarms', new SwarmsList(document.getElementById('item-list'), this));
+            this.itemlists.set('areas', new AreaList(document.getElementById('item-list'), this, map.areas)); 
+            this.itemlists.set('species', new SpeciesList(document.getElementById('item-list'), this));
+            this.itemlists.set('chat', new ChatList(document.getElementById('item-list'), this));
 
             this.currentItemList = this.itemlists.get('player');
             this.populateList(player);
@@ -81,15 +73,9 @@ class Game {
 
         this.toggleMenuClass('game');
     }
-
-    selectMapArea(area) {
-        console.log('Game.viewClick(' + area + ')');
-        //TODO> Select: areas? swarms? species?
-        this.setItemList('swarms');
-        this.populateList(area);
-    } 
-    
+        
     setItemList(itemlist) {
+        console.log('Game.setItemList(' + itemlist + ')');
         console.log('selected item list: ' + itemlist + '-menu-link');
 
         Util.setCookie('itemlist', itemlist);
@@ -98,8 +84,10 @@ class Game {
 
         this.switchMenuHighlight(itemlist);
 
-        ////TODO data ? 
-        this.populateList();
+        let data = this.currentView.getUserState();
+        this.populateList(data);
+
+        this.update();
     }
 
     switchMenuHighlight(itemlist) {
@@ -116,19 +104,13 @@ class Game {
         this.toggleMenuClass('game');
     }
 
-    populateList(data) {
+    populateList(data) { 
         console.log('Game.populateList(' + data + ')');
         this.docItemlist.innerHTML = "";
         this.docChatform.hidden = 'true';
-        //this.docListTitle.innerText = this.listname; 
-        if (data === undefined)
-            data = this.currentItemList.data;//.getData(this);//
-        
-        if (data !== undefined) {
-            //switch(listtype) case "area-swarms": 
-             this.currentItemList.populateList(data);
-        }
 
+        this.currentItemList.populateList(data);//TODO: context? 
+        
         this.docThrobber.hidden = true;
     }
 
@@ -151,4 +133,8 @@ class Game {
         //}
     }
 
+    update() {
+
+        this.currentView.update();
+    }
 }

@@ -47,6 +47,9 @@ class AreaMap {
         this.selectedAreaIndex = a;
         return this.areas[a];
     }
+    getSwarms() {
+        return areas[0].swarms;
+    }
 }
 
 class Area {
