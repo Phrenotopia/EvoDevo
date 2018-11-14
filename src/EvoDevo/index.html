@@ -26,16 +26,21 @@
                         <input type="text" id="txtUsername" name="username" placeholder="Enter username" onchange="LogIn()" value="fedor" />&nbsp;
                         <button type="button" class="button-primary" onclick="LogIn()">Log In</button>
                     </p>
+                </div>
+                <div id="loggedinDiv">
                     <p id="loggedin" hidden="hidden">
                         Welcome <span id="spanUsername"></span>!&nbsp;
                     </p>
+                    <p id="entergame">
+                        Enter the game by clicking here:
+                        <button id="btnEnterGame" onclick="EnterGame()" class="button" disabled="disabled">Enter Game</button>
+                    </p>
+                    <p id="status" style="color:red;font-weight:bold"></p>
                     <button type="button" class="button-primary" value="log out" onclick="LogOut()">Log out</button>
                 </div>
-                <p id="entergame">
-                    Enter the game by clicking here:
-                    <button id="btnEnterGame" onclick="EnterGame()" class="button" disabled="disabled">Enter Game</button>
-                </p>
-                <p id="status" style="color:red;font-weight:bold"></p>
+                <br />
+                <br />
+                <br />
                 <hr />
                 <h2>API list</h2>
                 <h3>Species</h3>
@@ -55,7 +60,7 @@
                     <li><a href="api/player" target="_blank">All players</a></li>
                 </ul>
             </div>
-        </div>
+            </div>
     </div>
 </body>
 </html>

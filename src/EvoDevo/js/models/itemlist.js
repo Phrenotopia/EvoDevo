@@ -56,7 +56,6 @@ class SwarmsList extends ItemList {
         //TODO: context => player's swarms or area swarms or species swarms? (switch/case)
         //case 'area-swarms'
 
-
         if (data !== undefined) {
             this.swarms = data.habitats[0].swarms;
 
@@ -76,26 +75,6 @@ class SwarmsList extends ItemList {
             }
         }
     }
-
-    //getData() {
-    //    console.log('SwarmsList.getData()');
-    //    let area;
-    //    if (this.parent.currentPlayer.selectedArea === undefined) {
-    //        area = this.parent.selectMapArea();
-    //    }
-    //    return area;
-    //    //}
-    //    //    this.data = this.parent.currentPlayer.selectedArea;
-    //    //    this.swarms = this.habitats[0].getSwarms();
-
-    //    //    return data;
-    //    //}
-    //    //{
-    //    //    return this.parent.currentPlayer.selectedArea.swarms;
-    //    //    //return this.parent.currentMap.getSwarms();
-    //    //}
-    //    //return undefined;
-    //}
 
     listItemClick(itemid, itemlist) {
         console.log('SwarmsList.listItemClick(' + itemid + ',' + itemlist + ')');
@@ -178,14 +157,40 @@ class AreaList extends ItemList {
     //areas;
 
     constructor(itemlist, parent, data) {
+        console.log('AreaList.constructor()');
         super(itemlist, parent, data);
     }
 
     populateList(data) {
+        console.log('AreaList.populateList()');
         this.areas = data;
-        console.log('Not yet implemented!');
+        console.log('Work in progress...');
+
+        if (data !== undefined) {
+            let areas = data;
+
+            for (let i = 0; i < areas.count; i++) {
+                let area = areas[i];
+                let t = this.docListTemplate.content.cloneNode(true);
+
+                //t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
+                t.querySelector('.list-item-name').innerText = area.name;
+                //t.querySelector('.list-item-info').innerText = 'size: ' + swarm.size;
+                //t.querySelector('.list-item-description').innerText = 'Description';
+
+                t.querySelector('.list-item').id = 'swarm-' + area.id;
+                t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(area.id, 'test'));
+
+                this.docItemList.appendChild(t);
+            }
+        }
     }
 
+    getData() {
+        console.log('AreaList.getData()');
+
+        return undefined;
+    }
 }
 
 class AreaDataList extends ItemList {
