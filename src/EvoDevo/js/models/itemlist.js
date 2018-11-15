@@ -12,8 +12,9 @@ class ItemList {
         this.parent = parent;
         this.data = data;
         this.itemlist = itemlist;
-        //this.docItemList = document.getElementById('item-list');
-        //this.docListTemplate = document.getElementById('list-item-template');
+
+        this.docItemList = document.getElementById('item-list');
+        this.docListTemplate = document.getElementById('list-item-template');
         //this.populateList(data);
     }
 
@@ -44,8 +45,8 @@ class SwarmsList extends ItemList {
         super(itemlist, parent, data);
         this.swarms = data;
 
-        this.docItemList = document.getElementById('item-list');
-        this.docListTemplate = document.getElementById('list-item-template');
+        //this.docItemList = document.getElementById('item-list');
+        //this.docListTemplate = document.getElementById('list-item-template');
         
     }
 
@@ -106,9 +107,9 @@ class ProfileList extends ItemList {
     constructor(itemlist, parent, data) {
         console.log('ProfileList.constructor()');
         super(itemlist, parent, data );
-        this.profile = data;
-        this.docItemList = document.getElementById('item-list');
-        this.docListTemplate = document.getElementById('list-item-template');
+        //this.profile = data;
+        //this.docItemList = document.getElementById('item-list');
+        //this.docListTemplate = document.getElementById('list-item-template');
     }
 
     populateList(data) {
@@ -197,15 +198,61 @@ class AreaDataList extends ItemList {
 
     //areadata;
 
+
     constructor(itemlist, parent, data) {
+        console.log('AreaDataList.constructor()');
         super(itemlist, parent, data);
+        //this.profile = data;
+        //this.docItemList = document.getElementById('item-list');
+        //this.docListTemplate = document.getElementById('list-item-template');
     }
 
     populateList(data) {
-        this.areadata = data;
-        console.log('Not yet implemented!');
-    }
+        console.log('AreaDataList.populateList()');
+        if (data !== undefined)
+            this.areadata = data;
+        let t = this.docListTemplate.content.cloneNode(true);
 
+        try {
+            t.querySelector('.list-item-name').innerText = 'Area name';
+            t.querySelector('.list-item-info').innerText = this.areadata.name;
+            this.docItemList.appendChild(t);
+
+            t = document.getElementById('list-item-template').content.cloneNode(true);
+            t.querySelector('.list-item-name').innerText = 'Main Habitat';
+            t.querySelector('.list-item-info').innerText = 'biotope' + this.areadata.habitats[0].biotope;
+            this.docItemList.appendChild(t);
+
+            //t = document.getElementById('list-item-template').content.cloneNode(true);
+            //t.querySelector('.list-item-name').innerText = 'Last seen';
+            //t.querySelector('.list-item-info').innerText = this.profile.lastSeenDateTime;
+            //this.docItemList.appendChild(t);
+
+            //this.docItemList.appendChild(document.createElement('br'));
+
+            t = document.createElement('p');
+            t.innerText = 'Area swarms';
+            t.setAttribute('style', 'display:block;margin:auto;width:50%');
+            t.setAttribute('class', 'pure-button pure-button-active');
+            t.setAttribute('onclick', 'GetSwarms(\'player\',' + this.areadata.id + ')');
+            this.docItemList.appendChild(t);
+
+            this.docItemList.appendChild(document.createElement('br'));
+
+            t = document.createElement('p');
+            t.innerText = 'Area species';
+            t.setAttribute('style', 'display:block;margin:auto;width:50%');
+            t.setAttribute('class', 'pure-button pure-button-active');
+            t.setAttribute('onclick', 'GetSpecies(\'player\',' + this.areadata.id + ')');
+            this.docItemList.appendChild(t);
+        } catch (ex) {
+            let t = document.createElement('p');
+            t.innerText = 'Error: ' + ex.message;
+            t.setAttribute('style', 'color:red');
+            this.docItemList.appendChild(t);
+            console.log(ex.stack);
+        }
+    }
 }
 
 class ChatList extends ItemList {

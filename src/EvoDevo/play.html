@@ -31,31 +31,32 @@
 
                 <div class="pure-menu">
                     <ul id="item-list-menu" class="pure-menu-list">
-                        <li class="pure-menu-item"><span id="player-menu-link" class="pure-menu-link pure-menu-active" onclick="SetItemList('player')">My Stuff</span></li>
-                        <li class="pure-menu-item"><span id="chat-menu-link"    class="pure-menu-link" onclick="SetItemList('chat')">Chat</span></li>
-                        <li class="pure-menu-item"><span id="species-menu-link" class="pure-menu-link" onclick="SetItemList('species')">Species</span></li>
-                        <li class="pure-menu-item"><span id="swarms-menu-link"  class="pure-menu-link" onclick="SetItemList('swarms')">Swarms</span></li>
-                        <li class="pure-menu-item"><span id="areas-menu-link"   class="pure-menu-link" onclick="SetItemList('areas')">Areas</span></li>
+                        <li class="game-itemlist pure-menu-item"><span id="player-menu-link" class="view pure-menu-link pure-menu-active" onclick="SetItemList('player')">My Stuff</span></li>
+                        <li class="game-itemlist pure-menu-item"><span id="chat-menu-link" class="pure-menu-link" onclick="SetItemList('chat')">Chat</span></li>
+                        <li class="game-itemlist pure-menu-item"><span id="species-menu-link" class="pure-menu-link" onclick="SetItemList('species')">Species</span></li>
+                        <li class="game-itemlist pure-menu-item"><span id="swarms-menu-link" class="pure-menu-link" onclick="SetItemList('swarms')">Swarms</span></li>
+                        <!--<li class="game-itemlist pure-menu-item"><span id="areas-menu-link" class="pure-menu-link" onclick="SetItemList('areas')">Areas</span></li>-->
+                        <li class="game-itemlist pure-menu-item"><span id="area-menu-link" class="pure-menu-link" onclick="SetItemList('area')">Area</span></li>
                         <li class="pure-menu-heading"></li>
-                        <li class="pure-menu-item">
+                        <li class="game-view pure-menu-item">
                             <span class="pure-menu-link" onclick="SetView('mapview')">
                                 <span class="game-view-world"></span>
                                 <span id="mapview-menu-item">World</span>
                             </span>
                         </li>
-                        <li class="pure-menu-item">
+                        <li class="game-view pure-menu-item">
                             <span class="pure-menu-link" onclick="SetView('traitview')">
                                 <span class="game-view-traits"></span>
                                 <span id="traitview-menu-item">Traits</span>
                             </span>
                         </li>
-                        <li class="pure-menu-item">
+                        <li class="game-view pure-menu-item">
                             <span class="pure-menu-link" onclick="SetView('buildview')">
                                 <span class="game-view-bodyplan"></span>
                                 <span id="buildview-menu-item">Body plan</span>
                             </span>
                         </li>
-                        <li class="pure-menu-item">
+                        <li class="game-view pure-menu-item">
                             <span class="pure-menu-link" onclick="SetView('designview')">
                                 <span class="game-view-design"></span>
                                 <span id="designview-menu-item">Body design</span>

@@ -13,6 +13,7 @@ class Game {
     constructor(player, map) { //, region, world)
         console.log('Game.constructor()');
         this.currentPlayer = player;
+        this.currentMap = map;
 
         //// HTML ELEMENT REFS ////
         this.docItemlist = document.getElementById('item-list');
@@ -34,9 +35,10 @@ class Game {
             this.itemlists = new Map();
             this.itemlists.set('player', new ProfileList(document.getElementById('item-list'), this, this.currentPlayer));
             this.itemlists.set('swarms', new SwarmsList(document.getElementById('item-list'), this));
-            this.itemlists.set('areas', new AreaList(document.getElementById('item-list'), this, map.areas)); 
+            //this.itemlists.set('areas', new AreaList(document.getElementById('item-list'), this, map.areas)); 
             this.itemlists.set('species', new SpeciesList(document.getElementById('item-list'), this));
             this.itemlists.set('chat', new ChatList(document.getElementById('item-list'), this));
+            this.itemlists.set('area', new AreaDataList(document.getElementById('item-list'), this, this.currentMap.areas[0])); 
 
             this.currentItemList = this.itemlists.get('player');
             this.populateList(player);
@@ -95,7 +97,7 @@ class Game {
 
         for (let [key, menulink] of this.itemlists) {
             let e = document.getElementById(key + '-menu-link');
-            if (e !== undefined)
+            if (e !== undefined && e != null)
                 e.classList.remove('pure-menu-active');
         }
         
