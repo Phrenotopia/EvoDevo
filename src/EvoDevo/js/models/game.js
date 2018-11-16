@@ -34,19 +34,18 @@ class Game {
 
             //// ITEM LISTS ////
             this.itemlists = new Map();
-            this.itemlists.set('player', new ProfileList(itemlist, listtemplate, this, this.currentPlayer));
-            this.itemlists.set('swarms', new SwarmsList(itemlist, listtemplate, , this));
-            //this.itemlists.set('areas', new AreaList(itemlist, listtemplate, this, map.areas)); 
-            this.itemlists.set('species', new SpeciesList(itemlist, listtemplate, this));
-            this.itemlists.set('chat', new ChatList(itemlist, listtemplate, this));
-            this.itemlists.set('area', new AreaDataList(itemlist, listtemplate, this, this.currentMap.areas[0])); 
+            this.itemlists.set('player', new ProfileList(this.itemlist, this.listtemplate, this, this.currentPlayer));
+            this.itemlists.set('swarms', new SwarmsList(this.itemlist, this.listtemplate, this));
+            //this.itemlists.set('areas', new AreaList(this.itemlist, this.listtemplate, this, map.areas));
+            this.itemlists.set('species', new SpeciesList(this.itemlist, this.listtemplate, this));
+            this.itemlists.set('chat', new ChatList(this.itemlist, this.listtemplate, this));
+            this.itemlists.set('area', new AreaDataList(this.itemlist, this.listtemplate, this, this.currentMap.areas[0])); 
 
             this.currentItemList = this.itemlists.get('player');
             this.populateList(player);
         }
         catch (ex) {
-            console.log(ex); 
-            continue;
+            console.log(ex.stack); 
         }
     }
 
@@ -95,12 +94,15 @@ class Game {
     }
 
     viewClick(viewname, api, id, data) {
-
-        //if selecteditemlist = profile or chat then swarms 
-        //if (this.currentItemList.name === )
-        this.parent.setItemList('swarms');
-        //this.parent.populateList();
+        console.log('Game.viewClick(' + viewname + ',' + api + ',' + id + ',' + data + ')');
         console.log('¤ - ' + this.currentItemList.name);
+
+        //if selecteditemlist = profile or chat then swarms
+        if (this.currentItemList.name === 'player')
+            this.setItemList('swarms');
+        else
+            this.populateList();
+
     }
 
     switchMenuHighlight(itemlist) {

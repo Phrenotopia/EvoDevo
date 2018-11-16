@@ -257,7 +257,7 @@ class MapView extends GameView {
             this.currentView.setSelectedArea(area.id);
         }
 
-        this.parent.viewClick('viewname', 'area', 'id', undefined);
+        this.parent.viewClick('mapview', 'area', 'id', undefined);
 
         return area;
     } 

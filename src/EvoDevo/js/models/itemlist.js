@@ -1,7 +1,6 @@
 ﻿//itemlist.js
 class ItemList {
 
-    //docListTemplate;
     //itemlist
     //template
     //parent;
@@ -62,7 +61,7 @@ class SwarmsList extends ItemList {
         if (this.swarms !== undefined) {
             for (let i = 0; i < this.swarms.length; i++) {
                 let swarm = this.swarms[i];
-                let t = this.docListTemplate.content.cloneNode(true);
+                let t = this.template.content.cloneNode(true);
 
                 t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
                 t.querySelector('.list-item-name').innerText = swarm.species.name;
@@ -110,7 +109,7 @@ class ProfileList extends ItemList {
 
     constructor(itemlist, template, parent, data) {
         console.log('ProfileList.constructor()');
-        super(itemlist, parent, data );
+        super(itemlist, template, parent, data );
         this.profile = data;
         this.name = 'player';
         
@@ -120,7 +119,7 @@ class ProfileList extends ItemList {
         console.log('ProfileList.populateList()');
         if (data !== undefined)
             this.profile = data;
-        let t = this.docListTemplate.content.cloneNode(true);
+        let t = this.template.content.cloneNode(true);
 
         t.querySelector('.list-item-name').innerText = 'Full name';
         t.querySelector('.list-item-info').innerText = this.profile.fullname;
@@ -178,7 +177,7 @@ class AreaList extends ItemList {
 
             for (let i = 0; i < areas.count; i++) {
                 let area = areas[i];
-                let t = this.docListTemplate.content.cloneNode(true);
+                let t = this.template.content.cloneNode(true);
 
                 //t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
                 t.querySelector('.list-item-name').innerText = area.name;
@@ -216,8 +215,8 @@ class AreaDataList extends ItemList {
         console.log('AreaDataList.populateList()');
         if (data !== undefined)
             this.areadata = data;
-        let t = this.docListTemplate.content.cloneNode(true);
-
+        let t = this.template.content.cloneNode(true);
+         
         try {
             t.querySelector('.list-item-name').innerText = 'Area name';
             t.querySelector('.list-item-info').innerText = this.areadata.name;
