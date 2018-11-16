@@ -101,7 +101,7 @@ class Game {
         if (this.currentItemList.name === 'player')
             this.setItemList('swarms');
         else
-            this.populateList();
+            this.populateList(data);
 
     }
 

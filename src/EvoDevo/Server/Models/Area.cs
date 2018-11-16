@@ -27,4 +27,16 @@ namespace EvoDevo.Models
             Habitats.FirstOrDefault().Swarms.Add(swarm);
         }
     }
+
+    public enum Tile
+    {
+        Undefined = 0,
+        Mudflat = 1, //Foreshore, Seashore, Floodplain, Wetland, Mudflat, Marsh, Mangrove ...
+        Platform = 2,    //Benthic, Reef, Platform ...
+        Island = 3,  //Pelagic
+        Abyss = 4,
+        OpenWater = 5, 
+        Atol = 14, 
+        Seashore = 15
+    }
 }

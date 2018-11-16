@@ -156,54 +156,10 @@ class ProfileList extends ItemList {
 
 }
 
-class AreaList extends ItemList {
-
-    //areas;
-
-    constructor(itemlist, template, parent, data) {
-        console.log('AreaList.constructor()');
-        super(itemlist, template, parent, data);
-        this.areas = data;
-        this.name = 'areas';
-    }
-
-    populateList(data) {
-        console.log('AreaList.populateList()');
-        this.areas = data;
-        console.log('Work in progress...');
-
-        if (data !== undefined) {
-            let areas = data;
-
-            for (let i = 0; i < areas.count; i++) {
-                let area = areas[i];
-                let t = this.template.content.cloneNode(true);
-
-                //t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
-                t.querySelector('.list-item-name').innerText = area.name;
-                //t.querySelector('.list-item-info').innerText = 'size: ' + swarm.size;
-                //t.querySelector('.list-item-description').innerText = 'Description';
-
-                t.querySelector('.list-item').id = 'swarm-' + area.id;
-                t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(area.id, 'test'));
-
-                this.itemlist.appendChild(t);
-            }
-        }
-    }
-
-    getData() {
-        console.log('AreaList.getData()');
-
-        return undefined;
-    }
-}
-
 class AreaDataList extends ItemList {
 
     //areadata;
-
-
+    
     constructor(itemlist, template, parent, data) {
         console.log('AreaDataList.constructor()');
         super(itemlist, template, parent, data);
@@ -212,7 +168,7 @@ class AreaDataList extends ItemList {
     }
 
     populateList(data) {
-        console.log('AreaDataList.populateList()');
+         console.log('AreaDataList.populateList()');
         if (data !== undefined)
             this.areadata = data;
         let t = this.template.content.cloneNode(true);
@@ -276,3 +232,47 @@ class ChatList extends ItemList {
     }
 
 }
+
+class AreaList extends ItemList {
+
+    //areas;
+
+    constructor(itemlist, template, parent, data) {
+        console.log('AreaList.constructor()');
+        super(itemlist, template, parent, data);
+        this.areas = data;
+        this.name = 'areas';
+    }
+
+    populateList(data) {
+        console.log('AreaList.populateList()');
+        this.areas = data;
+        console.log('Work in progress...');
+
+        if (data !== undefined) {
+            let areas = data;
+
+            for (let i = 0; i < areas.count; i++) {
+                let area = areas[i];
+                let t = this.template.content.cloneNode(true);
+
+                //t.querySelector('.list-item-icon').src = 'img/creatures/' + swarm.species.name + '-icon.png';
+                t.querySelector('.list-item-name').innerText = area.name;
+                //t.querySelector('.list-item-info').innerText = 'size: ' + swarm.size;
+                //t.querySelector('.list-item-description').innerText = 'Description';
+
+                t.querySelector('.list-item').id = 'swarm-' + area.id;
+                t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(area.id, 'test'));
+
+                this.itemlist.appendChild(t);
+            }
+        }
+    }
+
+    getData() {
+        console.log('AreaList.getData()');
+
+        return undefined;
+    }
+}
+

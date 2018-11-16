@@ -12,7 +12,7 @@
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 2,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -21,12 +21,12 @@
     {
       "Id": 2,
       "Name": "Muddy Waters",
-      "Tile": 0,
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -35,12 +35,12 @@
     {
       "Id": 3,
       "Name": "Gidebo",
-      "Tile": 0,
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -49,12 +49,12 @@
     {
       "Id": 4,
       "Name": "Higatl",
-      "Tile": 0,
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -68,7 +68,7 @@
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 2,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -77,12 +77,12 @@
     {
       "Id": 6,
       "Name": "Idoibu",
-      "Tile": 0,
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -96,7 +96,7 @@
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 2,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -105,12 +105,12 @@
     {
       "Id": 8,
       "Name": "Ocho",
-      "Tile": 0,
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -124,7 +124,7 @@
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 2,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -133,12 +133,12 @@
     {
       "Id": 10,
       "Name": "Sepulu",
-      "Tile": 0,
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -147,12 +147,12 @@
     {
       "Id": 11,
       "Name": "Mornak",
-      "Tile": 0,
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -160,13 +160,13 @@
     },
     {
       "Id": 12,
-      "Name": "Yksikaksi",
+      "Name": "New shores",
       "Tile": 14,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 2,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -180,7 +180,7 @@
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 2,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -188,13 +188,13 @@
     },
     {
       "Id": 14,
-      "Name": "New shores",
-      "Tile": 0,
+      "Name": "Yksikaksi",
+      "Tile": 5,
       "Region": 0,
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -208,7 +208,7 @@
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 4,
           "PrimaryProduction": 32,
           "Swarms": []
         }
@@ -222,7 +222,7 @@
       "Habitats": [
         {
           "Id": 1,
-          "Biotope": 1,
+          "Biotope": 3,
           "PrimaryProduction": 32,
           "Swarms": []
         }
