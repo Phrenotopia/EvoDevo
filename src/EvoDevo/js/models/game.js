@@ -16,11 +16,12 @@ class Game {
         this.currentMap = map;
 
         //// HTML ELEMENT REFS ////
-        this.docItemlist = document.getElementById('item-list');
+        this.itemlist = document.getElementById('item-list');
         this.docChatform = document.getElementById('chat-form');
         this.docListTitle = document.getElementById('itemlist-title');
+        this.listtemplate = document.getElementById('list-item-template');
         this.docThrobber = document.getElementById('list-throbber');
-
+         
         try {
             //// VIEWS //// 
             this.views = new Map();
@@ -33,18 +34,19 @@ class Game {
 
             //// ITEM LISTS ////
             this.itemlists = new Map();
-            this.itemlists.set('player', new ProfileList(document.getElementById('item-list'), this, this.currentPlayer));
-            this.itemlists.set('swarms', new SwarmsList(document.getElementById('item-list'), this));
-            //this.itemlists.set('areas', new AreaList(document.getElementById('item-list'), this, map.areas)); 
-            this.itemlists.set('species', new SpeciesList(document.getElementById('item-list'), this));
-            this.itemlists.set('chat', new ChatList(document.getElementById('item-list'), this));
-            this.itemlists.set('area', new AreaDataList(document.getElementById('item-list'), this, this.currentMap.areas[0])); 
+            this.itemlists.set('player', new ProfileList(itemlist, listtemplate, this, this.currentPlayer));
+            this.itemlists.set('swarms', new SwarmsList(itemlist, listtemplate, , this));
+            //this.itemlists.set('areas', new AreaList(itemlist, listtemplate, this, map.areas)); 
+            this.itemlists.set('species', new SpeciesList(itemlist, listtemplate, this));
+            this.itemlists.set('chat', new ChatList(itemlist, listtemplate, this));
+            this.itemlists.set('area', new AreaDataList(itemlist, listtemplate, this, this.currentMap.areas[0])); 
 
             this.currentItemList = this.itemlists.get('player');
             this.populateList(player);
         }
         catch (ex) {
             console.log(ex); 
+            continue;
         }
     }
 
@@ -92,6 +94,15 @@ class Game {
         this.update();
     }
 
+    viewClick(viewname, api, id, data) {
+
+        //if selecteditemlist = profile or chat then swarms 
+        //if (this.currentItemList.name === )
+        this.parent.setItemList('swarms');
+        //this.parent.populateList();
+        console.log('¤ - ' + this.currentItemList.name);
+    }
+
     switchMenuHighlight(itemlist) {
         console.log('Game.switchMenuHighlight(' + itemlist + ')');
 
@@ -108,7 +119,7 @@ class Game {
 
     populateList(data) { 
         console.log('Game.populateList(' + data + ')');
-        this.docItemlist.innerHTML = "";
+        this.itemlist.innerHTML = "";
         this.docChatform.hidden = 'true';
 
         this.currentItemList.populateList(data);//TODO: context? 

@@ -2,20 +2,21 @@
 class ItemList {
 
     //docListTemplate;
-    //docItemList;
     //itemlist
+    //template
     //parent;
     //data;
+    //name;
 
-    constructor(itemlist, parent, data) {
+    constructor(itemlist, template, parent, data) {
         console.log('ItemList.constructor()');
         this.parent = parent;
         this.data = data;
         this.itemlist = itemlist;
+        this.template = template;
+        this.name = 'items';
 
-        this.docItemList = document.getElementById('item-list');
-        this.docListTemplate = document.getElementById('list-item-template');
-        //this.populateList(data);
+       //this.populateList(data);
     }
 
     populateList(data) {
@@ -41,12 +42,10 @@ class SwarmsList extends ItemList {
 
     //swarms;
 
-    constructor(itemlist, parent, data) {
-        super(itemlist, parent, data);
+    constructor(itemlist, template, parent, data) {
+        super(itemlist, template, parent, data);
         this.swarms = data;
-
-        //this.docItemList = document.getElementById('item-list');
-        //this.docListTemplate = document.getElementById('list-item-template');
+        this.name = 'swarms';
         
     }
 
@@ -57,9 +56,10 @@ class SwarmsList extends ItemList {
         //TODO: context => player's swarms or area swarms or species swarms? (switch/case)
         //case 'area-swarms'
 
-        if (data !== undefined) {
+        if (data !== undefined) 
             this.swarms = data.habitats[0].swarms;
 
+        if (this.swarms !== undefined) {
             for (let i = 0; i < this.swarms.length; i++) {
                 let swarm = this.swarms[i];
                 let t = this.docListTemplate.content.cloneNode(true);
@@ -72,8 +72,11 @@ class SwarmsList extends ItemList {
                 t.querySelector('.list-item').id = 'swarm-' + swarm.id;
                 t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(swarm.id, 'test'));
 
-                this.docItemList.appendChild(t);
+                this.itemlist.appendChild(t);
             }
+        }
+        else {
+            console.log('No swarms data');
         }
     }
 
@@ -88,9 +91,10 @@ class SpeciesList extends ItemList {
 
     //species;
 
-    constructor(itemlist, parent, data) {
+    constructor(itemlist, template, parent, data) {
         console.log('SpeciesList.constructor()');
-        super(itemlist, parent, data);
+        super(itemlist, template, parent, data);
+        this.name = 'species';
     }
 
     populateList(data) {
@@ -104,12 +108,12 @@ class ProfileList extends ItemList {
 
     //profile;
 
-    constructor(itemlist, parent, data) {
+    constructor(itemlist, template, parent, data) {
         console.log('ProfileList.constructor()');
         super(itemlist, parent, data );
-        //this.profile = data;
-        //this.docItemList = document.getElementById('item-list');
-        //this.docListTemplate = document.getElementById('list-item-template');
+        this.profile = data;
+        this.name = 'player';
+        
     }
 
     populateList(data) {
@@ -120,35 +124,35 @@ class ProfileList extends ItemList {
 
         t.querySelector('.list-item-name').innerText = 'Full name';
         t.querySelector('.list-item-info').innerText = this.profile.fullname;
-        this.docItemList.appendChild(t);
+        this.itemlist.appendChild(t);
 
         t = document.getElementById('list-item-template').content.cloneNode(true);
         t.querySelector('.list-item-name').innerText = 'Username';
         t.querySelector('.list-item-info').innerText = this.profile.username;
-        this.docItemList.appendChild(t);
+        this.itemlist.appendChild(t);
 
         t = document.getElementById('list-item-template').content.cloneNode(true);
         t.querySelector('.list-item-name').innerText = 'Last seen';
         t.querySelector('.list-item-info').innerText = this.profile.lastSeenDateTime;
-        this.docItemList.appendChild(t);
+        this.itemlist.appendChild(t);
 
-        this.docItemList.appendChild(document.createElement('br'));
+        this.itemlist.appendChild(document.createElement('br'));
 
         t = document.createElement('p');
         t.innerText = 'My swarms';
         t.setAttribute('style', 'display:block;margin:auto;width:50%');
         t.setAttribute('class', 'pure-button pure-button-active');
         t.setAttribute('onclick', 'GetSwarms(\'player\',' + this.profile.id + ')');
-        this.docItemList.appendChild(t);
+        this.itemlist.appendChild(t);
 
-        this.docItemList.appendChild(document.createElement('br'));
+        this.itemlist.appendChild(document.createElement('br'));
 
         t = document.createElement('p');
         t.innerText = 'My species';
         t.setAttribute('style', 'display:block;margin:auto;width:50%');
         t.setAttribute('class', 'pure-button pure-button-active');
         t.setAttribute('onclick', 'GetSpecies(\'player\',' + this.profile.id + ')');
-        this.docItemList.appendChild(t);
+        this.itemlist.appendChild(t);
     }
 
 }
@@ -157,9 +161,11 @@ class AreaList extends ItemList {
 
     //areas;
 
-    constructor(itemlist, parent, data) {
+    constructor(itemlist, template, parent, data) {
         console.log('AreaList.constructor()');
-        super(itemlist, parent, data);
+        super(itemlist, template, parent, data);
+        this.areas = data;
+        this.name = 'areas';
     }
 
     populateList(data) {
@@ -182,7 +188,7 @@ class AreaList extends ItemList {
                 t.querySelector('.list-item').id = 'swarm-' + area.id;
                 t.querySelector('.list-item').addEventListener('click', () => this.listItemClick(area.id, 'test'));
 
-                this.docItemList.appendChild(t);
+                this.itemlist.appendChild(t);
             }
         }
     }
@@ -199,12 +205,11 @@ class AreaDataList extends ItemList {
     //areadata;
 
 
-    constructor(itemlist, parent, data) {
+    constructor(itemlist, template, parent, data) {
         console.log('AreaDataList.constructor()');
-        super(itemlist, parent, data);
-        //this.profile = data;
-        //this.docItemList = document.getElementById('item-list');
-        //this.docListTemplate = document.getElementById('list-item-template');
+        super(itemlist, template, parent, data);
+        this.areadata = data;
+        this.name = 'area';
     }
 
     populateList(data) {
@@ -216,40 +221,40 @@ class AreaDataList extends ItemList {
         try {
             t.querySelector('.list-item-name').innerText = 'Area name';
             t.querySelector('.list-item-info').innerText = this.areadata.name;
-            this.docItemList.appendChild(t);
+            this.itemlist.appendChild(t);
 
             t = document.getElementById('list-item-template').content.cloneNode(true);
             t.querySelector('.list-item-name').innerText = 'Main Habitat';
             t.querySelector('.list-item-info').innerText = 'biotope' + this.areadata.habitats[0].biotope;
-            this.docItemList.appendChild(t);
+            this.itemlist.appendChild(t);
 
             //t = document.getElementById('list-item-template').content.cloneNode(true);
             //t.querySelector('.list-item-name').innerText = 'Last seen';
             //t.querySelector('.list-item-info').innerText = this.profile.lastSeenDateTime;
-            //this.docItemList.appendChild(t);
+            //this.itemlist.appendChild(t);
 
-            //this.docItemList.appendChild(document.createElement('br'));
+            //this.itemlist.appendChild(document.createElement('br'));
 
             t = document.createElement('p');
             t.innerText = 'Area swarms';
             t.setAttribute('style', 'display:block;margin:auto;width:50%');
             t.setAttribute('class', 'pure-button pure-button-active');
             t.setAttribute('onclick', 'GetSwarms(\'player\',' + this.areadata.id + ')');
-            this.docItemList.appendChild(t);
+            this.itemlist.appendChild(t);
 
-            this.docItemList.appendChild(document.createElement('br'));
+            this.itemlist.appendChild(document.createElement('br'));
 
             t = document.createElement('p');
             t.innerText = 'Area species';
             t.setAttribute('style', 'display:block;margin:auto;width:50%');
             t.setAttribute('class', 'pure-button pure-button-active');
             t.setAttribute('onclick', 'GetSpecies(\'player\',' + this.areadata.id + ')');
-            this.docItemList.appendChild(t);
+            this.itemlist.appendChild(t);
         } catch (ex) {
             let t = document.createElement('p');
             t.innerText = 'Error: ' + ex.message;
             t.setAttribute('style', 'color:red');
-            this.docItemList.appendChild(t);
+            this.itemlist.appendChild(t);
             console.log(ex.stack);
         }
     }
@@ -259,8 +264,10 @@ class ChatList extends ItemList {
 
     //chatmessages;
 
-    constructor(itemlist, parent, data) {
-        super(itemlist, parent, data);
+    constructor(itemlist, template, parent, data) {
+        super(itemlist, template, parent, data);
+        this.chatmessages = data;
+        this.name = 'swarms';
 
     }
 
