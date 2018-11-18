@@ -1,7 +1,7 @@
 ﻿using System;
-using EvoDevo.Models;
+using EvoDevoCore.Models;
 
-namespace EvoDevo.Logic.Factory
+namespace EvoDevoCore.Logic.Factory
 {
     internal class MapFactory
     {

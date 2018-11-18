@@ -1,8 +1,8 @@
-﻿using EvoDevo.Logic;
+﻿using EvoDevoCore.Logic;
 using System;
 using System.Collections.Generic;
 
-namespace EvoDevo.Models
+namespace EvoDevoCore.Models
 {
     public class World
     {

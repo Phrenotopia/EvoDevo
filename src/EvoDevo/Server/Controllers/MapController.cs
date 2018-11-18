@@ -1,10 +1,10 @@
-﻿using EvoDevo.Models;
+﻿using EvoDevoCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web;
-using EvoDevo.Logic;
+using EvoDevoCore.Logic;
 using EvoDevo.Server.Controllers;
 
 namespace EvoDevo.Controllers

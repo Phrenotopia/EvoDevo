@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EvoDevo.Models
+namespace EvoDevoCore.Models
 {
     public class Area
     {

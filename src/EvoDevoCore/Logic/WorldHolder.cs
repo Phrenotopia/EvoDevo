@@ -1,8 +1,8 @@
-﻿using EvoDevo.Models;
+﻿using EvoDevoCore.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EvoDevo.Logic
+namespace EvoDevoCore.Logic
 {
     public static class WorldHolder
     {

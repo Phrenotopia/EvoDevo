@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EvoDevo.Models
+namespace EvoDevoCore.Models
 {
     public class Species
     {

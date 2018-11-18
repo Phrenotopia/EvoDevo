@@ -1,27 +1,25 @@
-﻿using EvoDevo.Models;
-using EvoDevo.Properties;
+﻿using EvoDevoCore.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Web;
 
-namespace EvoDevo.Logic.Factory
+namespace EvoDevoCore.Logic.Factory
 {
     public static class WorldFactory
     {
-        public static World Create()
+        public static World Create(string path)
         {
             //AbilityHolder.Initialize();
 
-            return CreateWorld();// new MapFactory().Create("mapname"));//args map name? id?  
+            return CreateWorld(path);// new MapFactory().Create("mapname"));//args map name? id?  
         }
 
-        private static World CreateWorld() //Map map)
+        private static World CreateWorld(string path) //Map map)
         {
-            var path = HttpContext.Current.Server.MapPath(@"~\Server\worlds\alpha\map.json");
+            //var path = HttpContext.Current.Server.MapPath(@"~\Server\worlds\alpha\map.json");
             var json = File.ReadAllText(path);
             //var areas = JsonConvert.DeserializeObject<List<Area>>(json);
             //Map map = new Map() { Id = 1, Name = "Alpha", Areas = areas, Columns = 4, Rows = 4 };
@@ -37,10 +35,10 @@ namespace EvoDevo.Logic.Factory
             return world;
         }
 
-        private static bool SaveMap(Map map)
+        private static bool SaveMap(Map map, string path)
         {
-            var envpath = Settings.Default.path;
-            var path = HttpContext.Current.Server.MapPath(@envpath + @"\worlds\alpha\map.json");
+            //var envpath = Settings.Default.path;
+            //var path = HttpContext.Current.Server.MapPath(@envpath + @"\worlds\alpha\map.json");
 
             try
             {

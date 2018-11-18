@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EvoDevo.Models
+namespace EvoDevoCore.Models
 {
     public class ChatMessage
     {

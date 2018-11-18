@@ -1,11 +1,7 @@
-﻿using EvoDevo.Logic;
-using EvoDevo.Logic.Factory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using EvoDevo.Properties;
+using EvoDevoCore.Logic.Factory;
 using System.Web;
 using System.Web.Http;
-using System.Web.Routing;
 
 namespace EvoDevo
 {
@@ -15,7 +11,11 @@ namespace EvoDevo
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            WorldFactory.Create();
+            var path = HttpContext.Current.Server.MapPath(@Settings.Default.path + @"Server\worlds\alpha\map.json");
+
+            WorldFactory.Create(path);
+
+
         }
     }
 }

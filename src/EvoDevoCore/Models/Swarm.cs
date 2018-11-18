@@ -1,4 +1,4 @@
-﻿namespace EvoDevo.Models
+﻿namespace EvoDevoCore.Models
 {
     public class Swarm // Community? Colony? Population? Bunch?
     {
