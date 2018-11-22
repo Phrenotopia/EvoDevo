@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoDevo", "EvoDevo\EvoDevo.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoDevoCore", "EvoDevoCore\EvoDevoCore.csproj", "{C2DB470C-5B0C-45A8-BF9E-2BE8F908A6C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoDevoWin", "EvoDevoWin\EvoDevoWin.csproj", "{1B579E37-5249-4C17-988C-BF3CE57F64A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoDevoApp", "EvoDevoApp\EvoDevoApp.csproj", "{1B579E37-5249-4C17-988C-BF3CE57F64A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,7 +110,6 @@ Global
 		{1B579E37-5249-4C17-988C-BF3CE57F64A0}.Debug|iPhoneSimulator.ActiveCfg = Debug|x86
 		{1B579E37-5249-4C17-988C-BF3CE57F64A0}.Debug|Windows-ARM.ActiveCfg = Debug|x86
 		{1B579E37-5249-4C17-988C-BF3CE57F64A0}.Debug|Windows-x64.ActiveCfg = Debug|x86
-		{1B579E37-5249-4C17-988C-BF3CE57F64A0}.Debug|Windows-x64.Build.0 = Debug|x86
 		{1B579E37-5249-4C17-988C-BF3CE57F64A0}.Debug|Windows-x86.ActiveCfg = Debug|x86
 		{1B579E37-5249-4C17-988C-BF3CE57F64A0}.Debug|x86.ActiveCfg = Debug|x86
 		{1B579E37-5249-4C17-988C-BF3CE57F64A0}.Debug|x86.Build.0 = Debug|x86

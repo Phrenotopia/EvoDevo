@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 
-namespace EvoDevoWin
+namespace EvoDevoApp
 {
     /// <summary>
     /// This is the main type for your game.
@@ -77,7 +77,7 @@ namespace EvoDevoWin
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Debug.WriteLine(IsMouseVisible);
+            //Debug.WriteLine(IsMouseVisible);
 
             base.Draw(gameTime);
         }

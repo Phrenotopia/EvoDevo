@@ -9,8 +9,8 @@
     <ProjectGuid>{1B579E37-5249-4C17-988C-BF3CE57F64A0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EvoDevoWin</RootNamespace>
-    <AssemblyName>EvoDevoWin</AssemblyName>
+    <RootNamespace>EvoDevoApp</RootNamespace>
+    <AssemblyName>EvoDevoApp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

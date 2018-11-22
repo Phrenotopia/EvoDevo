@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EvoDevoWin
+namespace EvoDevoApp
 {
 #if WINDOWS || LINUX
     /// <summary>
