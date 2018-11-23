@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Screens;
 using System.Diagnostics;
 
 namespace EvoDevoApp
@@ -16,7 +17,13 @@ namespace EvoDevoApp
         public EvoDevoGame()
         {
             graphics = new GraphicsDeviceManager(this);
+
+            ScreenGameComponent screenGameComponent = new ScreenGameComponent(this);
+            //screenGameComponent.Register(new MyScreen());
+            Components.Add(screenGameComponent);
+
             Content.RootDirectory = "Content";
+
             IsMouseVisible = true;
         }
 
