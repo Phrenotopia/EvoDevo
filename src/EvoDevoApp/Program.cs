@@ -15,7 +15,7 @@ namespace EvoDevoApp
         static void Main()
         {
             using (var game = new EvoDevoGame())
-                game.Run();
+                 game.Run();
         }
     }
 #endif

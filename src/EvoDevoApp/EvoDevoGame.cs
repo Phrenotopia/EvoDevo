@@ -1,90 +1,73 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EvoDevoApp.Screens;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+//using MonoGame.Extended.Screens.Transitions;
 using MonoGame.Extended.Screens;
+using MonoGame.Extended.ViewportAdapters;
 using System.Diagnostics;
 
 namespace EvoDevoApp
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class EvoDevoGame : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private readonly GraphicsDeviceManager graphics;
+        public static SpriteBatch SpriteBatch;
+        public static WindowViewportAdapter ViewportAdapter;
 
         public EvoDevoGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+            IsMouseVisible = true;
 
             ScreenGameComponent screenGameComponent = new ScreenGameComponent(this);
-            //screenGameComponent.Register(new MyScreen());
             Components.Add(screenGameComponent);
 
-            Content.RootDirectory = "Content";
+            screenGameComponent.Register(new SplashScreen(this));
+            screenGameComponent.Register(new MenuScreen(this));
+            screenGameComponent.Register(new SinglePlayerMenuScreen(this));
+            screenGameComponent.Register(new CreateWorldScreen(this));
+            screenGameComponent.Register(new PlayScreen(this));
 
-            IsMouseVisible = true;
+            
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            ViewportAdapter = new WindowViewportAdapter(this.Window, GraphicsDevice);
 
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            base.LoadContent();
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //Debug.WriteLine(IsMouseVisible);
+            //Debug.WriteLine(this.ToString());
+
+            
+
 
             base.Draw(gameTime);
         }

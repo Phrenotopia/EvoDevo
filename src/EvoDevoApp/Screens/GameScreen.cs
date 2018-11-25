@@ -1,19 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Screens;
-using System.Diagnostics;
 
 namespace EvoDevoApp.Screens
 {
-    public class SplashScreen : GameScreen
+    public class GameScreen : Screen
     {
+        internal Game Game;
         //private SpriteBatch _spriteBatch;
-        private float timePassed = 0f;  
 
-        public SplashScreen(Game game) : base(game)
+        public GameScreen(Game game)
         {
-
+            this.Game = game;
         }
 
         public override void Initialize()
@@ -38,21 +36,11 @@ namespace EvoDevoApp.Screens
 
         public override void Update(GameTime gameTime)
         {
-            timePassed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (timePassed > 10f)
-                //if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                Show<MenuScreen>();
-
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            //Debug.WriteLine(this.ToString());
-            this.Game.GraphicsDevice.Clear(Color.White);
-
-
             base.Draw(gameTime);
         }
     }
