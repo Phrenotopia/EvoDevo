@@ -8,9 +8,14 @@ namespace EvoDevoApp.Screens
 {
     public class SplashScreen : GameScreen
     {
-        //private SpriteBatch _spriteBatch;
-        private float timePassed = 0f;  
+        private SpriteBatch spriteBatch;
+        Rectangle logoFrame;
+        Vector2 vector;
 
+        private Texture2D monogameLogo;
+
+        private float timePassed = 0f;
+        
         public SplashScreen(Game game) : base(game)
         {
 
@@ -18,6 +23,7 @@ namespace EvoDevoApp.Screens
 
         public override void Initialize()
         {
+
             base.Initialize();
         }
 
@@ -28,11 +34,26 @@ namespace EvoDevoApp.Screens
 
         public override void LoadContent()
         {
+            var width = GraphicsDevice.Viewport.Width;
+            var height = GraphicsDevice.Viewport.Height;
+
+            monogameLogo = Content.Load<Texture2D>("img/logo/MonoGame-SquareLogo_256px");
+            var logoHeight = monogameLogo.Height;
+            var logoWidth = monogameLogo.Width;
+
+            var x = (width-logoWidth)/2;
+            var y = (height-logoHeight)/2;
+            logoFrame = new Rectangle(x, y, logoWidth, logoHeight);
+            vector = new Vector2(x, y);
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
             base.LoadContent();
         }
 
         public override void UnloadContent()
-        {            
+        {
+            Content.Unload();
             base.UnloadContent();
         }
 
@@ -40,7 +61,7 @@ namespace EvoDevoApp.Screens
         {
             timePassed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timePassed > 10f)
+            if (timePassed > 4f)
                 //if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 Show<MenuScreen>();
 
@@ -50,8 +71,11 @@ namespace EvoDevoApp.Screens
         public override void Draw(GameTime gameTime)
         {
             //Debug.WriteLine(this.ToString());
-            this.Game.GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.White);
 
+            spriteBatch.Begin();
+            spriteBatch.Draw(monogameLogo, logoFrame, Color.White);//, vector, Color.White);//
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

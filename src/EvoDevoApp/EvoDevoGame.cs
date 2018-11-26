@@ -25,7 +25,7 @@ namespace EvoDevoApp
             Components.Add(screenGameComponent);
 
             screenGameComponent.Register(new SplashScreen(this));
-            screenGameComponent.Register(new MenuScreen(this));
+            screenGameComponent.Register(new MainMenuScreen(this));
             screenGameComponent.Register(new SinglePlayerMenuScreen(this));
             screenGameComponent.Register(new CreateWorldScreen(this));
             screenGameComponent.Register(new PlayScreen(this));
@@ -62,8 +62,7 @@ namespace EvoDevoApp
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            
             //Debug.WriteLine(this.ToString());
 
             
