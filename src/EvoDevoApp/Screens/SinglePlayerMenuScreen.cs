@@ -16,7 +16,7 @@ namespace EvoDevoApp.Screens
 
             AddMenuItem("New World", Show<CreateWorldScreen>);
             //AddMenuItem("Created Worlds", Show<MultiPlayerMenuScreen>);
-            AddMenuItem("Back to Main Menu", Show<MainMenuScreen>);
+            AddMenuItem("Back", Show<MainMenuScreen>);
         }
 
         public override void Draw(GameTime gameTime)

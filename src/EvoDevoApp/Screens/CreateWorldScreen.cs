@@ -29,7 +29,7 @@ namespace EvoDevoApp.Screens
 
             AddMenuItem("Play", Show<PlayScreen>);
             //AddMenuItem("Created Worlds", Show<MultiPlayerMenuScreen>);
-            AddMenuItem("Back to Singleplayer Menu", Show<SinglePlayerMenuScreen>);
+            AddMenuItem("Back", Show<SinglePlayerMenuScreen>);
         }
 
         public override void UnloadContent()
