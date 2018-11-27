@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EvoDevoApp.File;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Screens;
+using System;
 using System.Diagnostics;
 
 namespace EvoDevoApp.Screens
@@ -27,7 +29,13 @@ namespace EvoDevoApp.Screens
         public override void LoadContent()
         {
             base.LoadContent();
-        }
+
+
+            //string test = GameManager.SaveGame();
+            //Debug.WriteLine(test);
+
+
+          }
 
         public override void UnloadContent()
         {            
@@ -41,10 +49,16 @@ namespace EvoDevoApp.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
+             base.Draw(gameTime);
 
             GraphicsDevice.Clear(Color.Black);
 
         }
+
+        //public override Show()
+        //{
+
+
+        //}
     }
 }

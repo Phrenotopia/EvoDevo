@@ -88,6 +88,11 @@ namespace EvoDevoApp.Screens
 
         protected void AddMenuItem(string text, Action action)
         {
+            AddMenuItem(text, action, null);
+        }
+
+        protected void AddMenuItem(string text, Action action, Object options)
+        {
             var menuItem = new MenuItem(Font, text)
             {
                 Position = new Vector2(300, 200 + 32 * MenuItems.Count),

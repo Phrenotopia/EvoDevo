@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using EvoDevoApp.File;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Screens;
 
@@ -7,6 +9,7 @@ namespace EvoDevoApp.Screens
     public class CreateWorldScreen : MenuScreen
     {
         //private SpriteBatch _spriteBatch;
+        private GameConfig gameConfig;
 
         public CreateWorldScreen(Game game) : base(game)
         {
@@ -27,7 +30,7 @@ namespace EvoDevoApp.Screens
         {
             base.LoadContent();
 
-            AddMenuItem("Play", Show<PlayScreen>);
+            AddMenuItem("Create World ", GameManager.NewGame, this.gameConfig);// Show<PlayScreen>);
             //AddMenuItem("Created Worlds", Show<MultiPlayerMenuScreen>);
             AddMenuItem("Back", Show<SinglePlayerMenuScreen>);
         }
