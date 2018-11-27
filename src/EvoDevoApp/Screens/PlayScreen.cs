@@ -41,9 +41,10 @@ namespace EvoDevoApp.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            Debug.WriteLine(this.ToString());
-
             base.Draw(gameTime);
+
+            GraphicsDevice.Clear(Color.Black);
+
         }
     }
 }

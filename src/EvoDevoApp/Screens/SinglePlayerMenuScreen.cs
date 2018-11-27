@@ -20,12 +20,10 @@ namespace EvoDevoApp.Screens
         }
 
         public override void Draw(GameTime gameTime)
-        {
+        {   
             GraphicsDevice.Clear(Color.Navy);
-
-            base.Draw(gameTime);    
-
             
+            base.Draw(gameTime); 
         }
     }
 }

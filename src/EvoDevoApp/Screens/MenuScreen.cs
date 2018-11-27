@@ -76,7 +76,7 @@ namespace EvoDevoApp.Screens
         {
             base.Draw(gameTime);
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.White);
 
             spriteBatch.Begin();
 

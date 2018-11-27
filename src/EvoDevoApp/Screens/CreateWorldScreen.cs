@@ -4,7 +4,7 @@ using MonoGame.Extended.Screens;
 
 namespace EvoDevoApp.Screens
 {
-    public class CreateWorldScreen : GameScreen
+    public class CreateWorldScreen : MenuScreen
     {
         //private SpriteBatch _spriteBatch;
 
@@ -26,6 +26,10 @@ namespace EvoDevoApp.Screens
         public override void LoadContent()
         {
             base.LoadContent();
+
+            AddMenuItem("Play", Show<PlayScreen>);
+            //AddMenuItem("Created Worlds", Show<MultiPlayerMenuScreen>);
+            AddMenuItem("Back to Singleplayer Menu", Show<SinglePlayerMenuScreen>);
         }
 
         public override void UnloadContent()
@@ -40,6 +44,8 @@ namespace EvoDevoApp.Screens
 
         public override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.DarkBlue);
+
             base.Draw(gameTime);
         }
     }

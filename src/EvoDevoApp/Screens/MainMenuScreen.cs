@@ -20,5 +20,12 @@ namespace EvoDevoApp.Screens
             //AddMenuItem("Options", Show<OptionsScreen>);
             AddMenuItem("Exit", Game.Exit);
         }
+
+        public override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            base.Draw(gameTime);
+        }
     }
 }
