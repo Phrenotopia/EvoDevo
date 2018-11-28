@@ -15,7 +15,7 @@ namespace EvoDevoCore.Logic.Factory
         {
             //AbilityHolder.Initialize();
 
-            return CreateWorld(config.Path);// new MapFactory().Create("mapname"));//args map name? id?  
+            return CreateWorld(config.GetPath());// new MapFactory().Create("mapname"));//args map name? id?  
         }
 
         public static World Create(string path)

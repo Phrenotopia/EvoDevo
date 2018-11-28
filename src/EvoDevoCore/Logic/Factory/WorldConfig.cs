@@ -12,14 +12,17 @@ namespace EvoDevoCore.Logic.Factory
 {
     public class WorldConfig : Config
     {
+        public String MapName { get; set; }
+
         public Map Map { get; set; }
 
         public string GetPath()
         {
             string location = @Util.GetExecutingDirectoryName();
             string maplocations = @"\Data\Maps\";
+            string mapname = this.MapName;
 
-            return location + maplocations;
+            return location + maplocations + @"\" + mapname + @"\map.json";
         }
     }
 

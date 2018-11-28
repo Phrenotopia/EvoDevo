@@ -1,6 +1,7 @@
 ﻿using System;
 using EvoDevoApp.File;
 using EvoDevoCore.Logic.Factory;
+using EvoDevoCore.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Screens;
@@ -31,16 +32,17 @@ namespace EvoDevoApp.Screens
         {
             base.LoadContent();
 
+            this.worldConfig = new WorldConfig { MapName = "alpha" };
+
             AddMenuItem("Create World ", this.CreateWorld);// Show<PlayScreen>);
-            //AddMenuItem<T>("Create World ", GameManager.NewGame<T>, T this.worldConfig);// Show<PlayScreen>);
-            //AddMenuItem("Created Worlds", Show<MultiPlayerMenuScreen>);
+            //AddMenuItem("Created Worlds", Show<>);
             AddMenuItem("Back", Show<SinglePlayerMenuScreen>);
         }
 
         protected void CreateWorld()
         {
-            //this.worldConfig);
-            GameManager.NewGame(this.worldConfig);
+            WorldFactory.Create(this.worldConfig);
+            Show<PlayScreen>();
         }
 
         public override void UnloadContent()
