@@ -9,8 +9,10 @@ namespace EvoDevoApp.File
 {
     public static class GameManager
     {
-        public static void NewGame()//string arg)
+        public static void NewGame()
         {
+            //string path = 
+
             WorldFactory.Create("");
 
             

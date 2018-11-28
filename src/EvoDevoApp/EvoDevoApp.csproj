@@ -45,9 +45,9 @@
     <Compile Include="File\GameManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="File\GameConfig.cs" />
+    <Compile Include="Screens\Elements\ConfigItem.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
-    <Compile Include="Screens\MenuItem.cs" />
+    <Compile Include="Screens\Elements\MenuItem.cs" />
     <Compile Include="Screens\PlayScreen.cs" />
     <Compile Include="Screens\SinglePlayerMenuScreen.cs" />
     <Compile Include="Screens\CreateWorldScreen.cs" />

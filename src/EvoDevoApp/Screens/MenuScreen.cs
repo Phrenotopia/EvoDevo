@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EvoDevoCore.Logic.Factory;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -91,7 +92,7 @@ namespace EvoDevoApp.Screens
             AddMenuItem(text, action, null);
         }
 
-        protected void AddMenuItem(string text, Action action, Object options)
+        protected void AddMenuItem(string text, Action action, Config options)
         {
             var menuItem = new MenuItem(Font, text)
             {

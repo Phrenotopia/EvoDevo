@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EvoDevoCore</RootNamespace>
     <AssemblyName>EvoDevoCore</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,7 @@
   <ItemGroup>
     <Compile Include="EvoDevo.cs" />
     <Compile Include="Logic\Factory\MapFactory.cs" />
+    <Compile Include="Logic\Factory\WorldConfig.cs" />
     <Compile Include="Logic\Factory\WorldFactory.cs" />
     <Compile Include="Logic\MapHolder.cs" />
     <Compile Include="Logic\WorldHolder.cs" />
