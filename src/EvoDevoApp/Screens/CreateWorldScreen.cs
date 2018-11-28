@@ -13,7 +13,7 @@ namespace EvoDevoApp.Screens
         //private SpriteBatch _spriteBatch;
         private WorldConfig worldConfig;
 
-        public CreateWorldScreen(Game game) : base(game)
+        public CreateWorldScreen(EvoDevoGame game) : base(game)
         {
 
         }
@@ -42,7 +42,13 @@ namespace EvoDevoApp.Screens
         protected void CreateWorld()
         {
             WorldFactory.Create(this.worldConfig);
-            Show<PlayScreen>();
+            
+            //this.Game.ScreenManager.Register(new MapScreen(this.Game));
+            //this.Game.ScreenManager.Register(new TraitsScreen(this.Game));
+            //this.Game.ScreenManager.Register(new BodyplanScreen(this.Game));
+            //this.Game.ScreenManager.Register(new DesignScreen(this.Game));
+
+            Show<MapScreen>();
         }
 
         public override void UnloadContent()

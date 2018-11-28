@@ -48,6 +48,7 @@
     <Compile Include="Screens\Elements\ConfigItem.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
     <Compile Include="Screens\Elements\MenuItem.cs" />
+    <Compile Include="Screens\MapScreen.cs" />
     <Compile Include="Screens\PlayScreen.cs" />
     <Compile Include="Screens\SinglePlayerMenuScreen.cs" />
     <Compile Include="Screens\CreateWorldScreen.cs" />

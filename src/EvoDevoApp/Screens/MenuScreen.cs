@@ -18,7 +18,7 @@ namespace EvoDevoApp.Screens
         //protected ContentManager Content { get; private set; }
         private MouseState _previousState;
 
-        public MenuScreen(Game game) : base(game)
+        public MenuScreen(EvoDevoGame game) : base(game)
         {
             MenuItems = new List<MenuItem>();
         }

@@ -14,6 +14,7 @@ namespace EvoDevoApp
         private readonly GraphicsDeviceManager graphics;
         public static SpriteBatch SpriteBatch;
         public static WindowViewportAdapter ViewportAdapter;
+        public ScreenGameComponent ScreenManager;
 
         public EvoDevoGame()
         {
@@ -21,16 +22,17 @@ namespace EvoDevoApp
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            ScreenGameComponent screenGameComponent = new ScreenGameComponent(this);
-            Components.Add(screenGameComponent);
+            ScreenManager = new ScreenGameComponent(this);
+            Components.Add(ScreenManager);
 
-            screenGameComponent.Register(new SplashScreen(this));
-            screenGameComponent.Register(new MainMenuScreen(this));
-            screenGameComponent.Register(new SinglePlayerMenuScreen(this));
-            screenGameComponent.Register(new CreateWorldScreen(this));
-            screenGameComponent.Register(new PlayScreen(this));
+            ScreenManager.Register(new SplashScreen(this));
+            ScreenManager.Register(new MainMenuScreen(this));
+            ScreenManager.Register(new SinglePlayerMenuScreen(this));
+            ScreenManager.Register(new CreateWorldScreen(this));
 
-            
+            ScreenManager.Register(new MapScreen(this));
+
+
         }
 
         protected override void Initialize()

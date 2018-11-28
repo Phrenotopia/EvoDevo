@@ -16,7 +16,7 @@ namespace EvoDevoApp.Screens
 
         private float timePassed = 0f;
         
-        public SplashScreen(Game game) : base(game)
+        public SplashScreen(EvoDevoGame game) : base(game)
         {
 
         }

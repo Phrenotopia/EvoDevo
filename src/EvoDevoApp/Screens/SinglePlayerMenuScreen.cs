@@ -5,7 +5,7 @@ namespace EvoDevoApp.Screens
 {
     public class SinglePlayerMenuScreen : MenuScreen
     {
-        public SinglePlayerMenuScreen(Game game) : base(game)
+        public SinglePlayerMenuScreen(EvoDevoGame game) : base(game)
         {
 
         }

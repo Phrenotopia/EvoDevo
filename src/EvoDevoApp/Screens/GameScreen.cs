@@ -7,14 +7,16 @@ namespace EvoDevoApp.Screens
 {
     public abstract class GameScreen : Screen
     {
-        protected GameScreen(Game game)
+        public EvoDevoGame Game { get; }
+        public ContentManager Content => Game.Content;
+        public GraphicsDevice GraphicsDevice => Game.GraphicsDevice;
+        public GameServiceContainer Services => Game.Services;
+
+        protected GameScreen(EvoDevoGame game)
         {
             Game = game;
         }
 
-        public Game Game { get; }
-        public ContentManager Content => Game.Content;
-        public GraphicsDevice GraphicsDevice => Game.GraphicsDevice;
-        public GameServiceContainer Services => Game.Services;
+        
     }
 }
