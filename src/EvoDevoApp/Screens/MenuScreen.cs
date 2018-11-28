@@ -87,12 +87,22 @@ namespace EvoDevoApp.Screens
             spriteBatch.End();
         }
 
-        protected void AddMenuItem(string text, Action action)
-        {
-            AddMenuItem(text, action, null);
-        }
+        //protected void AddMenuItem(string text, Delegate d)
+        //{
+        //    //AddMenuItem(text, action, null);
+        //}
 
-        protected void AddMenuItem(string text, Action action, Config options)
+        //protected void AddMenuItem(String text, Action<Object> action)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //protected void AddMenuItem(string text, Action action)
+        //{
+        //    AddMenuItem(text, action, null);
+        //}
+
+        protected void AddMenuItem(string text, Action action)
         {
             var menuItem = new MenuItem(Font, text)
             {

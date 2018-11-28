@@ -31,10 +31,16 @@ namespace EvoDevoApp.Screens
         {
             base.LoadContent();
 
-            AddMenuItem("Create World ", GameManager.NewGame, this.worldConfig);// Show<PlayScreen>);
+            AddMenuItem("Create World ", this.CreateWorld);// Show<PlayScreen>);
             //AddMenuItem<T>("Create World ", GameManager.NewGame<T>, T this.worldConfig);// Show<PlayScreen>);
             //AddMenuItem("Created Worlds", Show<MultiPlayerMenuScreen>);
             AddMenuItem("Back", Show<SinglePlayerMenuScreen>);
+        }
+
+        protected void CreateWorld()
+        {
+            //this.worldConfig);
+            GameManager.NewGame(this.worldConfig);
         }
 
         public override void UnloadContent()

@@ -10,6 +10,14 @@ namespace EvoDevoCore.Logic.Factory
 {
     public static class WorldFactory
     {
+
+        public static World Create(WorldConfig config)
+        {
+            //AbilityHolder.Initialize();
+
+            return CreateWorld(config.Path);// new MapFactory().Create("mapname"));//args map name? id?  
+        }
+
         public static World Create(string path)
         {
             //AbilityHolder.Initialize();

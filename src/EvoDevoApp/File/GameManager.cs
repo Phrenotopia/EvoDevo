@@ -4,12 +4,13 @@ using System.Xml.Serialization;
 using System.IO;
 using EvoDevoCore;
 using EvoDevoCore.Logic.Factory;
+using System.Reflection;
 
 namespace EvoDevoApp.File
 {
     public static class GameManager
     {
-        public static void NewGame()
+        public static void NewGame(object test)
         {
             //string path = 
 
