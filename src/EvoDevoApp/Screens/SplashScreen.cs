@@ -37,7 +37,7 @@ namespace EvoDevoApp.Screens
             var width = GraphicsDevice.Viewport.Width;
             var height = GraphicsDevice.Viewport.Height;
 
-            monogameLogo = Content.Load<Texture2D>("img/logo/MonoGame-SquareLogo_256px");
+            monogameLogo = Content.Load<Texture2D>("img/logo/MonoGameExtLogos");
             var logoHeight = monogameLogo.Height;
             var logoWidth = monogameLogo.Width;
 
@@ -61,7 +61,7 @@ namespace EvoDevoApp.Screens
         {
             timePassed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timePassed > 4f)
+            if (timePassed > 3f)
                 //if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 Show<MenuScreen>();
 

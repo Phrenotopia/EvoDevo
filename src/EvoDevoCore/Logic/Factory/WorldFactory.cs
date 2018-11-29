@@ -32,10 +32,12 @@ namespace EvoDevoCore.Logic.Factory
             //var areas = JsonConvert.DeserializeObject<List<Area>>(json);
             //Map map = new Map() { Id = 1, Name = "Alpha", Areas = areas, Columns = 4, Rows = 4 };
             var map = JsonConvert.DeserializeObject<Map>(json);
-                        
-            World world = new World();
-            world.Map = map;
-            world.Species = CreateSpecies();
+
+            World world = new World
+            {
+                Map = map,
+                Species = CreateSpecies()
+            };
             world.Swarms = CreateSwarms(world);
             PopulateWorld(world);
             WorldHolder.Worlds.Add(world);
@@ -67,16 +69,18 @@ namespace EvoDevoCore.Logic.Factory
 
         private static List<Species> CreateSpecies()
         {
-            var species = new List<Species>();
-            species.Add(new Species { Id = 1, Name = "Megasloth", BodySize = 24 });
-            species.Add(new Species { Id = 2, Name = "Vagriantis", BodySize = 8 });
-            species.Add(new Species { Id = 3, Name = "Slatherus", BodySize = 4 });
-            species.Add(new Species { Id = 4, Name = "Oocunia", BodySize = 3 });
-            species.Add(new Species { Id = 5, Name = "Haradix", BodySize = 7 });
-            species.Add(new Species { Id = 6, Name = "Kawaichi", BodySize = 16 });
-            species.Add(new Species { Id = 7, Name = "Spiccelite", BodySize = 4 });
-            species.Add(new Species { Id = 8, Name = "Tribolite", BodySize = 2 });
-            species.Add(new Species { Id = 9, Name = "Trispots", BodySize = 6 });
+            var species = new List<Species>
+            {
+                new Species { Id = 1, Name = "Megasloth", BodySize = 24 },
+                new Species { Id = 2, Name = "Vagriantis", BodySize = 8 },
+                new Species { Id = 3, Name = "Slatherus", BodySize = 4 },
+                new Species { Id = 4, Name = "Oocunia", BodySize = 3 },
+                new Species { Id = 5, Name = "Haradix", BodySize = 7 },
+                new Species { Id = 6, Name = "Kawaichi", BodySize = 16 },
+                new Species { Id = 7, Name = "Spiccelite", BodySize = 4 },
+                new Species { Id = 8, Name = "Tribolite", BodySize = 2 },
+                new Species { Id = 9, Name = "Trispots", BodySize = 6 }
+            };
 
             return species;
         }

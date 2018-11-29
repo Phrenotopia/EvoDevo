@@ -34,14 +34,17 @@ namespace EvoDevoApp.Screens
 
             this.worldConfig = new WorldConfig { MapName = "alpha" };
 
-            AddMenuItem("Create World ", this.CreateWorld);// Show<PlayScreen>);
-            //AddMenuItem("Created Worlds", Show<>);
+            //TODO AddConfigItem("Name", Type: String, ?);
+            //TODO AddConfigItem("Map", Type: List, ?);
+            //TODO AddConfigItem("Something", Type: Boolean, ?);
+
+            AddMenuItem("Create World ", this.CreateWorld);
             AddMenuItem("Back", Show<SinglePlayerMenuScreen>);
         }
 
         protected void CreateWorld()
         {
-            WorldFactory.Create(this.worldConfig);
+            var world = WorldFactory.Create(this.worldConfig);
             
             //this.Game.ScreenManager.Register(new MapScreen(this.Game));
             //this.Game.ScreenManager.Register(new TraitsScreen(this.Game));

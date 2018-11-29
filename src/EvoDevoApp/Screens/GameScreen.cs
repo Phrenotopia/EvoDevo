@@ -16,7 +16,5 @@ namespace EvoDevoApp.Screens
         {
             Game = game;
         }
-
-        
     }
 }

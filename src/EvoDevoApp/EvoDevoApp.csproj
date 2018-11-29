@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -91,6 +93,7 @@
     <Content Include="Content\img\logo\MonoGame-SquareLogo_2048px.png" />
     <Content Include="Content\img\logo\MonoGame-SquareLogo_256px.png" />
     <Content Include="Content\img\logo\MonoGame-SquareLogo_512px.png" />
+    <Content Include="Content\img\logo\MonoGameExtLogos.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

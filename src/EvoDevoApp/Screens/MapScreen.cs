@@ -9,7 +9,7 @@ namespace EvoDevoApp.Screens
 { 
     public class MapScreen : PlayScreen
     {
-        //private SpriteBatch _spriteBatch;
+        private SpriteBatch spriteBatch;
 
         public MapScreen(EvoDevoGame game) : base(game)
         {
@@ -29,6 +29,12 @@ namespace EvoDevoApp.Screens
         public override void LoadContent()
         {
             base.LoadContent();
+
+            this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
+
+            //foreach(var x in GameState.Map)
+
+
         }
 
         public override void UnloadContent()
