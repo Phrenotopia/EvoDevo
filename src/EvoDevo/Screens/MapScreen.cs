@@ -1,0 +1,56 @@
+﻿using System;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Screens;
+
+namespace EvoDevo.Screens
+{ 
+    public class MapScreen : PlayScreen
+    {
+        private SpriteBatch spriteBatch;
+
+        public MapScreen(EvoDevoGame game) : base(game)
+        {
+
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
+
+            //foreach(var x in GameState.Map)
+
+
+        }
+
+        public override void UnloadContent()
+        {            
+            base.UnloadContent();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+             base.Draw(gameTime);
+
+            GraphicsDevice.Clear(Color.Black);
+        }
+    }
+}
