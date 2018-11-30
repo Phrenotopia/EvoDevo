@@ -9,7 +9,7 @@ namespace EvoDevo
 {
     public class GameState
     {
-        Map Map { get; set; }
+        public Map Map { get; set; }
 
 
     }

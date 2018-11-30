@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using EvoDevoCore.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,7 +14,7 @@ namespace EvoDevo.Screens
 
         public PlayScreen(EvoDevoGame game) : base(game)
         {
-            //TODO GameState
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -25,9 +26,25 @@ namespace EvoDevo.Screens
 
         private void ExitPlay()
         {
-            //TODO: Save Game State 
+            SaveGameState(); 
 
             Show<SinglePlayerMenuScreen>();
+        }
+
+        private void SaveGameState()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void LoadWorld(World world)
+        {
+            this.gameState = new GameState();
+            gameState.Map = world.Map;
+        }
+
+        internal void LoadGameState(GameState state)
+        {
+            this.gameState = state;
         }
     }
 }

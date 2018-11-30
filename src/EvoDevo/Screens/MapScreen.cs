@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using EvoDevoCore.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Screens;
@@ -31,7 +32,9 @@ namespace EvoDevo.Screens
 
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            //foreach(var x in GameState.Map)
+            //var texture = new Texture2D(this.GraphicsDevice, 256, 256);
+            //texture.  //../../EvoDevoCore/Assets/images/maptiles/alpha/tile-0
+
 
 
         }
@@ -51,6 +54,15 @@ namespace EvoDevo.Screens
              base.Draw(gameTime);
 
             GraphicsDevice.Clear(Color.Black);
+
+            spriteBatch.Begin();
+            foreach (var area in this.gameState.Map.Areas)
+            {
+                var vector = new Vector2(0, 0);
+                //spriteBatch.Draw(texture, vector, Color.White);
+            }
+            spriteBatch.End();
+
         }
     }
 }
