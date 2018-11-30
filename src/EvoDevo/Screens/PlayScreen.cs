@@ -9,11 +9,11 @@ namespace EvoDevo.Screens
 { 
     public class PlayScreen : GameScreen
     {
-        //TODO: GameState
+        public GameState gameState { get; set; }
 
         public PlayScreen(EvoDevoGame game) : base(game)
         {
-
+            //TODO GameState
         }
 
         public override void Update(GameTime gameTime)
