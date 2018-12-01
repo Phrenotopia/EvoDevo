@@ -10,6 +10,10 @@ namespace EvoDevo.Screens
     public class MapScreen : PlayScreen
     {
         private SpriteBatch spriteBatch;
+        private Texture2D[] tileAtlas;
+        int tilescale = 128;
+        private int xoffset = 100;
+        private int yoffset = 100;
 
         public MapScreen(EvoDevoGame game) : base(game)
         {
@@ -32,11 +36,13 @@ namespace EvoDevo.Screens
 
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            //var texture = new Texture2D(this.GraphicsDevice, 256, 256);
-            //texture.  //../../EvoDevoCore/Assets/images/maptiles/alpha/tile-0
-
-
-
+            int atlaslength = 16;
+            string atlasname = "alpha"; //TODO make dynamic/selectable?
+            tileAtlas = new Texture2D[atlaslength];
+            for(int i = 0; i < atlaslength; i++)
+            {
+                tileAtlas[i] = Content.Load<Texture2D>("images/maptiles/" + atlasname + "/tile-" + i);                
+            }
         }
 
         public override void UnloadContent()
@@ -47,6 +53,13 @@ namespace EvoDevo.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            int height = this.Game.GraphicsDevice.Viewport.Height;
+            int width = this.Game.GraphicsDevice.Viewport.Width;
+            //TODO adapt scale and offsets to window size ,
+            int mapsize = tilescale * 4;
+            xoffset = (width - mapsize) / 2;
+            yoffset = (height - mapsize) / 2;
         }
 
         public override void Draw(GameTime gameTime)
@@ -56,10 +69,17 @@ namespace EvoDevo.Screens
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-            foreach (var area in this.gameState.Map.Areas)
+            int x = xoffset; 
+            int y = yoffset;
+            foreach (var area in this.GameState.Map.Areas)
             {
-                var vector = new Vector2(0, 0);
-                //spriteBatch.Draw(texture, vector, Color.White);
+                spriteBatch.Draw(tileAtlas[area.Tile], new Vector2(x, y), Color.White);
+                x = x + tilescale;
+                if (x > (tilescale * 3) + xoffset)
+                {
+                    x = xoffset;
+                    y = y + tilescale;
+                }
             }
             spriteBatch.End();
 

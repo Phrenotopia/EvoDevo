@@ -10,7 +10,7 @@ namespace EvoDevo.Screens
 { 
     public class PlayScreen : GameScreen
     {
-        public GameState gameState { get; set; }
+        public GameState GameState { get; set; }
 
         public PlayScreen(EvoDevoGame game) : base(game)
         {
@@ -38,13 +38,13 @@ namespace EvoDevo.Screens
 
         internal void LoadWorld(World world)
         {
-            this.gameState = new GameState();
-            gameState.Map = world.Map;
+            this.GameState = new GameState();
+            GameState.Map = world.Map;
         }
 
         internal void LoadGameState(GameState state)
         {
-            this.gameState = state;
+            this.GameState = state;
         }
     }
 }
