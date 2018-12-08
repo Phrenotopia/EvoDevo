@@ -47,8 +47,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\CreateWorldScreen.cs" />
+    <Compile Include="Screens\Elements\AreaView.cs" />
     <Compile Include="Screens\Elements\ConfigItem.cs" />
+    <Compile Include="Screens\Elements\GameView.cs" />
+    <Compile Include="Screens\Elements\MapView.cs" />
     <Compile Include="Screens\Elements\MenuItem.cs" />
+    <Compile Include="Screens\Elements\ScreenElement.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\MainMenuScreen.cs" />
     <Compile Include="Screens\MapScreen.cs" />
@@ -77,6 +81,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using EvoDevo.Screens.Elements;
 using EvoDevoCore.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,13 +13,25 @@ namespace EvoDevo.Screens
     {
         private SpriteBatch spriteBatch;
         private Texture2D[] tileAtlas;
+        public Texture2D Test;
+
+        public MapView MapView { get; set; }
+        //public List<AreaView> AreaViews { get; set; }
+
         int tilescale = 128;
         private int xoffset = 100;
         private int yoffset = 100;
 
         public MapScreen(EvoDevoGame game) : base(game)
         {
+            this.MapView = new MapView(this);
+        }
 
+        public override void LoadWorld(World world)
+        {
+            base.LoadWorld(world);
+
+            this.GameState.RegisterView(this.MapView);
         }
 
         public override void Initialize()
@@ -35,6 +49,10 @@ namespace EvoDevo.Screens
             base.LoadContent();
 
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
+
+            Test = Content.Load<Texture2D>("images/evodevo-logo");
+            UIBackDrop = Content.Load<Texture2D>("images/ui/menu-gradient-bg1");
+
 
             int atlaslength = 16;
             string atlasname = "alpha"; //TODO make dynamic/selectable?
@@ -64,14 +82,23 @@ namespace EvoDevo.Screens
 
         public override void Draw(GameTime gameTime)
         {
-             base.Draw(gameTime);
+            base.Draw(gameTime);
 
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-            int x = xoffset; 
+
+            DrawMap();
+
+            spriteBatch.End();
+
+        }
+
+        private void DrawMap()
+        {
+            int x = xoffset;
             int y = yoffset;
-            foreach (var area in this.GameState.Map.Areas)
+            foreach (var area in this.GameState.World.Map.Areas)
             {
                 spriteBatch.Draw(tileAtlas[area.Tile], new Vector2(x, y), Color.White);
                 x = x + tilescale;
@@ -81,8 +108,6 @@ namespace EvoDevo.Screens
                     y = y + tilescale;
                 }
             }
-            spriteBatch.End();
-
         }
     }
 }

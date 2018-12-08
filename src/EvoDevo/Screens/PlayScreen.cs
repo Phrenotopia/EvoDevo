@@ -12,9 +12,11 @@ namespace EvoDevo.Screens
     {
         public GameState GameState { get; set; }
 
+        public Texture2D UIBackDrop;
+
         public PlayScreen(EvoDevoGame game) : base(game)
         {
-            
+            //GameState = new GameState(this);
         }
 
         public override void Update(GameTime gameTime)
@@ -36,10 +38,9 @@ namespace EvoDevo.Screens
             throw new NotImplementedException();
         }
 
-        internal void LoadWorld(World world)
+        public virtual void LoadWorld(World world)
         {
-            this.GameState = new GameState();
-            GameState.Map = world.Map;
+            this.GameState = new GameState(this, world);
         }
 
         internal void LoadGameState(GameState state)

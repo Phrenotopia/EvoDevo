@@ -66,7 +66,6 @@
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\CoreContent.mgcb" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +153,7 @@
     <Content Include="Assets\images\maptiles\alpha\tilesheet.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\images\ui\menu-gradient-bg1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
