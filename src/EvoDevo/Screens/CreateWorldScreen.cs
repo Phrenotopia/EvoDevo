@@ -45,12 +45,13 @@ namespace EvoDevo.Screens
         {
             var world = WorldFactory.Create(this.worldConfig);
 
+            FindScreen<MapScreen>().LoadWorld(world);
+            
             //this.Game.ScreenManager.Register(new MapScreen(this.Game));
             //this.Game.ScreenManager.Register(new TraitsScreen(this.Game));
             //this.Game.ScreenManager.Register(new BodyplanScreen(this.Game));
             //this.Game.ScreenManager.Register(new DesignScreen(this.Game));
 
-            FindScreen<MapScreen>().LoadWorld(world);
             Show<MapScreen>();
         }
 

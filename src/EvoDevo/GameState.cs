@@ -11,34 +11,22 @@ namespace EvoDevo
 {
     public class GameState
     {
-        public long Id { get; set; } //TODO Guid???
+        public long Id { get; set; } 
         public World World;
-        //public PlayScreen MainScreen;
         public List<GameView> GameViews;
-        
-        //public Map Map { get; set; }
         
         public GameState(PlayScreen screen, World world)
         {
             this.World = world;
-            //this.MainScreen = screen;
-            
-            //this.MapView.UpdateAreaViews(this.World.GetAreas());
-        }
-
-        public void RegisterView(GameView view)
-        {
-            
+            GameViews = new List<GameView>();
         }
 
         public void UpdateView<T>() where T : GameView
         {
-            //TODO: Type-based switchboard?
-            GetView<T>().Update(this.World);
-            //this.MapView.UpdateAreaViews(this.World.GetAreas());
+            GetView<T>().Update(this);
         }
 
-        public T Register<T>(T view) where T : GameView
+        public T RegisterView<T>(T view) where T : GameView
         {            
             GameViews.Add(view);            
             return view;
@@ -52,6 +40,11 @@ namespace EvoDevo
                 throw new InvalidOperationException($"{typeof(T).Name} not registered");
 
             return view;
+        }
+
+        internal void LoadView<T>() where T : GameView
+        {
+            GetView<T>().Load(this);
         }
     }
 }

@@ -135,8 +135,12 @@
       <Link>MonoGame.Framework.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="app.config" />
-    <None Include="app.manifest" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Content\Fonts\impact-32_0.png" />
     <Content Include="Content\Fonts\montserrat-32_0.png" />
     <Content Include="Content\img\logo\MonoGame-Extended-logo.png" />

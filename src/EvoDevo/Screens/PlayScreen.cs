@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using EvoDevo.Screens.Elements;
 using EvoDevoCore.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,6 +47,11 @@ namespace EvoDevo.Screens
         internal void LoadGameState(GameState state)
         {
             this.GameState = state;
+        }
+        
+        public virtual void LoadView<T>() where T : GameView
+        {
+            this.GameState.LoadView<T>();
         }
     }
 }

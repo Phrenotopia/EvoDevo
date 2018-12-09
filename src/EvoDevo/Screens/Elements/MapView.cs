@@ -1,9 +1,7 @@
-﻿using EvoDevoCore.Models;
-using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace EvoDevo.Screens.Elements
 {
@@ -19,16 +17,43 @@ namespace EvoDevo.Screens.Elements
         public MapView(PlayScreen screen, List<AreaView> areaViews) : base(screen)
         {
             AreaViews = areaViews;
-        }        
+        }
 
-        public override void Update(World world)
+        public override void Load(GameState state)
         {
-            var areas = world.GetAreas();
+            base.Load(state);
+
+            var areas = state.World.GetAreas();
             AreaViews = new List<AreaView>();
             foreach (var area in areas)
             {
                 AreaViews.Add(new AreaView(this.Screen, area));
             }
         }
+
+        public override void Update(GameState state)
+        {
+            base.Update(state);
+        }
+
+        public override void Draw(SpriteBatch s)
+        {
+            var screen = (MapScreen)this.Screen;
+            int x = screen.xoffset;
+            int y = screen.yoffset;
+            var atlas = screen.TileAtlas;
+            var scale = screen.tilescale;
+
+            foreach (var area in this.AreaViews)
+            {
+                s.Draw(atlas[area.Area.Tile], new Vector2(x, y), Color.White);
+                x = x + scale;
+                if (x > (scale * 3) + screen.xoffset)
+                {
+                    x = screen.xoffset;
+                    y = y + scale;
+                }
+            }
+        }    
     }
 }

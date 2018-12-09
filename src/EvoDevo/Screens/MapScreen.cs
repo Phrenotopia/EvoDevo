@@ -11,17 +11,16 @@ namespace EvoDevo.Screens
 { 
     public class MapScreen : PlayScreen
     {
-        private SpriteBatch spriteBatch;
-        private Texture2D[] tileAtlas;
-        public Texture2D Test;
+        internal SpriteBatch spriteBatch;
+        internal Texture2D[] TileAtlas;
+        internal Texture2D Test;
+        internal int tilescale = 128;
+        internal int xoffset = 100;
+        internal int yoffset = 100;
 
         public MapView MapView { get; set; }
-        //public List<AreaView> AreaViews { get; set; }
-
-        int tilescale = 128;
-        private int xoffset = 100;
-        private int yoffset = 100;
-
+        public AreaView SelectedAreaView { get; set; }
+        
         public MapScreen(EvoDevoGame game) : base(game)
         {
             this.MapView = new MapView(this);
@@ -31,7 +30,11 @@ namespace EvoDevo.Screens
         {
             base.LoadWorld(world);
 
-            this.GameState.RegisterView(this.MapView);
+            this.GameState.RegisterView<MapView>(this.MapView);
+
+            this.GameState.LoadView<MapView>();
+
+            this.SelectedAreaView = GameState.GetView<MapView>().AreaViews[0];
         }
 
         public override void Initialize()
@@ -51,15 +54,15 @@ namespace EvoDevo.Screens
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             Test = Content.Load<Texture2D>("images/evodevo-logo");
-            UIBackDrop = Content.Load<Texture2D>("images/ui/menu-gradient-bg1");
+            UIBackDrop = Content.Load<Texture2D>("images/ui/menu-gradient-bg2");
 
-
+             
             int atlaslength = 16;
             string atlasname = "alpha"; //TODO make dynamic/selectable?
-            tileAtlas = new Texture2D[atlaslength];
+            TileAtlas = new Texture2D[atlaslength];
             for(int i = 0; i < atlaslength; i++)
             {
-                tileAtlas[i] = Content.Load<Texture2D>("images/maptiles/" + atlasname + "/tile-" + i);                
+                TileAtlas[i] = Content.Load<Texture2D>("images/maptiles/" + atlasname + "/tile-" + i);                
             }
         }
 
@@ -88,26 +91,15 @@ namespace EvoDevo.Screens
 
             spriteBatch.Begin();
 
-            DrawMap();
+            foreach(var view in GameState.GameViews)
+            {
+                view.Draw(spriteBatch);
+            }
+
+            this.SelectedAreaView.Draw(spriteBatch, xoffset - 256, yoffset);
 
             spriteBatch.End();
 
-        }
-
-        private void DrawMap()
-        {
-            int x = xoffset;
-            int y = yoffset;
-            foreach (var area in this.GameState.World.Map.Areas)
-            {
-                spriteBatch.Draw(tileAtlas[area.Tile], new Vector2(x, y), Color.White);
-                x = x + tilescale;
-                if (x > (tilescale * 3) + xoffset)
-                {
-                    x = xoffset;
-                    y = y + tilescale;
-                }
-            }
         }
     }
 }

@@ -8,7 +8,5 @@ namespace EvoDevo.Screens.Elements
         public GameView(PlayScreen screen) : base(screen)
         {
         }
-
-        public virtual void Update(World world) { }
     }
 }
